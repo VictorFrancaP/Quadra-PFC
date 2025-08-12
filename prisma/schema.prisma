@@ -1,0 +1,55 @@
+// TypeOrm (prisma)
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Provider (banco de dados = mongodb) Url (string de conexão com o banco de dados)
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// Tipos de permissões no sistema 
+enum userPermissions {
+  USER 
+  ADMIN
+  OWNER
+}
+
+// Tipos de gêneros
+enum userGender {
+  MALE
+  FEMALE
+  NOTINFORM
+}
+
+// Tabela usuário (e seus atributos)
+model user {
+  // identificador do usuário
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos obrigatórios
+  name              String
+  email             String @unique
+  password          String
+  age               Int
+  role              userPermissions @default(USER)
+  address           String
+  cep               String
+  cpf               String
+  gender            userGender
+  
+  // dados opcionais
+  profileImage      String? 
+  resetToken        String?
+  resetTokenExpired DateTime?
+  loginAttempts     Int?
+  lockAccount       DateTime?
+
+  // criação e updated
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  // nome da tabela no banco de dados (mongodb)
+  @@map("_Users_")
+}
