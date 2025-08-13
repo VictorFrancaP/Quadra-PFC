@@ -1,6 +1,5 @@
 // exportando interface de dados
 export interface IMailRequest {
-  name: string;
   email: string;
   content: string;
   subject: string;

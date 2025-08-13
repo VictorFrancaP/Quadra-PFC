@@ -25,7 +25,7 @@ export class CreateUserRequestUseCase {
       await this.findUserByEmailRepository.findUserByEmail(data.email);
 
     if (userAlreadyExists) {
-      throw new UserFoundError();
+      throw new UserFoundError("e-mail");
     }
 
     // definindo uma chave para o e-mail no redis, no caso se o usuário ficar fazendo requisições
@@ -145,7 +145,6 @@ export class CreateUserRequestUseCase {
 
     // Enviando e-mail via nodemailer
     await this.mailProvider.send({
-      name: data.name,
       email: data.email,
       content,
       subject,

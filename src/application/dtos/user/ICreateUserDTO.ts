@@ -3,8 +3,7 @@ import { userGender } from "../../../domain/entities/User";
 
 // Exportando interface de dados
 export interface ICreateUserDTO {
-  name: string;
-  email: string;
+  token: string;
   password: string;
   age: number;
   address: string;

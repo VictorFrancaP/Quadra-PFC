@@ -61,4 +61,25 @@ export class User {
     if (loginAttempts !== undefined) this.loginAttempts = loginAttempts;
     if (lockAccount !== undefined) this.lockAccount = lockAccount;
   }
+
+  // criando metodo estatico para atualização do usuário (static)
+  static updateUserInfos(existing: User, updates: Partial<User>): User {
+    return new User(
+      updates.name ?? existing.name,
+      existing.email,
+      updates.password ?? existing.password,
+      updates.age ?? existing.age,
+      updates.role ?? existing.role,
+      updates.address ?? existing.address,
+      updates.cep ?? existing.cep,
+      existing.cpf,
+      updates.gender ?? existing.gender,
+      existing.id,
+      updates.profileImage ?? existing.profileImage,
+      updates.resetToken ?? existing.resetToken,
+      updates.resetExpiredToken ?? existing.resetExpiredToken,
+      updates.loginAttempts ?? existing.loginAttempts,
+      updates.lockAccount ?? existing.lockAccount
+    );
+  }
 }
