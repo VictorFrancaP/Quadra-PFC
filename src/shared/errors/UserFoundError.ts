@@ -3,7 +3,9 @@ import { ErrorSuper } from "./ErrorSuper";
 
 // exportando classe de error personalizada
 export class UserFoundError extends ErrorSuper {
-  constructor() {
-    super("Este e-mail já está em uso!", 400);
+  public readonly typeMessage: string;
+  constructor(typeMessage: string) {
+    super(`Este ${typeMessage} já está em uso!`, 400);
+    this.typeMessage = typeMessage;
   }
 }
