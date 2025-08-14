@@ -2,8 +2,9 @@
 import { IFindUserByCPFRepositories } from "../../../domain/repositories/user/IFindUserByCPFRepositories";
 import { IRedisProvider } from "../../../shared/providers/redis/provider/IRedisProvider";
 import { IHashProvider } from "../../../shared/providers/bcrypt/hash/IHashProvider";
-import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
+import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 import { ICreateUserRepositories } from "../../../domain/repositories/user/ICreateUserRepositories";
+import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
 
 // Importando interface de dados
 import { ICreateUserDTO } from "../../dtos/user/ICreateUserDTO";
@@ -16,7 +17,7 @@ import { UserFoundError } from "../../../shared/errors/UserFoundError";
 import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
 
 // Importando template de boas-vindas
-import { welcomeTemplate } from "../../../shared/providers/templates/WelcomeTemplate";
+import { welcomeTemplate } from "../../../shared/providers/templates/welcomeTemplate";
 
 // exportando classe de usecase
 export class CreateUserUseCase {
@@ -24,8 +25,9 @@ export class CreateUserUseCase {
     private readonly findUserByCPFRepository: IFindUserByCPFRepositories,
     private readonly redisProvider: IRedisProvider,
     private readonly hashProvider: IHashProvider,
+    private readonly pictureConfig: IPictureConfig,
     private readonly createUserRepository: ICreateUserRepositories,
-    private readonly mailProvider: IMailProvider,
+    private readonly mailProvider: IMailProvider
   ) {}
 
   async execute(data: ICreateUserDTO): Promise<User> {
@@ -65,7 +67,8 @@ export class CreateUserUseCase {
       data.address,
       data.cep,
       data.cpf,
-      data.gender
+      data.gender,
+      this.pictureConfig.profileImageDefault
     );
 
     // criando novo usuário no banco de dados
