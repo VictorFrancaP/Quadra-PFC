@@ -46,10 +46,32 @@ model user {
   loginAttempts     Int?
   lockAccount       DateTime?
 
+  // relacionamentos
+  refreshToken refreshToken[] @relation("user-refreshToken")
+
   // criação e updated
   created_at        DateTime @default(now())
   updated_at        DateTime @updatedAt
 
   // nome da tabela no banco de dados (mongodb)
   @@map("_Users_")
+}
+
+// Tabela de RefreshToken
+model refreshToken {
+  // identificador do refreshToken
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  expired           DateTime
+  userRole          userPermissions
+  userId            String @db.ObjectId
+  user              user @relation("user-refreshToken", fields: [userId], references: [id])
+
+  // criação e updated
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  // nome da tabela no banco de dados (mongodb)
+  @@map("_RefreshToken_")
 }

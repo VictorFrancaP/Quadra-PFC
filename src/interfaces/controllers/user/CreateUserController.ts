@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { FindUserByCPFRepository } from "../../../infrastruture/repository/user/FindUserByCPFRepository";
 import { RedisProvider } from "../../../shared/providers/redis/provider/RedisProvider";
 import { HashProvider } from "../../../shared/providers/bcrypt/hash/HashProvider";
+import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 import { CreateUserRepository } from "../../../infrastruture/repository/user/CreateUserRepository";
 import { MailProvider } from "../../../shared/providers/mail/provider/MailProvider";
 
@@ -22,6 +23,7 @@ export class CreateUserController {
     const findUserByCPFRepository = new FindUserByCPFRepository();
     const redisProvider = new RedisProvider();
     const hashProvider = new HashProvider();
+    const pictureConfig = new PictureConfig();
     const createUserRepository = new CreateUserRepository();
     const mailProvider = new MailProvider();
 
@@ -30,6 +32,7 @@ export class CreateUserController {
       findUserByCPFRepository,
       redisProvider,
       hashProvider,
+      pictureConfig,
       createUserRepository,
       mailProvider
     );
