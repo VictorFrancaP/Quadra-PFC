@@ -20,6 +20,7 @@ import { IAuthUserResponseDTO } from "../../dtos/user/IAuthUserResponseDTO";
 import { CredentialsUserError } from "../../../shared/errors/CredentialsUserError";
 import { AccountUserIsLockedError } from "../../../shared/errors/AccountUserIsLockedError";
 import { AccountUserIsLockedNowError } from "../../../shared/errors/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../shared/errors/AccountUserIsLockedError";
 
 // exportando classe de usecase
 export class AuthUserUseCase {
@@ -45,7 +46,12 @@ export class AuthUserUseCase {
       throw new CredentialsUserError();
     }
 
-    // Verificando se o usuário não está bloqueado
+    // Verificando se usuário está bloqueado permanentemente
+    if (userAlreadyExists.accountBlock !== false) {
+      throw new AccountUserIsBlockError();
+    }
+
+    // Verificando se o usuário não está bloqueado temporariamente
     const userIsLocked =
       await this.lockUserAccountRepository.isLockedUserAccount(
         userAlreadyExists
@@ -70,6 +76,16 @@ export class AuthUserUseCase {
 
       // se as tentivas ultrapassar 5 vezes o usuário é bloqueado
       if (countAttempts >= 5) {
+        // se as tentativas ultrapassar 10 vezes a conta é bloqueada permanentemente
+        if (countAttempts >= 10) {
+          // atualizando informação no banco de dados
+          const updatesUser = User.updateUserInfos(userAlreadyExists, {
+            accountBlock: true,
+          });
+
+          // mandando atualização para o banco de dados
+          await this.updateUserRepository.updateUser(updatesUser);
+        }
         // tempo de bloqueio de conta
         const isLocked = await this.dayJsProvider.add(30, "minute");
 
@@ -129,12 +145,9 @@ export class AuthUserUseCase {
 
     // criando novo refreshToken no banco de dados
     const refreshToken =
-      await this.createRefreshTokenRepository.createRefreshToken({
-        expired: newRefreshToken.expired,
-        userRole: newRefreshToken.userRole,
-        userId: newRefreshToken.userId,
-        id: newRefreshToken.id,
-      });
+      await this.createRefreshTokenRepository.createRefreshToken(
+        newRefreshToken
+      );
 
     // retornando promise(promessa) esperada
     return { name: userAlreadyExists.name, token, refreshToken };

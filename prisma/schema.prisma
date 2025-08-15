@@ -45,6 +45,7 @@ model user {
   resetTokenExpired DateTime?
   loginAttempts     Int?
   lockAccount       DateTime?
+  accountBlock      Boolean @default(false)
 
   // relacionamentos
   refreshToken refreshToken[] @relation("user-refreshToken")
@@ -66,7 +67,7 @@ model refreshToken {
   expired           DateTime
   userRole          userPermissions
   userId            String @db.ObjectId
-  user              user @relation("user-refreshToken", fields: [userId], references: [id])
+  user              user @relation("user-refreshToken", fields: [userId], references: [id], onDelete: Cascade)
 
   // criação e updated
   created_at        DateTime @default(now())

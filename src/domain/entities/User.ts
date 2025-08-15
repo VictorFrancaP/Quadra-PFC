@@ -24,6 +24,7 @@ export class User {
   public resetExpiredToken?: Date | null;
   public loginAttempts?: number | null;
   public lockAccount?: Date | null;
+  public accountBlock?: boolean;
 
   // criando construtor (inicializador)
   constructor(
@@ -41,7 +42,8 @@ export class User {
     resetToken?: string | null,
     resetExpiredToken?: Date | null,
     loginAttempts?: number | null,
-    lockAccount?: Date | null
+    lockAccount?: Date | null,
+    accountBlock?: boolean
   ) {
     this.name = name;
     this.email = email;
@@ -60,6 +62,7 @@ export class User {
       this.resetExpiredToken = resetExpiredToken;
     if (loginAttempts !== undefined) this.loginAttempts = loginAttempts;
     if (lockAccount !== undefined) this.lockAccount = lockAccount;
+    if (accountBlock !== undefined) this.accountBlock = accountBlock;
   }
 
   // criando metodo estatico para atualização do usuário (static)
@@ -79,7 +82,8 @@ export class User {
       updates.resetToken ?? existing.resetToken,
       updates.resetExpiredToken ?? existing.resetExpiredToken,
       updates.loginAttempts ?? existing.loginAttempts,
-      updates.lockAccount ?? existing.lockAccount
+      updates.lockAccount ?? existing.lockAccount,
+      updates.accountBlock ?? existing.accountBlock
     );
   }
 }
