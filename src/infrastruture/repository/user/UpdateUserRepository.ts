@@ -21,6 +21,7 @@ export class UpdateUserRepository implements IUpdateUserRepositories {
         resetTokenExpired: user.resetExpiredToken,
         loginAttempts: user.loginAttempts,
         lockAccount: user.lockAccount,
+        accountBlock: user.accountBlock,
       },
     });
   }
