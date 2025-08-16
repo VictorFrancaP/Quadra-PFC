@@ -3,6 +3,7 @@ import { userGender } from "../../entities/User";
 
 // exportando interface de dados visiveis
 export interface IProfileRequest {
+  id: string;
   name: string;
   email: string;
   age: number;

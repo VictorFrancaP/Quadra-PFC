@@ -19,6 +19,7 @@ export class ProfileUserRepository implements IProfileUserRepositories {
         cpf: true,
         gender: true,
         profileImage: true,
+        id: true,
       },
     });
 

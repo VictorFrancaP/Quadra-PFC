@@ -8,7 +8,7 @@ export class FindUserByEmailRepository implements IFindUserByEmailRepositories {
   async findUserByEmail(email: string): Promise<User | null> {
     // procurando e-mail no banco de dados
     const userFindByEmail = await prismaClient.user.findUnique({
-      where: { email },
+      where: { email: email.toLowerCase() },
     });
 
     // se não encontrar nenhum usuário associado ao e-mail, retorna nulo

@@ -4,6 +4,7 @@ import { Router } from "express";
 // Importando middlewares
 import { ensureRole } from "../middlewares/ensureRole";
 import { ensureJoi } from "../middlewares/ensureJoi";
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 // Importando schema validators
 import { CreateUserRequestValidator } from "../validators/schema/user/CreateUserRequestValidator";
@@ -15,6 +16,7 @@ import { CreateUserRequestController } from "../controllers/user/CreateUserReque
 import { CreateUserController } from "../controllers/user/CreateUserController";
 import { SocialUserLoginController } from "../controllers/user/SocialUserLoginController";
 import { AuthUserController } from "../controllers/user/AuthUserController";
+import { ProfileUserController } from "../controllers/user/ProfileUserController";
 
 // importando passport para o login com google ou facebook
 import passport from "passport";
@@ -27,6 +29,7 @@ const createUserRequestController = new CreateUserRequestController();
 const createUserController = new CreateUserController();
 const socialUserLoginController = new SocialUserLoginController();
 const authUserController = new AuthUserController();
+const profileUserController = new ProfileUserController();
 
 // criando rotas
 
@@ -57,6 +60,7 @@ routes.get(
   passport.authenticate("google", { session: false }),
   socialUserLoginController.handle
 );
+routes.get("/profile", ensureAuthenticated, profileUserController.handle);
 
 // exportando routes com as
 export { routes as userRoutes };
