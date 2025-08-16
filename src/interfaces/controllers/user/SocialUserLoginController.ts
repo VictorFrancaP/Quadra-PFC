@@ -32,7 +32,6 @@ export class SocialUserLoginController {
       createUserRepository,
       tokenProvider,
       deleteManyRefreshTokenRepository,
-      dayJsProvider,
       createRefreshTokenRepository
     );
 

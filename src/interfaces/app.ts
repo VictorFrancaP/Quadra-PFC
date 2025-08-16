@@ -1,8 +1,12 @@
 // Importando express
 import express from "express";
 
+// Importando cookieParser para utilização de httpOnly
+import cookieParser from "cookie-parser";
+
 // Importando rotas
-import { userRoutes } from "./routes/user.routes";
+import { userRoutes } from "./routes/user-routes";
+import { refreshTokenRoutes } from "./routes/refresh-token.routes";
 
 // Importando middleware de error
 import { errorHandler } from "./middlewares/errorHandler";
@@ -18,9 +22,11 @@ export const app = express();
 
 // criando middlewares para utilização de dados do tipo json
 app.use(express.json());
+app.use(cookieParser());
 
 // utilizando rotas
-app.use("/auth", userRoutes);
+app.use("/auth/user", userRoutes);
+app.use("/auth", refreshTokenRoutes);
 
 // utilizando passport
 app.use(passport.initialize());

@@ -5,18 +5,11 @@ import { userPermissions } from "./User";
 export class RefreshToken {
   // atributos
   public id?: string;
-  public expired: Date;
   public userRole: userPermissions;
   public userId: string;
 
   // criando construtor (inicializador)
-  constructor(
-    expired: Date,
-    userRole: userPermissions,
-    userId: string,
-    id?: string
-  ) {
-    this.expired = expired;
+  constructor(userRole: userPermissions, userId: string, id?: string) {
     this.userRole = userRole;
     this.userId = userId;
 

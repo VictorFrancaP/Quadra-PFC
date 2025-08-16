@@ -3,7 +3,6 @@ import { IFindUserByEmailRepositories } from "../../../domain/repositories/user/
 import { ICreateUserRepositories } from "../../../domain/repositories/user/ICreateUserRepositories";
 import { ITokenProvider } from "../../../shared/providers/tokens/jwt/ITokenProvider";
 import { IDeleteManyRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/IDeleteManyRefreshTokenRepositories";
-import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
 import { ICreateRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/ICreateRefreshTokenRepositories";
 
 // Importando interface de dados
@@ -22,7 +21,6 @@ export class SocialUserLoginUseCase {
     private readonly createUserRepository: ICreateUserRepositories,
     private readonly tokenProvider: ITokenProvider,
     private readonly deleteManyRefreshTokenRepository: IDeleteManyRefreshTokenRepositories,
-    private readonly dayJsProvider: IDayJsProvider,
     private readonly createRefreshTokenRepository: ICreateRefreshTokenRepositories
   ) {}
 
@@ -63,12 +61,8 @@ export class SocialUserLoginUseCase {
       role: userAlreadyExists.role,
     });
 
-    // tempo de expiração do refreshToken
-    const expired = await this.dayJsProvider.add(7, "day");
-
     // criando um novo refreshToken
     const newRefreshToken = new RefreshToken(
-      expired,
       userAlreadyExists.role,
       userAlreadyExists.id as string
     );
@@ -80,6 +74,10 @@ export class SocialUserLoginUseCase {
       );
 
     // retornando dados esperados
-    return { name: userAlreadyExists.name, token, refreshToken };
+    return {
+      name: userAlreadyExists.name,
+      token,
+      refreshToken: refreshToken.id!,
+    };
   }
 }

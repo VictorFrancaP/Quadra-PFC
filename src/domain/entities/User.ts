@@ -17,9 +17,9 @@ export class User {
   public cep: string;
   public cpf: string;
   public gender: userGender;
+  public profileImage: string;
 
   // atributos opcionais
-  public profileImage?: string;
   public resetToken?: string | null;
   public resetExpiredToken?: Date | null;
   public loginAttempts?: number | null;
@@ -37,7 +37,7 @@ export class User {
     cep: string,
     cpf: string,
     gender: userGender,
-    profileImage?: string,
+    profileImage: string,
     id?: string,
     resetToken?: string | null,
     resetExpiredToken?: Date | null,
@@ -54,9 +54,9 @@ export class User {
     this.cep = cep;
     this.cpf = cpf;
     this.gender = gender;
+    this.profileImage = profileImage;
 
     if (id) this.id = id;
-    if (profileImage !== undefined) this.profileImage = profileImage;
     if (resetToken !== undefined) this.resetToken = resetToken;
     if (resetExpiredToken !== undefined)
       this.resetExpiredToken = resetExpiredToken;
@@ -77,8 +77,8 @@ export class User {
       updates.cep ?? existing.cep,
       existing.cpf,
       existing.gender,
+      existing.profileImage,
       existing.id,
-      updates.profileImage ?? existing.profileImage,
       updates.resetToken ?? existing.resetToken,
       updates.resetExpiredToken ?? existing.resetExpiredToken,
       updates.loginAttempts ?? existing.loginAttempts,
