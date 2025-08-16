@@ -23,6 +23,12 @@ enum userGender {
   NOTINFORM
 }
 
+// Tipos de status do suporte
+enum supportStatus {
+  PEDDING
+  RESOLVED
+}
+
 // Tabela usuário (e seus atributos)
 model user {
   // identificador do usuário
@@ -38,9 +44,9 @@ model user {
   cep               String
   cpf               String
   gender            userGender
+  profileImage      String
   
   // dados opcionais
-  profileImage      String? 
   resetToken        String?
   resetTokenExpired DateTime?
   loginAttempts     Int?
@@ -49,6 +55,7 @@ model user {
 
   // relacionamentos
   refreshToken refreshToken[] @relation("user-refreshToken")
+  support support[] @relation("user-support")
 
   // criação e updated
   created_at        DateTime @default(now())
@@ -64,7 +71,6 @@ model refreshToken {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
-  expired           DateTime
   userRole          userPermissions
   userId            String @db.ObjectId
   user              user @relation("user-refreshToken", fields: [userId], references: [id], onDelete: Cascade)
@@ -75,4 +81,26 @@ model refreshToken {
 
   // nome da tabela no banco de dados (mongodb)
   @@map("_RefreshToken_")
+}
+
+// Tabela para suporte
+model support {
+  // identificador da solicitação de suportte
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  title             String
+  description       String
+  status            supportStatus @default(PEDDING)
+
+  // relacionamento com a tabela user
+  user              user @relation("user-support", fields: [userId], references: [id], onDelete: Cascade)
+  userId            String @db.ObjectId
+
+  // criação e updated
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  // nome da tabela no banco de dados (mongodb)
+  @@map("_Support_")
 }

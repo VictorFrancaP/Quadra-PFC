@@ -134,11 +134,9 @@ export class AuthUserUseCase {
     });
 
     // criando tempo de expiração para o refreshToken
-    const expired = await this.dayJsProvider.add(7, "day");
 
     // cria um novo refreshToken
     const newRefreshToken = new RefreshToken(
-      expired,
       userAlreadyExists.role,
       userAlreadyExists.id as string
     );
@@ -150,6 +148,10 @@ export class AuthUserUseCase {
       );
 
     // retornando promise(promessa) esperada
-    return { name: userAlreadyExists.name, token, refreshToken };
+    return {
+      name: userAlreadyExists.name,
+      token,
+      refreshToken: refreshToken.id!,
+    };
   }
 }

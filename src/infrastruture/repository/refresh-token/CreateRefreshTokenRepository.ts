@@ -11,7 +11,6 @@ export class CreateRefreshTokenRepository
     // criando refreshToken no banco de dados
     const createdRefreshToken = await prismaClient.refreshToken.create({
       data: {
-        expired: refreshToken.expired,
         userRole: refreshToken.userRole,
         userId: refreshToken.userId,
       },
@@ -19,7 +18,6 @@ export class CreateRefreshTokenRepository
 
     // retornando nova entidade
     return new RefreshToken(
-      createdRefreshToken.expired,
       createdRefreshToken.userRole,
       createdRefreshToken.userId,
       createdRefreshToken.id
