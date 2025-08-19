@@ -6,7 +6,6 @@ import { FindUserByEmailRepository } from "../../../infrastruture/repository/use
 import { CreateUserRepository } from "../../../infrastruture/repository/user/CreateUserRepository";
 import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvider";
 import { DeleteManyRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/DeleteManyRefreshTokenRepository";
-import { DayJsProvider } from "../../../shared/providers/dayjs/DayJsProvider";
 import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
 // Importando usecase
@@ -23,7 +22,6 @@ export class SocialUserLoginController {
     const tokenProvider = new TokenProvider();
     const deleteManyRefreshTokenRepository =
       new DeleteManyRefreshTokenRepository();
-    const dayJsProvider = new DayJsProvider();
     const createRefreshTokenRepository = new CreateRefreshTokenRepository();
 
     // instânciando usecase

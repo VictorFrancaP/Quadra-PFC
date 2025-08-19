@@ -17,7 +17,7 @@ export class UpdateUserRepository implements IUpdateUserRepositories {
         address: user.address,
         cep: user.cep,
         resetToken: user.resetToken,
-        resetTokenExpired: user.resetExpiredToken,
+        resetTokenExpired: user.resetTokenExpired,
         loginAttempts: user.loginAttempts,
         lockAccount: user.lockAccount,
         accountBlock: user.accountBlock,
