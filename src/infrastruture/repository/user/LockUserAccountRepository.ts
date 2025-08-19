@@ -10,7 +10,7 @@ export class LockUserAccountRepository implements ILockUserAccountRepositories {
     if (!user.lockAccount) return false;
 
     // verificando se o bloqueio está ativo ainda
-    const isLockedAccount = dayjs().isAfter(user.lockAccount);
+    const isLockedAccount = dayjs().isBefore(user.lockAccount);
 
     // retornando resultado do tipo boolean
     return isLockedAccount;

@@ -21,7 +21,7 @@ export class User {
 
   // atributos opcionais
   public resetToken?: string | null;
-  public resetExpiredToken?: Date | null;
+  public resetTokenExpired?: Date | null;
   public loginAttempts?: number | null;
   public lockAccount?: Date | null;
   public accountBlock?: boolean;
@@ -40,7 +40,7 @@ export class User {
     profileImage: string,
     id?: string,
     resetToken?: string | null,
-    resetExpiredToken?: Date | null,
+    resetTokenExpired?: Date | null,
     loginAttempts?: number | null,
     lockAccount?: Date | null,
     accountBlock?: boolean
@@ -58,8 +58,8 @@ export class User {
 
     if (id) this.id = id;
     if (resetToken !== undefined) this.resetToken = resetToken;
-    if (resetExpiredToken !== undefined)
-      this.resetExpiredToken = resetExpiredToken;
+    if (resetTokenExpired !== undefined)
+      this.resetTokenExpired = resetTokenExpired;
     if (loginAttempts !== undefined) this.loginAttempts = loginAttempts;
     if (lockAccount !== undefined) this.lockAccount = lockAccount;
     if (accountBlock !== undefined) this.accountBlock = accountBlock;
@@ -79,8 +79,12 @@ export class User {
       existing.gender,
       existing.profileImage,
       existing.id,
-      updates.resetToken ?? existing.resetToken,
-      updates.resetExpiredToken ?? existing.resetExpiredToken,
+      updates.resetToken !== undefined
+        ? updates.resetToken
+        : existing.resetToken,
+      updates.resetTokenExpired !== undefined
+        ? updates.resetTokenExpired
+        : existing.resetTokenExpired,
       updates.loginAttempts ?? existing.loginAttempts,
       updates.lockAccount ?? existing.lockAccount,
       updates.accountBlock ?? existing.accountBlock
