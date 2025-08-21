@@ -1,18 +1,19 @@
-// Importando dayJs para a manipulação de datas
-import dayjs from "dayjs";
+// Importando arrow function para ano atual
+import { yearNow } from "../dayjs/year/DayJsYearProvider";
 
-// pegando ano atual com dayJs
-const yearNow = dayjs().year();
+// ano atual
+const year = yearNow();
 
 // exportando template para o envio de e-mail
 export const requestResetPasswordTemplate = (
   name: string,
-  linkResetPassword: string
+  linkResetPassword: string,
+  image: string
 ) => {
   return `<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
   <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
       <div style="text-align: center; padding-bottom: 20px;">
-          <img src="https://via.placeholder.com/150x50?text=Seu+Logo" alt="Logo do Clube" style="max-width: 150px;">
+          <img src=${image} alt="Logo Quadra Marcada" style="max-width: 150px;">
       </div>
       <div style="padding: 20px; border-top: 1px solid #eee;">
           <p style="color: #333333; font-size: 16px;">Olá, ${name}!</p>
@@ -26,7 +27,7 @@ export const requestResetPasswordTemplate = (
           <p style="color: #555555; font-size: 14px;">Equipe de Suporte Quadra Marcada</p>
       </div>
       <div style="text-align: center; padding-top: 20px; border-top: 1px solid #eee; margin-top: 20px;">
-          <p style="color: #aaaaaa; font-size: 12px;">© ${yearNow} Quadra Marcada. Todos os direitos reservados.</p>
+          <p style="color: #aaaaaa; font-size: 12px;">© ${year} Quadra Marcada. Todos os direitos reservados.</p>
       </div>
   </div>
 </body>`;

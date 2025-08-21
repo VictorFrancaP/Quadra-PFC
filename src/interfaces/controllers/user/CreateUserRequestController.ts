@@ -6,6 +6,7 @@ import { FindUserByEmailRepository } from "../../../infrastruture/repository/use
 import { ResetTokenProvider } from "../../../shared/providers/tokens/crypto/ResetToken";
 import { RedisProvider } from "../../../shared/providers/redis/provider/RedisProvider";
 import { MailProvider } from "../../../shared/providers/mail/provider/MailProvider";
+import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando useCase
 import { CreateUserRequestUseCase } from "../../../application/usecases/user/CreateUserRequestUseCase";
@@ -21,13 +22,15 @@ export class CreateUserRequestController {
     const resetTokenProvider = new ResetTokenProvider();
     const redisProvider = new RedisProvider();
     const mailProvider = new MailProvider();
+    const pictureConfig = new PictureConfig();
 
     // instânciando usecase
     const useCase = new CreateUserRequestUseCase(
       findUserByEmailRepository,
       resetTokenProvider,
       redisProvider,
-      mailProvider
+      mailProvider,
+      pictureConfig
     );
 
     // criando try/catch para capturar erros na execução

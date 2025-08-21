@@ -8,6 +8,7 @@ import { CompareProvider } from "../../../shared/providers/bcrypt/compare/Compar
 import { HashProvider } from "../../../shared/providers/bcrypt/hash/HashProvider";
 import { UpdateUserRepository } from "../../../infrastruture/repository/user/UpdateUserRepository";
 import { MailProvider } from "../../../shared/providers/mail/provider/MailProvider";
+import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando usecase
 import { ResetPasswordUserUseCase } from "../../../application/usecases/user/ResetPasswordUserUseCase";
@@ -26,6 +27,7 @@ export class ResetPasswordUserController {
     const hashProvider = new HashProvider();
     const updateUserRepository = new UpdateUserRepository();
     const mailProvider = new MailProvider();
+    const pictureConfig = new PictureConfig();
 
     // instância da usecase
     const useCase = new ResetPasswordUserUseCase(
@@ -34,7 +36,8 @@ export class ResetPasswordUserController {
       compareProvider,
       hashProvider,
       updateUserRepository,
-      mailProvider
+      mailProvider,
+      pictureConfig
     );
 
     // criando try/catch para capturar erros na execução

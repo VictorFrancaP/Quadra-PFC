@@ -41,7 +41,7 @@ export class CreateUserRepository implements ICreateUserRepositories {
       createdUser.cep,
       createdUser.cpf,
       createdUser.gender,
-      createdUser.profileImage!,
+      createdUser.profileImage,
       createdUser.id,
       createdUser.resetToken,
       createdUser.resetTokenExpired,

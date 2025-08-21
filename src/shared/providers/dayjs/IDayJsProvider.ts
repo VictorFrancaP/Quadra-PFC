@@ -1,5 +1,5 @@
 // Tipo dos dados em dayjs
-import { Dayjs, ManipulateType } from "dayjs";
+import { ManipulateType } from "dayjs";
 
 // exportando interface a ser implementada
 export interface IDayJsProvider {

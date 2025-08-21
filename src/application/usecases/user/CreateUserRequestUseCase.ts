@@ -3,6 +3,7 @@ import { IFindUserByEmailRepositories } from "../../../domain/repositories/user/
 import { IResetTokenProvider } from "../../../shared/providers/tokens/crypto/IResetTokenProvider";
 import { IRedisProvider } from "../../../shared/providers/redis/provider/IRedisProvider";
 import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
+import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando interface de dados
 import { ICreateUserRequestDTO } from "../../dtos/user/ICreateUserRequestDTO";
@@ -20,7 +21,8 @@ export class CreateUserRequestUseCase {
     private readonly findUserByEmailRepository: IFindUserByEmailRepositories,
     private readonly resetTokenProvider: IResetTokenProvider,
     private readonly redisProvider: IRedisProvider,
-    private readonly mailProvider: IMailProvider
+    private readonly mailProvider: IMailProvider,
+    private readonly pictureConfig: IPictureConfig
   ) {}
 
   async execute(data: ICreateUserRequestDTO): Promise<void> {
@@ -64,7 +66,11 @@ export class CreateUserRequestUseCase {
     // Enviando e-mail via nodemailer
     await this.mailProvider.send({
       email: data.email,
-      content: confirmEmailTemplate(data.name, linkConfirm),
+      content: confirmEmailTemplate(
+        data.name,
+        linkConfirm,
+        this.pictureConfig.logoMain
+      ),
       subject: `Confirmação de e-mail`,
     });
   }

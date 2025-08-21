@@ -9,3 +9,10 @@ export class UserFoundError extends ErrorSuper {
     this.typeMessage = typeMessage;
   }
 }
+
+// exportando classe de error personalizada
+export class UsersNotFoundError extends ErrorSuper {
+  constructor() {
+    super("Não foi possivel encontrar nenhum usuário!", 400);
+  }
+}

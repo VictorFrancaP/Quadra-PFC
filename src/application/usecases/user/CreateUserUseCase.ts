@@ -79,7 +79,7 @@ export class CreateUserUseCase {
 
     await this.mailProvider.send({
       email: createUser.email,
-      content: welcomeTemplate(createUser.name),
+      content: welcomeTemplate(createUser.name, this.pictureConfig.logoMain),
       subject: `Bem-vindo ao nosso sistema de aluguel de quadras!`,
     });
 
