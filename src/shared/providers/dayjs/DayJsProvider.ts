@@ -1,6 +1,6 @@
 // Importando interface a ser implementada nesta classe e dayjs
 import { IDayJsProvider } from "./IDayJsProvider";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 // exportando classe de implementação de interface
 export class DayJsProvider implements IDayJsProvider {

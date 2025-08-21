@@ -1,16 +1,14 @@
-// Importando interface a ser implementada e prismaClient para a manipulação do banco de dados
-import { IFindUserResetTokenRepositories } from "../../../domain/repositories/user/IFindUserResetTokenRepositories";
+// Importando interface a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
+import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
 import { User } from "../../../domain/entities/User";
 import { prismaClient } from "../../database/db";
 
 // exportando classe de implementação de interface
-export class FindUserResetTokenRepository
-  implements IFindUserResetTokenRepositories
-{
-  async findUserToken(resetToken: string): Promise<User | null> {
+export class FindUserByIdRepository implements IFindUserByIdRepositories {
+  async findUserById(id: string): Promise<User | null> {
     // procurando usuário no banco de dados
     const userFind = await prismaClient.user.findFirst({
-      where: { resetToken },
+      where: { id },
     });
 
     // se não encontrar nenhum usuário, retorna nulo
@@ -18,7 +16,7 @@ export class FindUserResetTokenRepository
       return null;
     }
 
-    // retornando nova entidade de User
+    // retornando nova entidade com dados encontrados
     return new User(
       userFind.name,
       userFind.email,

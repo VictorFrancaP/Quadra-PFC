@@ -8,6 +8,7 @@ import { DayJsProvider } from "../../../shared/providers/dayjs/DayJsProvider";
 import { MailProvider } from "../../../shared/providers/mail/provider/MailProvider";
 import { ResetTokenProvider } from "../../../shared/providers/tokens/crypto/ResetToken";
 import { UpdateUserRepository } from "../../../infrastruture/repository/user/UpdateUserRepository";
+import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando usecase
 import { RequestUserResetPasswordUseCase } from "../../../application/usecases/user/RequestUserResetPasswordUseCase";
@@ -25,6 +26,7 @@ export class RequestUserResetPasswordController {
     const mailProvider = new MailProvider();
     const resetTokenProvider = new ResetTokenProvider();
     const updateUserRepository = new UpdateUserRepository();
+    const pictureConfig = new PictureConfig();
 
     // instância da usecase
     const useCase = new RequestUserResetPasswordUseCase(
@@ -33,7 +35,8 @@ export class RequestUserResetPasswordController {
       dayJsProvider,
       mailProvider,
       resetTokenProvider,
-      updateUserRepository
+      updateUserRepository,
+      pictureConfig
     );
 
     // criando try/catch para capturar erros na execução

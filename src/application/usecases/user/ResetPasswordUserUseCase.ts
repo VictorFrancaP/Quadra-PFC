@@ -5,6 +5,7 @@ import { ICompareProvider } from "../../../shared/providers/bcrypt/compare/IComp
 import { IHashProvider } from "../../../shared/providers/bcrypt/hash/IHashProvider";
 import { IUpdateUserRepositories } from "../../../domain/repositories/user/IUpdateUserRepositories";
 import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
+import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando interface de dados
 import { IResetPasswordUserDTO } from "../../dtos/user/IResetPasswordUserDTO";
@@ -28,7 +29,8 @@ export class ResetPasswordUserUseCase {
     private readonly compareProvider: ICompareProvider,
     private readonly hashProvider: IHashProvider,
     private readonly updateUserRepository: IUpdateUserRepositories,
-    private readonly mailProvider: IMailProvider
+    private readonly mailProvider: IMailProvider,
+    private readonly pictureConfig: IPictureConfig
   ) {}
 
   async execute(data: IResetPasswordUserDTO): Promise<void> {
@@ -86,7 +88,10 @@ export class ResetPasswordUserUseCase {
     // enviando e-mail relatando alteração de senha
     await this.mailProvider.send({
       email: userTokenIsValid.email,
-      content: resetPasswordTemplate(userTokenIsValid.name),
+      content: resetPasswordTemplate(
+        userTokenIsValid.name,
+        this.pictureConfig.logoMain
+      ),
       subject: "Alteração de senha",
     });
   }

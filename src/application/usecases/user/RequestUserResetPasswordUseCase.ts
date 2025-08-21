@@ -5,6 +5,7 @@ import { IResetTokenProvider } from "../../../shared/providers/tokens/crypto/IRe
 import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
 import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
 import { IUpdateUserRepositories } from "../../../domain/repositories/user/IUpdateUserRepositories";
+import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando entidade User para utilização do metodo estatico de update
 import { User } from "../../../domain/entities/User";
@@ -28,7 +29,8 @@ export class RequestUserResetPasswordUseCase {
     private readonly dayJsProvider: IDayJsProvider,
     private readonly mailProvider: IMailProvider,
     private readonly resetTokenProvider: IResetTokenProvider,
-    private readonly updateUserRepository: IUpdateUserRepositories
+    private readonly updateUserRepository: IUpdateUserRepositories,
+    private readonly pictureConfig: IPictureConfig
   ) {}
 
   async execute(data: IRequestUserResetPasswordDTO): Promise<void> {
@@ -77,7 +79,8 @@ export class RequestUserResetPasswordUseCase {
           email: data.email,
           content: requestResetPasswordTemplate(
             userAlreadyExists.name,
-            linkResetPassword
+            linkResetPassword,
+            this.pictureConfig.logoMain
           ),
           subject: "Redefinição de senha",
         });
@@ -110,7 +113,8 @@ export class RequestUserResetPasswordUseCase {
       email: data.email,
       content: requestResetPasswordTemplate(
         userAlreadyExists.name,
-        linkResetPassword
+        linkResetPassword,
+        this.pictureConfig.logoMain
       ),
       subject: "Redefinição de senha",
     });

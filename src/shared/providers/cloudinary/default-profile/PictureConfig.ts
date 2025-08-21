@@ -8,8 +8,10 @@ dotenv.config();
 // exportando classe de implementação de interface
 export class PictureConfig implements IPictureConfig {
   profileImageDefault: string;
+  logoMain: string;
   constructor() {
     this.profileImageDefault =
       (process.env.CLOUDINARY_PROFILE_DEFAULT as string) || "";
+    this.logoMain = (process.env.CLOUDINARY_LOGO_MAIN as string) || "";
   }
 }
