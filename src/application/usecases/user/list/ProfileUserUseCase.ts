@@ -1,15 +1,15 @@
 // Importando interface a serem instânciadas na controller
-import { IProfileUserRepositories } from "../../../domain/repositories/user/IProfileUserRepositories";
+import { IProfileUserRepositories } from "../../../../domain/repositories/user/IProfileUserRepositories";
 
 // Importando Promise(promessa)
-import { IProfileRequest } from "../../../domain/repositories/user/IProfileUserRepositories";
+import { IProfileRequest } from "../../../../domain/repositories/user/IProfileUserRepositories";
 
 // Importando interface de dados
-import { IProfileUserDTO } from "../../dtos/user/IProfileUserDTO";
+import { IProfileUserDTO } from "../../../dtos/user/list/IProfileUserDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
-import { UserAccessDeniedError } from "../../../shared/errors/UserAccessDeniedError";
+import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
+import { UserAccessDeniedError } from "../../../../shared/errors/UserAccessDeniedError";
 
 // exportando usecase
 export class ProfileUserUseCase {

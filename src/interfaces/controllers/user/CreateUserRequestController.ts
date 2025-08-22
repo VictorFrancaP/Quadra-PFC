@@ -9,7 +9,7 @@ import { MailProvider } from "../../../shared/providers/mail/provider/MailProvid
 import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando useCase
-import { CreateUserRequestUseCase } from "../../../application/usecases/user/CreateUserRequestUseCase";
+import { CreateUserRequestUseCase } from "../../../application/usecases/user/create/CreateUserRequestUseCase";
 
 // exportando classe controller
 export class CreateUserRequestController {

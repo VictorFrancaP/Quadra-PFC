@@ -55,6 +55,7 @@ model user {
 
   // relacionamentos
   refreshToken refreshToken[] @relation("user-refreshToken")
+  solicitationOwner solicitationOwner[] @relation("user-solicitationOwner")
   support support[] @relation("user-support")
 
   // criação e updated
@@ -83,9 +84,30 @@ model refreshToken {
   @@map("_RefreshToken_")
 }
 
+model solicitationOwner {
+  // identificador da solicitação para cargo de proprietario
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  localName       String
+  description     String
+  cnpj            String
+  fone            String
+  approved        Boolean @default(false)
+  userId          String @db.ObjectId
+  user            user @relation("user-solicitationOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  // criação e updated
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  // nome da tabela no banco de dados (mongodb)
+  @@map("_SolicitationOwner_")
+}
+
 // Tabela para suporte
 model support {
-  // identificador da solicitação de suportte
+  // identificador da solicitação de suporte
   id                String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos

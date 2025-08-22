@@ -86,7 +86,9 @@ export class User {
         ? updates.resetTokenExpired
         : existing.resetTokenExpired,
       updates.loginAttempts ?? existing.loginAttempts,
-      updates.lockAccount ?? existing.lockAccount,
+      updates.lockAccount !== undefined
+        ? updates.lockAccount
+        : existing.lockAccount,
       updates.accountBlock ?? existing.accountBlock
     );
   }

@@ -11,7 +11,7 @@ import { UpdateUserRepository } from "../../../infrastruture/repository/user/Upd
 import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando usecase
-import { RequestUserResetPasswordUseCase } from "../../../application/usecases/user/RequestUserResetPasswordUseCase";
+import { RequestUserResetPasswordUseCase } from "../../../application/usecases/user/password-reset/RequestUserResetPasswordUseCase";
 
 // exportando controller
 export class RequestUserResetPasswordController {

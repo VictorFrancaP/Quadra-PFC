@@ -1,19 +1,19 @@
 // Importando interfaces a ser instânciadas na controller
-import { IFindUserByEmailRepositories } from "../../../domain/repositories/user/IFindUserByEmailRepositories";
-import { IResetTokenProvider } from "../../../shared/providers/tokens/crypto/IResetTokenProvider";
-import { IRedisProvider } from "../../../shared/providers/redis/provider/IRedisProvider";
-import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
-import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
+import { IFindUserByEmailRepositories } from "../../../../domain/repositories/user/IFindUserByEmailRepositories";
+import { IResetTokenProvider } from "../../../../shared/providers/tokens/crypto/IResetTokenProvider";
+import { IRedisProvider } from "../../../../shared/providers/redis/provider/IRedisProvider";
+import { IMailProvider } from "../../../../shared/providers/mail/provider/IMailProvider";
+import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando interface de dados
-import { ICreateUserRequestDTO } from "../../dtos/user/ICreateUserRequestDTO";
+import { ICreateUserRequestDTO } from "../../../dtos/user/create/ICreateUserRequestDTO";
 
 // Importando error personalizado
-import { UserFoundError } from "../../../shared/errors/UserFoundError";
-import { LimitRatingSendMailError } from "../../../shared/errors/LimitRatingSendMailError";
+import { UserFoundError } from "../../../../shared/errors/UserFoundError";
+import { LimitRatingSendMailError } from "../../../../shared/errors/LimitRatingSendMailError";
 
 // Importando template de e-mail
-import { confirmEmailTemplate } from "../../../shared/providers/templates/confirmEmailTemplate";
+import { confirmEmailTemplate } from "../../../../shared/providers/templates/confirmEmailTemplate";
 
 // exportando classe de usecase
 export class CreateUserRequestUseCase {

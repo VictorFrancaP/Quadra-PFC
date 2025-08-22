@@ -1,13 +1,13 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
-import { IDeleteUserRepositories } from "../../../domain/repositories/user/IDeleteUserRepositories";
+import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IDeleteUserRepositories } from "../../../../domain/repositories/user/IDeleteUserRepositories";
 
 // Importando interface de dados
-import { IDeleteUserDTO } from "../../dtos/user/IDeleteUserDTO";
+import { IDeleteUserDTO } from "../../../dtos/user/delete/IDeleteUserDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
-import { UserDeletedAccessDeniedError } from "../../../shared/errors/UserAccessDeniedError";
+import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
+import { UserDeletedAccessDeniedError } from "../../../../shared/errors/UserAccessDeniedError";
 
 // exportando usecase
 export class DeleteUserUseCase {

@@ -6,7 +6,7 @@ import { FindUsersRepository } from "../../../infrastruture/repository/user/Find
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 
 // Importando usecase
-import { FindUsersUseCase } from "../../../application/usecases/user/FindUsersUseCase";
+import { FindUsersUseCase } from "../../../application/usecases/user/list/FindUsersUseCase";
 
 // exportando controller
 export class FindUsersController {

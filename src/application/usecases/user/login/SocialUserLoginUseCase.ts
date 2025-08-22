@@ -1,18 +1,18 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserByEmailRepositories } from "../../../domain/repositories/user/IFindUserByEmailRepositories";
-import { ICreateUserRepositories } from "../../../domain/repositories/user/ICreateUserRepositories";
-import { ITokenProvider } from "../../../shared/providers/tokens/jwt/ITokenProvider";
-import { IDeleteManyRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/IDeleteManyRefreshTokenRepositories";
-import { ICreateRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/ICreateRefreshTokenRepositories";
+import { IFindUserByEmailRepositories } from "../../../../domain/repositories/user/IFindUserByEmailRepositories";
+import { ICreateUserRepositories } from "../../../../domain/repositories/user/ICreateUserRepositories";
+import { ITokenProvider } from "../../../../shared/providers/tokens/jwt/ITokenProvider";
+import { IDeleteManyRefreshTokenRepositories } from "../../../../domain/repositories/refresh-token/IDeleteManyRefreshTokenRepositories";
+import { ICreateRefreshTokenRepositories } from "../../../../domain/repositories/refresh-token/ICreateRefreshTokenRepositories";
 
 // Importando interface de dados
-import { ISocialUserLoginDTO } from "../../dtos/user/ISocialUserLoginDTO";
+import { ISocialUserLoginDTO } from "../../../dtos/user/login/ISocialUserLoginDTO";
 
 // Importando response da Promise(promessa)
-import { IAuthUserResponseDTO } from "../../dtos/user/IAuthUserResponseDTO";
+import { IAuthUserResponseDTO } from "../../../dtos/user/login/IAuthUserResponseDTO";
 
 // Importando entidade de RefreshToken para usuário
-import { RefreshToken } from "../../../domain/entities/RefreshToken";
+import { RefreshToken } from "../../../../domain/entities/RefreshToken";
 
 // exportando classe de usecase
 export class SocialUserLoginUseCase {
@@ -43,7 +43,7 @@ export class SocialUserLoginUseCase {
         gender: "NOTINFORM",
         profileImage: data.profileImage,
         resetToken: null,
-        resetExpiredToken: null,
+        resetTokenExpired: null,
         loginAttempts: 0,
         lockAccount: null,
         accountBlock: false,

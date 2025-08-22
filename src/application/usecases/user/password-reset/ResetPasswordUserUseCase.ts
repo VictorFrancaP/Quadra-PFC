@@ -1,25 +1,25 @@
 // Importando interface serem instânciadas na controller
-import { IFindUserResetTokenRepositories } from "../../../domain/repositories/user/IFindUserResetTokenRepositories";
-import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
-import { ICompareProvider } from "../../../shared/providers/bcrypt/compare/ICompareProvider";
-import { IHashProvider } from "../../../shared/providers/bcrypt/hash/IHashProvider";
-import { IUpdateUserRepositories } from "../../../domain/repositories/user/IUpdateUserRepositories";
-import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
-import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
+import { IFindUserResetTokenRepositories } from "../../../../domain/repositories/user/IFindUserResetTokenRepositories";
+import { IDayJsProvider } from "../../../../shared/providers/dayjs/IDayJsProvider";
+import { ICompareProvider } from "../../../../shared/providers/bcrypt/compare/ICompareProvider";
+import { IHashProvider } from "../../../../shared/providers/bcrypt/hash/IHashProvider";
+import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IUpdateUserRepositories";
+import { IMailProvider } from "../../../../shared/providers/mail/provider/IMailProvider";
+import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando interface de dados
-import { IResetPasswordUserDTO } from "../../dtos/user/IResetPasswordUserDTO";
+import { IResetPasswordUserDTO } from "../../../dtos/user/password-reset/IResetPasswordUserDTO";
 
 // Importando error personalizado
-import { TokenUserError } from "../../../shared/errors/TokenUserError";
-import { ExpiredTimeUserError } from "../../../shared/errors/TokenUserError";
-import { PasswordUserSameError } from "../../../shared/errors/CredentialsUserError";
+import { TokenUserError } from "../../../../shared/errors/TokenUserError";
+import { ExpiredTimeUserError } from "../../../../shared/errors/TokenUserError";
+import { PasswordUserSameError } from "../../../../shared/errors/CredentialsUserError";
 
 // Importando entidade User para atualização com o metodo estatico
-import { User } from "../../../domain/entities/User";
+import { User } from "../../../../domain/entities/User";
 
 // Importando template para o envio de e-mail
-import { resetPasswordTemplate } from "../../../shared/providers/templates/resetPasswordTemplate";
+import { resetPasswordTemplate } from "../../../../shared/providers/templates/resetPasswordTemplate";
 
 // exportando usecase
 export class ResetPasswordUserUseCase {

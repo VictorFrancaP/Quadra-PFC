@@ -12,7 +12,7 @@ import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvide
 import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
 // Importando usecase
-import { AuthUserUseCase } from "../../../application/usecases/user/AuthUserUseCase";
+import { AuthUserUseCase } from "../../../application/usecases/user/login/AuthUserUseCase";
 
 // exportando controller
 export class AuthUserController {
