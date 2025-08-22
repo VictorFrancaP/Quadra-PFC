@@ -2,6 +2,6 @@
 import Joi from "joi";
 
 // exportando schema do Joi.object
-export const RequestUserResetPasswordValidator = Joi.object({
+export const RequestUserEmailValidator = Joi.object({
   email: Joi.string().email().required(),
 });

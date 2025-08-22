@@ -1,26 +1,26 @@
 // Importando interface a ser interfaces a serem instânciadas na controller
-import { IFindUserByEmailRepositories } from "../../../domain/repositories/user/IFindUserByEmailRepositories";
-import { ILockUserAccountRepositories } from "../../../domain/repositories/user/ILockUserAccountRepositories";
-import { ICompareProvider } from "../../../shared/providers/bcrypt/compare/ICompareProvider";
-import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
-import { IUpdateUserRepositories } from "../../../domain/repositories/user/IUpdateUserRepositories";
-import { IDeleteManyRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/IDeleteManyRefreshTokenRepositories";
-import { ITokenProvider } from "../../../shared/providers/tokens/jwt/ITokenProvider";
-import { ICreateRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/ICreateRefreshTokenRepositories";
+import { IFindUserByEmailRepositories } from "../../../../domain/repositories/user/IFindUserByEmailRepositories";
+import { ILockUserAccountRepositories } from "../../../../domain/repositories/user/ILockUserAccountRepositories";
+import { ICompareProvider } from "../../../../shared/providers/bcrypt/compare/ICompareProvider";
+import { IDayJsProvider } from "../../../../shared/providers/dayjs/IDayJsProvider";
+import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IUpdateUserRepositories";
+import { IDeleteManyRefreshTokenRepositories } from "../../../../domain/repositories/refresh-token/IDeleteManyRefreshTokenRepositories";
+import { ITokenProvider } from "../../../../shared/providers/tokens/jwt/ITokenProvider";
+import { ICreateRefreshTokenRepositories } from "../../../../domain/repositories/refresh-token/ICreateRefreshTokenRepositories";
 
 // Importando entidades
-import { User } from "../../../domain/entities/User";
-import { RefreshToken } from "../../../domain/entities/RefreshToken";
+import { User } from "../../../../domain/entities/User";
+import { RefreshToken } from "../../../../domain/entities/RefreshToken";
 
 // Importando interface de dados
-import { IAuthUserDTO } from "../../dtos/user/IAuthUserDTO";
-import { IAuthUserResponseDTO } from "../../dtos/user/IAuthUserResponseDTO";
+import { IAuthUserDTO } from "../../../dtos/user/login/IAuthUserDTO";
+import { IAuthUserResponseDTO } from "../../../dtos/user/login/IAuthUserResponseDTO";
 
 // Importando error personalizados
-import { CredentialsUserError } from "../../../shared/errors/CredentialsUserError";
-import { AccountUserIsLockedError } from "../../../shared/errors/AccountUserIsLockedError";
-import { AccountUserIsLockedNowError } from "../../../shared/errors/AccountUserIsLockedError";
-import { AccountUserIsBlockError } from "../../../shared/errors/AccountUserIsLockedError";
+import { CredentialsUserError } from "../../../../shared/errors/CredentialsUserError";
+import { AccountUserIsLockedError } from "../../../../shared/errors/AccountUserIsLockedError";
+import { AccountUserIsLockedNowError } from "../../../../shared/errors/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../../shared/errors/AccountUserIsLockedError";
 
 // exportando classe de usecase
 export class AuthUserUseCase {

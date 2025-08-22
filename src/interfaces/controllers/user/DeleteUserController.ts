@@ -6,7 +6,7 @@ import { FindUserByIdRepository } from "../../../infrastruture/repository/user/F
 import { DeleteUserRepository } from "../../../infrastruture/repository/user/DeleteUserRepository";
 
 // Importando usecase
-import { DeleteUserUseCase } from "../../../application/usecases/user/DeleteUserUseCase";
+import { DeleteUserUseCase } from "../../../application/usecases/user/delete/DeleteUserUseCase";
 
 // exportando controller
 export class DeleteUserController {

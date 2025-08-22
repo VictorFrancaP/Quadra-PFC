@@ -1,25 +1,25 @@
 // Importando interface a ser instãnciada na controller
-import { IFindUserByEmailRepositories } from "../../../domain/repositories/user/IFindUserByEmailRepositories";
-import { ILockUserAccountRepositories } from "../../../domain/repositories/user/ILockUserAccountRepositories";
-import { IResetTokenProvider } from "../../../shared/providers/tokens/crypto/IResetTokenProvider";
-import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
-import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
-import { IUpdateUserRepositories } from "../../../domain/repositories/user/IUpdateUserRepositories";
-import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
+import { IFindUserByEmailRepositories } from "../../../../domain/repositories/user/IFindUserByEmailRepositories";
+import { ILockUserAccountRepositories } from "../../../../domain/repositories/user/ILockUserAccountRepositories";
+import { IResetTokenProvider } from "../../../../shared/providers/tokens/crypto/IResetTokenProvider";
+import { IDayJsProvider } from "../../../../shared/providers/dayjs/IDayJsProvider";
+import { IMailProvider } from "../../../../shared/providers/mail/provider/IMailProvider";
+import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IUpdateUserRepositories";
+import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando entidade User para utilização do metodo estatico de update
-import { User } from "../../../domain/entities/User";
+import { User } from "../../../../domain/entities/User";
 
 // Importando interface de dados
-import { IRequestUserResetPasswordDTO } from "../../dtos/user/IRequestUserResetPasswordDTO";
+import { IRequestUserResetPasswordDTO } from "../../../dtos/user/password-reset/IRequestUserResetPasswordDTO";
 
 // Importando template para o envio de e-mail
-import { requestResetPasswordTemplate } from "../../../shared/providers/templates/requestResetPasswordTemplate";
+import { requestResetPasswordTemplate } from "../../../../shared/providers/templates/requestResetPasswordTemplate";
 
 // Importando error personalizado
-import { SendMailUserNotFoundError } from "../../../shared/errors/SendMailUserNotFoundError";
-import { AccountUserIsLockedError } from "../../../shared/errors/AccountUserIsLockedError";
-import { AccountUserIsBlockError } from "../../../shared/errors/AccountUserIsLockedError";
+import { SendMailUserNotFoundError } from "../../../../shared/errors/SendMailUserNotFoundError";
+import { AccountUserIsLockedError } from "../../../../shared/errors/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../../shared/errors/AccountUserIsLockedError";
 
 // exportando classe de usecase
 export class RequestUserResetPasswordUseCase {

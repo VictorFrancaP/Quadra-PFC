@@ -1,23 +1,23 @@
 // Importando interfaces a serem instânciadas
-import { IFindUserByCPFRepositories } from "../../../domain/repositories/user/IFindUserByCPFRepositories";
-import { IRedisProvider } from "../../../shared/providers/redis/provider/IRedisProvider";
-import { IHashProvider } from "../../../shared/providers/bcrypt/hash/IHashProvider";
-import { IPictureConfig } from "../../../shared/providers/cloudinary/default-profile/IPictureConfig";
-import { ICreateUserRepositories } from "../../../domain/repositories/user/ICreateUserRepositories";
-import { IMailProvider } from "../../../shared/providers/mail/provider/IMailProvider";
+import { IFindUserByCPFRepositories } from "../../../../domain/repositories/user/IFindUserByCPFRepositories";
+import { IRedisProvider } from "../../../../shared/providers/redis/provider/IRedisProvider";
+import { IHashProvider } from "../../../../shared/providers/bcrypt/hash/IHashProvider";
+import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
+import { ICreateUserRepositories } from "../../../../domain/repositories/user/ICreateUserRepositories";
+import { IMailProvider } from "../../../../shared/providers/mail/provider/IMailProvider";
 
 // Importando interface de dados
-import { ICreateUserDTO } from "../../dtos/user/ICreateUserDTO";
+import { ICreateUserDTO } from "../../../dtos/user/create/ICreateUserDTO";
 
 // Importando entidade User para ser uma Promise(promessa)
-import { User } from "../../../domain/entities/User";
+import { User } from "../../../../domain/entities/User";
 
 // Importando classe de erro personalizada
-import { UserFoundError } from "../../../shared/errors/UserFoundError";
-import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
+import { UserFoundError } from "../../../../shared/errors/UserFoundError";
+import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
 
 // Importando template de boas-vindas
-import { welcomeTemplate } from "../../../shared/providers/templates/welcomeTemplate";
+import { welcomeTemplate } from "../../../../shared/providers/templates/welcomeTemplate";
 
 // exportando classe de usecase
 export class CreateUserUseCase {

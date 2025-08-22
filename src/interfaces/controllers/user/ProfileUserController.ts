@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { ProfileUserRepository } from "../../../infrastruture/repository/user/ProfileUserRepository";
 
 // Importando usecase
-import { ProfileUserUseCase } from "../../../application/usecases/user/ProfileUserUseCase";
+import { ProfileUserUseCase } from "../../../application/usecases/user/list/ProfileUserUseCase";
 
 // exportando controller
 export class ProfileUserController {

@@ -11,7 +11,7 @@ import { MailProvider } from "../../../shared/providers/mail/provider/MailProvid
 import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando usecase
-import { ResetPasswordUserUseCase } from "../../../application/usecases/user/ResetPasswordUserUseCase";
+import { ResetPasswordUserUseCase } from "../../../application/usecases/user/password-reset/ResetPasswordUserUseCase";
 
 // exportando controller
 export class ResetPasswordUserController {

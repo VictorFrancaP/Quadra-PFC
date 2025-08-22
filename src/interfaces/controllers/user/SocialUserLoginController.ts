@@ -9,7 +9,7 @@ import { DeleteManyRefreshTokenRepository } from "../../../infrastruture/reposit
 import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
 // Importando usecase
-import { SocialUserLoginUseCase } from "../../../application/usecases/user/SocialUserLoginUseCase";
+import { SocialUserLoginUseCase } from "../../../application/usecases/user/login/SocialUserLoginUseCase";
 
 // exportando controller
 export class SocialUserLoginController {

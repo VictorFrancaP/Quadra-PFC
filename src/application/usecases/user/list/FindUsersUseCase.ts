@@ -1,17 +1,17 @@
 // Importando interface a serem instânciadas na controller
-import { IFindUsersRepositories } from "../../../domain/repositories/user/IFindUsersRepositories";
-import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IFindUsersRepositories } from "../../../../domain/repositories/user/IFindUsersRepositories";
+import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
 
 // Importando interface de dados
-import { IFindUsersDTO } from "../../dtos/user/IFindUsersDTO";
+import { IFindUsersDTO } from "../../../dtos/user/list/IFindUsersDTO";
 
 // Importando promise(promessa)
-import { IUsersRequest } from "../../../domain/repositories/user/IFindUsersRepositories";
+import { IUsersRequest } from "../../../../domain/repositories/user/IFindUsersRepositories";
 
 // Importando error personalizado
-import { UsersNotFoundError } from "../../../shared/errors/UserFoundError";
-import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
-import { UsersAccessDeniedError } from "../../../shared/errors/UserAccessDeniedError";
+import { UsersNotFoundError } from "../../../../shared/errors/UserFoundError";
+import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
+import { UsersAccessDeniedError } from "../../../../shared/errors/UserAccessDeniedError";
 
 // exportando usecase
 export class FindUsersUseCase {

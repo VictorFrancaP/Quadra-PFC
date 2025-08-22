@@ -10,7 +10,7 @@ import { CreateUserRepository } from "../../../infrastruture/repository/user/Cre
 import { MailProvider } from "../../../shared/providers/mail/provider/MailProvider";
 
 // Importando usecase
-import { CreateUserUseCase } from "../../../application/usecases/user/CreateUserUseCase";
+import { CreateUserUseCase } from "../../../application/usecases/user/create/CreateUserUseCase";
 
 // exportando classe controller
 export class CreateUserController {

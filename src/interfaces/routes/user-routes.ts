@@ -10,7 +10,7 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { CreateUserRequestValidator } from "../validators/schema/user/CreateUserRequestValidator";
 import { CreateUserValidator } from "../validators/schema/user/CreateUserValidator";
 import { AuthUserValidator } from "../validators/schema/user/AuthUserValidator";
-import { RequestUserResetPasswordValidator } from "../validators/schema/user/RequestUserResetPasswordValidator";
+import { RequestUserEmailValidator } from "../validators/schema/user/RequestUserEmailValidator";
 import { ResetPasswordUserValidator } from "../validators/schema/user/ResetPasswordUserValidator";
 import { ResetPasswordUserValidatorParams } from "../validators/schema/user/ResetPasswordUserValidator";
 
@@ -24,6 +24,7 @@ import { RequestUserResetPasswordController } from "../controllers/user/RequestU
 import { ResetPasswordUserController } from "../controllers/user/ResetPasswordUserController";
 import { FindUsersController } from "../controllers/user/FindUsersController";
 import { DeleteUserController } from "../controllers/user/DeleteUserController";
+import { FindUserController } from "../controllers/user/FindUserController";
 
 // importando passport para o login com google
 import passport from "passport";
@@ -42,6 +43,7 @@ const requestUserResetPasswordController =
 const resetPasswordUserController = new ResetPasswordUserController();
 const findUsersController = new FindUsersController();
 const deleteUserController = new DeleteUserController();
+const findUserController = new FindUserController();
 
 // criando rotas
 
@@ -63,7 +65,7 @@ routes.post(
 );
 routes.post(
   "/forgot-password",
-  ensureJoi(RequestUserResetPasswordValidator, "body"),
+  ensureJoi(RequestUserEmailValidator, "body"),
   requestUserResetPasswordController.handle
 );
 
@@ -83,6 +85,13 @@ routes.get(
   ensureAuthenticated,
   ensureRole("ADMIN"),
   findUsersController.handle
+);
+routes.get(
+  "/find",
+  ensureAuthenticated,
+  ensureRole("ADMIN"),
+  ensureJoi(RequestUserEmailValidator, "body"),
+  findUserController.handle
 );
 
 // put
