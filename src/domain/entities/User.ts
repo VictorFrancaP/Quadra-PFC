@@ -75,7 +75,7 @@ export class User {
       updates.role ?? existing.role,
       updates.address ?? existing.address,
       updates.cep ?? existing.cep,
-      existing.cpf,
+      existing.cpf !== "" ? existing.cpf : updates.cpf!,
       existing.gender,
       existing.profileImage,
       existing.id,

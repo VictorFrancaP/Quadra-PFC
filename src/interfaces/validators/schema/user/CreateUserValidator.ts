@@ -7,7 +7,7 @@ import { cpf } from "cpf-cnpj-validator";
 // exportando e criando arrow function com schema do Joi
 export const CreateUserValidator = Joi.object({
   password: Joi.string().min(7).required(),
-  age: Joi.number().min(13).required(),
+  age: Joi.number().min(14).required(),
   address: Joi.string().max(255).required(),
   cep: Joi.string()
     .length(8)

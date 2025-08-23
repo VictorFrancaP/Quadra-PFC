@@ -29,7 +29,7 @@ export class DeleteUserController {
       await useCase.execute({ userId });
 
       return response.status(200).json({
-        message: "Usuário deletado com sucesso!",
+        message: "Sua conta foi deletado com sucesso!",
       });
     } catch (err: any) {
       return response.status(400).json({

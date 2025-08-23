@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 // Importando rotas
 import { userRoutes } from "./routes/user-routes";
 import { refreshTokenRoutes } from "./routes/refresh-token.routes";
+import { solicitationOwnerRoutes } from "./routes/solicitation-owner.routes";
 
 // Importando middleware de error
 import { errorHandler } from "./middlewares/errorHandler";
@@ -27,6 +28,7 @@ app.use(cookieParser());
 // utilizando rotas
 app.use("/auth/user", userRoutes);
 app.use("/auth", refreshTokenRoutes);
+app.use("/auth/solicitation", solicitationOwnerRoutes);
 
 // utilizando passport
 app.use(passport.initialize());

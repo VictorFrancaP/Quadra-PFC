@@ -10,3 +10,13 @@ export class LimitRatingSendMailError extends ErrorSuper {
     );
   }
 }
+
+// exportando classe de error personalizada
+export class LimitRatingUpdateProfileUserError extends ErrorSuper {
+  constructor() {
+    super(
+      "Aguarde alguns segundos para atualizar o seu perfil novamente!",
+      400
+    );
+  }
+}
