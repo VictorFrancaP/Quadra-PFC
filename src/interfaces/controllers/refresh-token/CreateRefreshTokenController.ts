@@ -4,8 +4,6 @@ import { Request, Response } from "express";
 // Importando interfaces implementadas a serem instânciadas
 import { FindUserRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/FindUserRefreshTokenRepository";
 import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvider";
-import { DeleteManyRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/DeleteManyRefreshTokenRepository";
-import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
 // Importando usecase
 import { CreateRefreshTokenUseCase } from "../../../application/usecases/refresh-token/CreateRefreshTokenUseCase";
