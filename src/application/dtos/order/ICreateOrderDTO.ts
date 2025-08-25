@@ -1,5 +1,5 @@
 // exportando interface de dados
-export interface ICreateSolicitationOwnerDTO {
+export interface ICreateOrderDTO {
   localName: string;
   description: string;
   cnpj: string;

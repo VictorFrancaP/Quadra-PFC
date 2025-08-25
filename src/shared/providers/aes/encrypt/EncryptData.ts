@@ -2,7 +2,7 @@
 import { IEncryptData } from "./IEncryptData";
 
 // Importando crypto do nodejs
-import crypto, { createDecipheriv } from "crypto";
+import crypto, { createCipheriv, createDecipheriv } from "crypto";
 
 // Importando dotenv para a utilização de variaveis de ambiente
 import dotenv from "dotenv";
@@ -16,7 +16,7 @@ export class EncryptData implements IEncryptData {
     const IV = crypto.randomBytes(16);
 
     // criando criptografia
-    const cipher = createDecipheriv(AES, KEY, IV);
+    const cipher = createCipheriv(AES, KEY, IV);
     const encrypted = Buffer.concat([
       cipher.update(data, "utf8"),
       cipher.final(),

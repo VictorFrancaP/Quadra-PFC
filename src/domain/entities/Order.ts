@@ -1,5 +1,5 @@
 // exportando classe de entidade
-export class SolicitationOwner {
+export class Order {
   // atributos
   public id?: string;
   public localName: string;
@@ -9,7 +9,7 @@ export class SolicitationOwner {
   public approved: boolean;
   public userId: string;
 
-  // inicializador (construtor)
+  // construtor
   constructor(
     localName: string,
     description: string,
