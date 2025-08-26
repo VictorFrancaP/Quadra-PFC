@@ -105,6 +105,38 @@ model order {
   @@map("_Order_")
 }
 
+model block {
+  // identificador da quadra
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  name String
+  typeBlock String
+  description String
+  cep String
+  address String
+  city String
+  state String
+  cnpj String
+  fone String
+  operationDays String[]
+  openHour String
+  closingHour String
+  priceHour Float
+  maxDuration Int
+  isActive Boolean @default(true)
+  
+  // opcionais
+  observations String?
+
+  // criação e updated
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // nome da tabela no banco de dados (mongodb)
+  @@map("_Block_")
+}
+
 // Tabela para suporte
 model support {
   // identificador da solicitação de suporte
