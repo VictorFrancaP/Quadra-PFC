@@ -28,4 +28,17 @@ export class Order {
 
     if (id) this.id = id;
   }
+
+  // metodo estatico para atualização da solicitação do usuário
+  static updateUserOrder(existing: Order, updates: Partial<Order>): Order {
+    return new Order(
+      updates.localName ?? existing.localName,
+      updates.description ?? existing.description,
+      existing.cnpj,
+      updates.fone ?? existing.fone,
+      existing.approved,
+      existing.userId,
+      existing.id
+    );
+  }
 }

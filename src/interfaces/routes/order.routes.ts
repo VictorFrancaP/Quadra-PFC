@@ -8,10 +8,12 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 // Importando validators schema
 import { CreateOrderUserValidator } from "../validators/schema/order/CreateOrderUserValidator";
+import { UpdateOrderUserValidator } from "../validators/schema/order/UpdateOrderUserValidator";
 
 // Importando controllers
 import { CreateOrderUserController } from "../controllers/order/CreateOrderUserController";
 import { FindOrdersController } from "../controllers/order/FindOrdersController";
+import { UpdateUserOrderController } from "../controllers/order/UpdateUserOrderController";
 
 // criando variavel para instânciar o Router do express
 const routes = Router();
@@ -19,6 +21,7 @@ const routes = Router();
 // criando instância das controllers
 const createOrderUserController = new CreateOrderUserController();
 const findOrdersController = new FindOrdersController();
+const updateUserOrderController = new UpdateUserOrderController();
 
 // criando rotas
 
@@ -36,6 +39,14 @@ routes.get(
   ensureAuthenticated,
   ensureRole("ADMIN"),
   findOrdersController.handle
+);
+
+// put
+routes.put(
+  "/update",
+  ensureAuthenticated,
+  ensureJoi(UpdateOrderUserValidator, "body"),
+  updateUserOrderController.handle
 );
 
 // exportando rotas com as
