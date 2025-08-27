@@ -12,12 +12,16 @@ export const errorHandler = (
   next: NextFunction
 ) => {
   if (err instanceof ErrorSuper) {
-    return response.status(err.statusCode).json(err.message);
+    return response.status(err.statusCode).json({
+      status: "error",
+      message: err.message,
+    });
   }
 
   console.error(err);
 
   return response.status(500).json({
+    status: "error",
     message: "Erro interno do servidor!",
   });
 };

@@ -21,3 +21,20 @@ export class UsersOrdersNotFoundError extends ErrorSuper {
     super("Nenhuma solicitação encontrada no momento!", 404);
   }
 }
+
+// exportando classe de error personalizado
+export class UserOrderNotFoundError extends ErrorSuper {
+  constructor() {
+    super("Não foi possível encontrar sua solicitação", 404);
+  }
+}
+
+// exportando classe de error personalizado
+export class UserUpdatedLimitedOrderError extends ErrorSuper {
+  constructor() {
+    super(
+      "Aguarde alguns minutos para efetuar atualizar a solicitação novamente!",
+      400
+    );
+  }
+}
