@@ -13,6 +13,7 @@ export class UpdateUserOrderRepository implements IUpdateUserOrderRepositories {
         localName: order.localName,
         description: order.description,
         fone: order.fone,
+        status: order.status,
       },
     });
   }

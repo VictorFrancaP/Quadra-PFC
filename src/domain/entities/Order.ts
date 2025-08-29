@@ -1,3 +1,13 @@
+// criando objeto javascript para criar variaveis literais
+export const orderStatus = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  DENIED: "DENIED",
+} as const;
+
+// pegando chaves do objeto com keyof
+export type orderStatus = (typeof orderStatus)[keyof typeof orderStatus];
+
 // exportando classe de entidade
 export class Order {
   // atributos
@@ -6,7 +16,7 @@ export class Order {
   public description: string;
   public cnpj: string;
   public fone: string;
-  public approved: boolean;
+  public status: orderStatus;
   public userId: string;
 
   // construtor
@@ -15,7 +25,7 @@ export class Order {
     description: string,
     cnpj: string,
     fone: string,
-    approved: boolean,
+    status: orderStatus,
     userId: string,
     id?: string
   ) {
@@ -23,7 +33,7 @@ export class Order {
     this.description = description;
     this.cnpj = cnpj;
     this.fone = fone;
-    this.approved = approved;
+    this.status = status;
     this.userId = userId;
 
     if (id) this.id = id;
@@ -36,7 +46,7 @@ export class Order {
       updates.description ?? existing.description,
       existing.cnpj,
       updates.fone ?? existing.fone,
-      existing.approved,
+      updates.status ?? existing.status,
       existing.userId,
       existing.id
     );

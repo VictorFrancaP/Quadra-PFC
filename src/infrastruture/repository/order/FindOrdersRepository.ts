@@ -22,7 +22,7 @@ export class FindOrdersRepository implements IFindOrdersRepositories {
           order.description,
           order.cnpj,
           order.fone,
-          order.approved,
+          order.status,
           order.userId
         )
     );
