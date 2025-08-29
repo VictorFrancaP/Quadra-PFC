@@ -54,7 +54,7 @@ export class FindOrdersUseCase {
           await this.decryptData.decrypted(order.description),
           await this.decryptData.decrypted(order.cnpj),
           await this.decryptData.decrypted(order.fone),
-          order.approved,
+          order.status,
           order.userId
         );
       })

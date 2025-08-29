@@ -54,7 +54,7 @@ export class CreateOrderUserUseCase {
       description,
       cnpj,
       fone,
-      false,
+      "PENDING",
       data.userId
     );
 

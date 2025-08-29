@@ -9,11 +9,14 @@ import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 // Importando validators schema
 import { CreateOrderUserValidator } from "../validators/schema/order/CreateOrderUserValidator";
 import { UpdateOrderUserValidator } from "../validators/schema/order/UpdateOrderUserValidator";
+import { RequestParamsValidator } from "../validators/schema/RequestParamsValidator";
+import { UpdateUserOrderStatusValidator } from "../validators/schema/order/UpdateUserOrderStatusValidator";
 
 // Importando controllers
 import { CreateOrderUserController } from "../controllers/order/CreateOrderUserController";
 import { FindOrdersController } from "../controllers/order/FindOrdersController";
 import { UpdateUserOrderController } from "../controllers/order/UpdateUserOrderController";
+import { UpdateUserOrderStatusController } from "../controllers/order/UpdateUserOrderStatusController";
 
 // criando variavel para instânciar o Router do express
 const routes = Router();
@@ -22,6 +25,7 @@ const routes = Router();
 const createOrderUserController = new CreateOrderUserController();
 const findOrdersController = new FindOrdersController();
 const updateUserOrderController = new UpdateUserOrderController();
+const updateUserOrderStatusController = new UpdateUserOrderStatusController();
 
 // criando rotas
 
@@ -47,6 +51,14 @@ routes.put(
   ensureAuthenticated,
   ensureJoi(UpdateOrderUserValidator, "body"),
   updateUserOrderController.handle
+);
+routes.put(
+  "/update/:id",
+  ensureAuthenticated,
+  ensureRole("ADMIN"),
+  ensureJoi(RequestParamsValidator, "params"),
+  ensureJoi(UpdateUserOrderStatusValidator, "body"),
+  updateUserOrderStatusController.handle
 );
 
 // exportando rotas com as

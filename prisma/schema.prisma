@@ -23,6 +23,13 @@ enum userGender {
   NOTINFORM
 }
 
+// Tipos de status de order
+enum orderStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
 // Tipos de status do suporte
 enum supportStatus {
   PEDDING
@@ -93,7 +100,7 @@ model order {
   description     String
   cnpj            String
   fone            String
-  approved        Boolean @default(false)
+  status          orderStatus @default(PENDING)
   userId          String @db.ObjectId
   user            user @relation("user-order", fields: [userId], references: [id], onDelete: Cascade)
 

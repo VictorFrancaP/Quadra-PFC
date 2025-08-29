@@ -24,3 +24,13 @@ export class UserDeletedAccessDeniedError extends ErrorSuper {
     super("Você não tem permissão para deletar um outro usuário!", 401);
   }
 }
+
+// exportando classe de error personalizada
+export class UserAccessDeniedUpdateError extends ErrorSuper {
+  constructor() {
+    super(
+      "Você não tem permissão para editar o status de uma solicitação",
+      401
+    );
+  }
+}

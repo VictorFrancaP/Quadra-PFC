@@ -38,3 +38,10 @@ export class UserUpdatedLimitedOrderError extends ErrorSuper {
     );
   }
 }
+
+// exportando classe de error personalizado
+export class OrderErrorUpdated extends ErrorSuper {
+  constructor() {
+    super("Não é possivel editar uma solicitação já analisada!", 400);
+  }
+}

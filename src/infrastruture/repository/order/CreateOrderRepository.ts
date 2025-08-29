@@ -13,7 +13,7 @@ export class CreateOrderRepository implements ICreateOrderRepositories {
         description: order.description,
         cnpj: order.cnpj,
         fone: order.fone,
-        approved: order.approved,
+        status: order.status,
         userId: order.userId,
       },
     });
@@ -24,7 +24,7 @@ export class CreateOrderRepository implements ICreateOrderRepositories {
       createdOrder.description,
       createdOrder.cnpj,
       createdOrder.fone,
-      createdOrder.approved,
+      createdOrder.status,
       createdOrder.userId,
       createdOrder.id
     );
