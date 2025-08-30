@@ -34,3 +34,23 @@ export class UserAccessDeniedUpdateError extends ErrorSuper {
     );
   }
 }
+
+// exportando classe de error personalizada
+export class UserAccessDeniedRoleUpdateError extends ErrorSuper {
+  constructor() {
+    super(
+      "Você não tem permissão para editar o tipo de permissão do usuário!",
+      401
+    );
+  }
+}
+
+// exportando classe de error personalizada
+export class UserAccessDeniedRoleSameError extends ErrorSuper {
+  constructor() {
+    super(
+      "Não possivel editar a permissão de um usuário PROPRIÉTARIO ou ADMIN",
+      400
+    );
+  }
+}

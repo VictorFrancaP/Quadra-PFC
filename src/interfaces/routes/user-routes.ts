@@ -14,6 +14,8 @@ import { RequestUserEmailValidator } from "../validators/schema/user/RequestUser
 import { ResetPasswordUserValidator } from "../validators/schema/user/ResetPasswordUserValidator";
 import { ResetPasswordUserValidatorParams } from "../validators/schema/user/ResetPasswordUserValidator";
 import { UpdateUserProfileValidator } from "../validators/schema/user/UpdateUserProfileValidator";
+import { RequestParamsValidator } from "../validators/schema/RequestParamsValidator";
+import { UpdateUserRoleValidator } from "../validators/schema/user/UpdateUserRoleValidator";
 
 // Importando controllers dos usuários
 import { CreateUserRequestController } from "../controllers/user/CreateUserRequestController";
@@ -27,6 +29,7 @@ import { FindUsersController } from "../controllers/user/FindUsersController";
 import { DeleteUserController } from "../controllers/user/DeleteUserController";
 import { FindUserController } from "../controllers/user/FindUserController";
 import { UpdateUserProfileController } from "../controllers/user/UpdateUserProfileController";
+import { UpdateUserRoleController } from "../controllers/user/UpdateUserRoleController";
 
 // importando passport para o login com google
 import passport from "passport";
@@ -47,6 +50,7 @@ const findUsersController = new FindUsersController();
 const deleteUserController = new DeleteUserController();
 const findUserController = new FindUserController();
 const updateUserProfileController = new UpdateUserProfileController();
+const updateUserRoleController = new UpdateUserRoleController();
 
 // criando rotas
 
@@ -109,6 +113,14 @@ routes.put(
   ensureAuthenticated,
   ensureJoi(UpdateUserProfileValidator, "body"),
   updateUserProfileController.handle
+);
+routes.put(
+  "/updateRole/:id",
+  ensureAuthenticated,
+  ensureRole("ADMIN"),
+  ensureJoi(RequestParamsValidator, "params"),
+  ensureJoi(UpdateUserRoleValidator, "body"),
+  updateUserRoleController.handle
 );
 
 // delete
