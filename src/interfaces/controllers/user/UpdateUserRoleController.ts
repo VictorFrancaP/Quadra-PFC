@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
+import { FindUserOrderRepository } from "../../../infrastruture/repository/order/FindUserOrderRepository";
 import { UpdateUserRepository } from "../../../infrastruture/repository/user/UpdateUserRepository";
 
 // Importando usecase
@@ -18,11 +19,13 @@ export class UpdateUserRoleController {
 
     // instâncias das interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
+    const findUserOrderRepository = new FindUserOrderRepository();
     const updateUserRepository = new UpdateUserRepository();
 
     // instância da usecase
     const useCase = new UpdateUserRoleUseCase(
       findUserByIdRepository,
+      findUserOrderRepository,
       updateUserRepository
     );
 
