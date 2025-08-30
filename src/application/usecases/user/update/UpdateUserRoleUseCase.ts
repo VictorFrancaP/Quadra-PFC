@@ -1,5 +1,6 @@
 // Importando interfaces a serem instânciadas na controller
 import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IFindUserOrderRepositories } from "../../../../domain/repositories/order/IFindUserOrderRepositories";
 import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IUpdateUserRepositories";
 
 // Importando interface de dados
@@ -9,6 +10,10 @@ import { IUpdateUserRoleDTO } from "../../../dtos/user/update/IUpdateUserRoleDTO
 import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
 import { UserAccessDeniedRoleUpdateError } from "../../../../shared/errors/UserAccessDeniedError";
 import { UserAccessDeniedRoleSameError } from "../../../../shared/errors/UserAccessDeniedError";
+import {
+  UserOrderNotApprovedError,
+  UserOrderNotFoundError,
+} from "../../../../shared/errors/UserOrderError";
 
 // Importando entidade User para utilização do metodo estatico
 import { User } from "../../../../domain/entities/User";
@@ -17,6 +22,7 @@ import { User } from "../../../../domain/entities/User";
 export class UpdateUserRoleUseCase {
   constructor(
     private readonly findUserByIdRepository: IFindUserByIdRepositories,
+    private readonly findUserOrderRepository: IFindUserOrderRepositories,
     private readonly updateUserRepository: IUpdateUserRepositories
   ) {}
 
@@ -47,6 +53,21 @@ export class UpdateUserRoleUseCase {
     // verificando usuário é ADMIN ou OWNER
     if (user.role === "ADMIN" || user.role === "OWNER") {
       throw new UserAccessDeniedRoleSameError();
+    }
+
+    // verificando se usuário contém uma solicitação
+    const userOrder = await this.findUserOrderRepository.findUserOrder(
+      user.id as string
+    );
+
+    // verificando se existe a solicitação
+    if (!userOrder) {
+      throw new UserOrderNotFoundError();
+    }
+
+    // verificando se a solicitação foi aprovada
+    if (userOrder.status !== "APPROVED") {
+      throw new UserOrderNotApprovedError();
     }
 
     // mandando atualização para o metodo estatico

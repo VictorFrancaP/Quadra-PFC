@@ -4,7 +4,7 @@ import { ErrorSuper } from "./ErrorSuper";
 // exportando classe de error personalizado
 export class UserOrderError extends ErrorSuper {
   constructor() {
-    super("Não possível realizar mais uma solicitação!", 400);
+    super("Não é possível realizar mais uma solicitação!", 400);
   }
 }
 
@@ -25,7 +25,7 @@ export class UsersOrdersNotFoundError extends ErrorSuper {
 // exportando classe de error personalizado
 export class UserOrderNotFoundError extends ErrorSuper {
   constructor() {
-    super("Não foi possível encontrar sua solicitação", 404);
+    super("Não foi possível encontrar a solicitação", 404);
   }
 }
 
@@ -43,5 +43,15 @@ export class UserUpdatedLimitedOrderError extends ErrorSuper {
 export class OrderErrorUpdated extends ErrorSuper {
   constructor() {
     super("Não é possivel editar uma solicitação já analisada!", 400);
+  }
+}
+
+// exportando classe de error personalizado
+export class UserOrderNotApprovedError extends ErrorSuper {
+  constructor() {
+    super(
+      "Não é possivel editar a permissão do usuário, sem a aprovação do pedido!",
+      400
+    );
   }
 }
