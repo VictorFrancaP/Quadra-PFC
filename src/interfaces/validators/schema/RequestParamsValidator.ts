@@ -7,9 +7,12 @@ export const RequestParamsValidator = Joi.object({
   id: Joi.string()
     .custom((value, helpers) => {
       if (!ObjectId.isValid(value)) {
-        helpers.error("400");
+        helpers.error("any-invalid");
       }
       return value;
+    })
+    .messages({
+      "any-invalid": "Identificador inválido!",
     })
     .required(),
 });

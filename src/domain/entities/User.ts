@@ -1,5 +1,13 @@
-// criando e exportando tipos de permissões
-export type userPermissions = "USER" | "ADMIN" | "OWNER";
+// criando objeto imutavel com tipos de permissões
+export const userPermissions = {
+  USER: "USER",
+  ADMIN: "ADMIN",
+  OWNER: "OWNER",
+} as const;
+
+// exportando apenas os tipos sem as keys(chaves)
+export type userPermissions =
+  (typeof userPermissions)[keyof typeof userPermissions];
 
 // criando e exportando tipos de gêneros
 export type userGender = "MALE" | "FEMALE" | "NOTINFORM";
