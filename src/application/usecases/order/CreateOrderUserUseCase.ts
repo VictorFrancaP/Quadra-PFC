@@ -11,8 +11,8 @@ import { ICreateOrderDTO } from "../../dtos/order/ICreateOrderDTO";
 import { Order } from "../../../domain/entities/Order";
 
 // Importando error personalizado
-import { UserOrderError } from "../../../shared/errors/UserOrderError";
-import { UserOrderCnpjError } from "../../../shared/errors/UserOrderError";
+import { UserOrderError } from "../../../shared/errors/user-error/UserOrderError";
+import { UserOrderCnpjError } from "../../../shared/errors/user-error/UserOrderError";
 
 // exportando usecase
 export class CreateOrderUserUseCase {

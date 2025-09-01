@@ -7,10 +7,10 @@ import { IUpdateUserOrderRepositories } from "../../../domain/repositories/order
 import { IUpdateUserOrderStatusDTO } from "../../dtos/order/IUpdateUserOrderStatusDTO";
 
 // Importando error personalizado
-import { UserOrderNotFoundError } from "../../../shared/errors/UserOrderError";
-import { OrderErrorUpdated } from "../../../shared/errors/UserOrderError";
-import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
-import { UserAccessDeniedUpdateError } from "../../../shared/errors/UserAccessDeniedError";
+import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+import { OrderErrorUpdated } from "../../../shared/errors/user-error/UserOrderError";
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedUpdateError } from "../../../shared/errors/user-error/UserAccessDeniedError";
 
 // Importando entidade Order para metodo estatico
 import { Order } from "../../../domain/entities/Order";

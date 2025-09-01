@@ -11,9 +11,9 @@ import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-
 import { IResetPasswordUserDTO } from "../../../dtos/user/password-reset/IResetPasswordUserDTO";
 
 // Importando error personalizado
-import { TokenUserError } from "../../../../shared/errors/TokenUserError";
-import { ExpiredTimeUserError } from "../../../../shared/errors/TokenUserError";
-import { PasswordUserSameError } from "../../../../shared/errors/CredentialsUserError";
+import { TokenUserError } from "../../../../shared/errors/user-error/TokenUserError";
+import { ExpiredTimeUserError } from "../../../../shared/errors/user-error/TokenUserError";
+import { PasswordUserSameError } from "../../../../shared/errors/user-error/CredentialsUserError";
 
 // Importando entidade User para atualização com o metodo estatico
 import { User } from "../../../../domain/entities/User";

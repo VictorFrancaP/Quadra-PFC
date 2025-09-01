@@ -9,8 +9,8 @@ import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-
 import { ICreateUserRequestDTO } from "../../../dtos/user/create/ICreateUserRequestDTO";
 
 // Importando error personalizado
-import { UserFoundError } from "../../../../shared/errors/UserFoundError";
-import { LimitRatingSendMailError } from "../../../../shared/errors/LimitRatingSendMailError";
+import { UserFoundError } from "../../../../shared/errors/user-error/UserFoundError";
+import { LimitRatingSendMailError } from "../../../../shared/errors/send-mail-error/LimitRatingSendMailError";
 
 // Importando template de e-mail
 import { confirmEmailTemplate } from "../../../../shared/providers/templates/confirmEmailTemplate";

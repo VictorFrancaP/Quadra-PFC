@@ -6,8 +6,8 @@ import { IDeleteUserRepositories } from "../../../../domain/repositories/user/ID
 import { IDeleteUserDTO } from "../../../dtos/user/delete/IDeleteUserDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
-import { UserDeletedAccessDeniedError } from "../../../../shared/errors/UserAccessDeniedError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UserDeletedAccessDeniedError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
 
 // exportando usecase
 export class DeleteUserUseCase {

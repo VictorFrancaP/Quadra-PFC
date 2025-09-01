@@ -10,9 +10,9 @@ import { IFindOrdersDTO } from "../../dtos/order/IFindOrdersDTO";
 import { Order } from "../../../domain/entities/Order";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../shared/errors/UserNotFoundError";
-import { UsersAccessDeniedError } from "../../../shared/errors/UserAccessDeniedError";
-import { UsersOrdersNotFoundError } from "../../../shared/errors/UserOrderError";
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UsersAccessDeniedError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+import { UsersOrdersNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
 
 // exportando usecase
 export class FindOrdersUseCase {

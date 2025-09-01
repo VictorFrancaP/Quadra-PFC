@@ -33,7 +33,7 @@ export class CreateOrderUserController {
 
     // criando try/catch para capturar erros na execução
     try {
-      const order = await useCase.execute({
+      await useCase.execute({
         localName,
         description,
         cnpj,
@@ -43,7 +43,6 @@ export class CreateOrderUserController {
 
       return response.status(200).json({
         message: "Sua solicitação foi criada com sucesso!",
-        order,
       });
     } catch (err: any) {
       return response.status(400).json({

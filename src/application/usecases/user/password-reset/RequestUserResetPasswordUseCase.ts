@@ -17,9 +17,9 @@ import { IRequestUserResetPasswordDTO } from "../../../dtos/user/password-reset/
 import { requestResetPasswordTemplate } from "../../../../shared/providers/templates/requestResetPasswordTemplate";
 
 // Importando error personalizado
-import { SendMailUserNotFoundError } from "../../../../shared/errors/SendMailUserNotFoundError";
-import { AccountUserIsLockedError } from "../../../../shared/errors/AccountUserIsLockedError";
-import { AccountUserIsBlockError } from "../../../../shared/errors/AccountUserIsLockedError";
+import { SendMailUserNotFoundError } from "../../../../shared/errors/send-mail-error/SendMailUserNotFoundError";
+import { AccountUserIsLockedError } from "../../../../shared/errors/user-error/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../../shared/errors/user-error/AccountUserIsLockedError";
 
 // exportando classe de usecase
 export class RequestUserResetPasswordUseCase {

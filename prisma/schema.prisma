@@ -63,6 +63,7 @@ model user {
   // relacionamentos
   refreshToken refreshToken[] @relation("user-refreshToken")
   solicitationOwner order[] @relation("user-order")
+  soccer soccer[] @relation("user-owner-soccer")
   support support[] @relation("user-support")
 
   // criação e updated
@@ -112,13 +113,12 @@ model order {
   @@map("_Order_")
 }
 
-model block {
+model soccer {
   // identificador da quadra
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
   name String
-  typeBlock String
   description String
   cep String
   address String
@@ -132,6 +132,8 @@ model block {
   priceHour Float
   maxDuration Int
   isActive Boolean @default(true)
+  user user @relation("user-owner-soccer", fields: [userId], references: [id])
+  userId String @db.ObjectId
   
   // opcionais
   observations String?
@@ -141,7 +143,7 @@ model block {
   updated_at DateTime @updatedAt
 
   // nome da tabela no banco de dados (mongodb)
-  @@map("_Block_")
+  @@map("_Soccer_")
 }
 
 // Tabela para suporte

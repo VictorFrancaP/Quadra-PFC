@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import { userRoutes } from "./routes/user-routes";
 import { refreshTokenRoutes } from "./routes/refresh-token.routes";
 import { orderRoutes } from "./routes/order.routes";
+import { soccerRoutes } from "./routes/soccer.routes";
 
 // Importando middleware de error
 import { errorHandler } from "./middlewares/errorHandler";
@@ -29,6 +30,7 @@ app.use(cookieParser());
 app.use("/auth/user", userRoutes);
 app.use("/auth", refreshTokenRoutes);
 app.use("/auth/order", orderRoutes);
+app.use("/auth/soccer", soccerRoutes);
 
 // utilizando passport
 app.use(passport.initialize());

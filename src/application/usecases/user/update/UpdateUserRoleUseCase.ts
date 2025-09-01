@@ -7,13 +7,13 @@ import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IU
 import { IUpdateUserRoleDTO } from "../../../dtos/user/update/IUpdateUserRoleDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
-import { UserAccessDeniedRoleUpdateError } from "../../../../shared/errors/UserAccessDeniedError";
-import { UserAccessDeniedRoleSameError } from "../../../../shared/errors/UserAccessDeniedError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedRoleUpdateError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
+import { UserAccessDeniedRoleSameError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
 import {
   UserOrderNotApprovedError,
   UserOrderNotFoundError,
-} from "../../../../shared/errors/UserOrderError";
+} from "../../../../shared/errors/user-error/UserOrderError";
 
 // Importando entidade User para utilização do metodo estatico
 import { User } from "../../../../domain/entities/User";
