@@ -1,5 +1,5 @@
 // Importando ErrorSuper para ser herdado
-import { ErrorSuper } from "./ErrorSuper";
+import { ErrorSuper } from "../ErrorSuper";
 
 // exportando classe de error personalizada
 export class UserAccessDeniedError extends ErrorSuper {
@@ -52,5 +52,12 @@ export class UserAccessDeniedRoleSameError extends ErrorSuper {
       "Não possivel editar a permissão de um usuário PROPRIÉTARIO ou ADMIN",
       400
     );
+  }
+}
+
+// exportando classe de error personalizada
+export class UserAccessDeniedSoccerError extends ErrorSuper {
+  constructor() {
+    super("Você não tem permissão para a criação de quadras no sistema!", 401);
   }
 }

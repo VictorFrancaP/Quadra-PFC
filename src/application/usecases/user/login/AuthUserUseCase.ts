@@ -17,10 +17,10 @@ import { IAuthUserDTO } from "../../../dtos/user/login/IAuthUserDTO";
 import { IAuthUserResponseDTO } from "../../../dtos/user/login/IAuthUserResponseDTO";
 
 // Importando error personalizados
-import { CredentialsUserError } from "../../../../shared/errors/CredentialsUserError";
-import { AccountUserIsLockedError } from "../../../../shared/errors/AccountUserIsLockedError";
-import { AccountUserIsLockedNowError } from "../../../../shared/errors/AccountUserIsLockedError";
-import { AccountUserIsBlockError } from "../../../../shared/errors/AccountUserIsLockedError";
+import { CredentialsUserError } from "../../../../shared/errors/user-error/CredentialsUserError";
+import { AccountUserIsLockedError } from "../../../../shared/errors/user-error/AccountUserIsLockedError";
+import { AccountUserIsLockedNowError } from "../../../../shared/errors/user-error/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../../shared/errors/user-error/AccountUserIsLockedError";
 
 // exportando classe de usecase
 export class AuthUserUseCase {

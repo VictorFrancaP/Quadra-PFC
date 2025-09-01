@@ -8,8 +8,8 @@ import { IProfileRequest } from "../../../../domain/repositories/user/IProfileUs
 import { IProfileUserDTO } from "../../../dtos/user/list/IProfileUserDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
-import { UserAccessDeniedError } from "../../../../shared/errors/UserAccessDeniedError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
 
 // exportando usecase
 export class ProfileUserUseCase {

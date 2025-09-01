@@ -8,8 +8,8 @@ import { IUpdateUserOrderRepositories } from "../../../domain/repositories/order
 import { IUpdateUserOrderDTO } from "../../dtos/order/IUpdateUserOrderDTO";
 
 // Importando error personalizado
-import { UserOrderNotFoundError } from "../../../shared/errors/UserOrderError";
-import { UserUpdatedLimitedOrderError } from "../../../shared/errors/UserOrderError";
+import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+import { UserUpdatedLimitedOrderError } from "../../../shared/errors/user-error/UserOrderError";
 
 // Importando entidade Order
 import { Order } from "../../../domain/entities/Order";

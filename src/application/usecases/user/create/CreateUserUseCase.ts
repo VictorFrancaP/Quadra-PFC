@@ -13,8 +13,8 @@ import { ICreateUserDTO } from "../../../dtos/user/create/ICreateUserDTO";
 import { User } from "../../../../domain/entities/User";
 
 // Importando classe de erro personalizada
-import { UserFoundError } from "../../../../shared/errors/UserFoundError";
-import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
+import { UserFoundError } from "../../../../shared/errors/user-error/UserFoundError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
 
 // Importando template de boas-vindas
 import { welcomeTemplate } from "../../../../shared/providers/templates/welcomeTemplate";

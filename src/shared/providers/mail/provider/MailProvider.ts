@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Importando erro personalizado
-import { SendMailError } from "../../../errors/SendMailError";
+import { SendMailError } from "../../../errors/send-mail-error/SendMailError";
 import { UnknownError } from "../../../errors/UnknownError";
 
 // exportando classe de implementação de interface

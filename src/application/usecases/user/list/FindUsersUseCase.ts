@@ -9,9 +9,9 @@ import { IFindUsersDTO } from "../../../dtos/user/list/IFindUsersDTO";
 import { IUsersRequest } from "../../../../domain/repositories/user/IFindUsersRepositories";
 
 // Importando error personalizado
-import { UsersNotFoundError } from "../../../../shared/errors/UserFoundError";
-import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
-import { UsersAccessDeniedError } from "../../../../shared/errors/UserAccessDeniedError";
+import { UsersNotFoundError } from "../../../../shared/errors/user-error/UserFoundError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UsersAccessDeniedError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
 
 // exportando usecase
 export class FindUsersUseCase {

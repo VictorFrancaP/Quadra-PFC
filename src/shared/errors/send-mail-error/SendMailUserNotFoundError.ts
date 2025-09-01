@@ -1,5 +1,5 @@
 // Importando ErrorSuper para ser herdado nesta classe
-import { ErrorSuper } from "./ErrorSuper";
+import { ErrorSuper } from "../ErrorSuper";
 
 // exportando classe de error personalizada
 export class SendMailUserNotFoundError extends ErrorSuper {

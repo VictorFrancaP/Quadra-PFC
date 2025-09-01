@@ -7,9 +7,9 @@ import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IU
 import { IUpdateUserDTO } from "../../../dtos/user/update/IUpdateUserDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../../shared/errors/UserNotFoundError";
-import { AddUserProfileInfoError } from "../../../../shared/errors/AddUserProfileInfoError";
-import { LimitRatingUpdateProfileUserError } from "../../../../shared/errors/LimitRatingSendMailError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { AddUserProfileInfoError } from "../../../../shared/errors/user-error/AddUserProfileInfoError";
+import { LimitRatingUpdateProfileUserError } from "../../../../shared/errors/send-mail-error/LimitRatingSendMailError";
 
 // Importando entidade User para atualização
 import { User } from "../../../../domain/entities/User";

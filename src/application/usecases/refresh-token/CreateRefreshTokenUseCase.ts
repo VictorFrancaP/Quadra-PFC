@@ -7,7 +7,7 @@ import { IRefreshTokenResponseDTO } from "../../dtos/refresh-token/IRefreshToken
 import { IRefreshTokenDTO } from "../../dtos/refresh-token/IRefreshTokenDTO";
 
 // Importando classe de error personalizada
-import { RefreshTokenNotFoundError } from "../../../shared/errors/RefreshTokenNotFoundError";
+import { RefreshTokenNotFoundError } from "../../../shared/errors/refresh-token-error/RefreshTokenNotFoundError";
 
 // Importando entidade do RefreshToken para criação
 import { RefreshToken } from "../../../domain/entities/RefreshToken";
