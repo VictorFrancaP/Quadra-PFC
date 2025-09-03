@@ -71,7 +71,7 @@ export class CreateOwnerSoccerUseCase {
       await this.findCnpjOwnerSoccerRepository.findCnpjOwner(userOrder.cnpj);
 
     // caso exista, entra no if
-    if (userCnpjAlreadyExists && userCnpjAlreadyExists.length === 5) {
+    if (userCnpjAlreadyExists && userCnpjAlreadyExists.length === 1) {
       throw new SoccerCnpjError();
     }
     // cria nova entidade com os dados passados

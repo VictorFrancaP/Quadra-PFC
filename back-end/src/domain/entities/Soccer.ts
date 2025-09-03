@@ -63,4 +63,28 @@ export class Soccer {
     if (observations !== undefined) this.observations = observations;
     if (id) this.id = id;
   }
+
+  // criando metodo estatico para atualização de informações da quadra (soccer)
+  static updateSoccer(existing: Soccer, updates: Partial<Soccer>): Soccer {
+    return new Soccer(
+      updates.name ?? existing.name,
+      updates.description ?? existing.description,
+      updates.cep ?? existing.cep,
+      updates.address ?? existing.address,
+      updates.city ?? existing.city,
+      updates.state ?? existing.state,
+      existing.cnpj,
+      updates.fone ?? existing.fone,
+      updates.operationDays ?? existing.operationDays,
+      updates.openHour ?? existing.openHour,
+      updates.closingHour ?? existing.closingHour,
+      updates.priceHour ?? existing.priceHour,
+      updates.maxDuration ?? existing.maxDuration,
+      updates.isActive ?? existing.isActive,
+      existing.userId,
+      existing.userName,
+      updates.observations ?? existing.observations,
+      existing.id
+    );
+  }
 }
