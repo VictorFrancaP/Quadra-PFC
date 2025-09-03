@@ -4,6 +4,9 @@ import express from "express";
 // Importando cookieParser para utilização de httpOnly
 import cookieParser from "cookie-parser";
 
+// Importando configuração do cors
+import { corsConfig } from "../shared/providers/cors/corsConfig";
+
 // Importando rotas
 import { userRoutes } from "./routes/user-routes";
 import { refreshTokenRoutes } from "./routes/refresh-token.routes";
@@ -24,6 +27,7 @@ export const app = express();
 
 // criando middlewares para utilização de dados do tipo json
 app.use(express.json());
+app.use(corsConfig);
 app.use(cookieParser());
 
 // utilizando rotas
