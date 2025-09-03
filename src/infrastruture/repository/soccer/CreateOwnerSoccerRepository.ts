@@ -26,6 +26,7 @@ export class CreateOwnerSoccerRepository
         maxDuration: soccer.maxDuration,
         isActive: soccer.isActive,
         userId: soccer.userId,
+        userName: soccer.userName,
         observations: soccer.observations,
       },
     });
@@ -47,6 +48,7 @@ export class CreateOwnerSoccerRepository
       createdSoccer.maxDuration,
       createdSoccer.isActive,
       createdSoccer.userId,
+      createdSoccer.userName,
       createdSoccer.observations,
       createdSoccer.id
     );

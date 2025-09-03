@@ -17,6 +17,7 @@ export class Soccer {
   public maxDuration: number;
   public isActive: boolean;
   public userId: string;
+  public userName: string;
 
   // opcionais
   public observations?: string | null;
@@ -38,6 +39,7 @@ export class Soccer {
     maxDuration: number,
     isActive: boolean,
     userId: string,
+    userName: string,
     observations?: string | null,
     id?: string
   ) {
@@ -56,6 +58,7 @@ export class Soccer {
     this.maxDuration = maxDuration;
     this.isActive = isActive;
     this.userId = userId;
+    this.userName = userName;
 
     if (observations !== undefined) this.observations = observations;
     if (id) this.id = id;

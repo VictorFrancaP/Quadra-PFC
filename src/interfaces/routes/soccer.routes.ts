@@ -11,12 +11,14 @@ import { CreateOwnerSoccerValidator } from "../validators/schema/soccer/CreateOw
 
 // Importando controllers
 import { CreateOwnerSoccerController } from "../controllers/soccer/CreateOwnerSoccerController";
+import { FindSoccersController } from "../controllers/soccer/FindSoccersController";
 
 // instância do Router
 const routes = Router();
 
 // instâncias das controllers
 const createOwnerSoccerController = new CreateOwnerSoccerController();
+const findSoccersController = new FindSoccersController();
 
 // post
 routes.post(
@@ -26,6 +28,9 @@ routes.post(
   ensureHour(CreateOwnerSoccerValidator),
   createOwnerSoccerController.handle
 );
+
+// get
+routes.get("/findAll", ensureAuthenticated, findSoccersController.handle);
 
 // exportando rotas
 export { routes as soccerRoutes };

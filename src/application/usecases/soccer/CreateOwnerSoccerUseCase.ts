@@ -91,6 +91,7 @@ export class CreateOwnerSoccerUseCase {
       data.maxDuration,
       true,
       data.userId,
+      user.name,
       data.observations
     );
 
