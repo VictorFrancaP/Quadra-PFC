@@ -29,7 +29,7 @@ export const CreateOwnerSoccerValidator = Joi.object({
   closingHour: Joi.string()
     .pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
     .required(),
-  priceHour: Joi.number().positive().required(),
+  priceHour: Joi.number().min(20).positive().required(),
   maxDuration: Joi.number().integer().positive().required(),
   observations: Joi.string().min(50).max(155),
 });
