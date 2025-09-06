@@ -22,6 +22,12 @@ import passport from "passport";
 // Importando configuração do passport.use
 import { passportConfig } from "../shared/providers/passport/passportGoogleConfig";
 
+// Importando job para lembretes diários por meio de e-mail
+import { dailyRemaiderJob } from "../shared/providers/bullmq/queues/dailyRemaiderQueue";
+
+// Importando worker
+import { dailyRemaiderWorker } from "../shared/providers/bullmq/worker/dailyRemaiderWorker";
+
 // exportando e criando variavel para o express
 export const app = express();
 
@@ -39,6 +45,14 @@ app.use("/auth/soccer", soccerRoutes);
 // utilizando passport
 app.use(passport.initialize());
 passportConfig();
+
+// Iniciando worker
+dailyRemaiderWorker;
+
+// lembrete para e-mails do proprietários
+(async () => {
+  await dailyRemaiderJob();
+})();
 
 // utilizando middleware de error (ultimo a ser executado)
 app.use(errorHandler);

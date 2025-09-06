@@ -10,4 +10,5 @@ export interface IMailProvider {
   send(mailPayload: IMailRequest): Promise<void>;
   linkConfirm: string;
   linkResetPassword: string;
+  linkPlatform: string;
 }

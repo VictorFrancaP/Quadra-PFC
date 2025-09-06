@@ -132,7 +132,7 @@ model soccer {
   priceHour Float
   maxDuration Int
   isActive Boolean @default(true)
-  user user @relation("user-owner-soccer", fields: [userId], references: [id])
+  user user @relation("user-owner-soccer", fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId @unique
   userName String
   

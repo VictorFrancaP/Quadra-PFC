@@ -63,7 +63,7 @@ export class CreateUserUseCase {
       email,
       hashedPassword,
       data.age,
-      "USER",
+      "ADMIN",
       data.address,
       data.cep,
       data.cpf,
