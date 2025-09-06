@@ -37,8 +37,10 @@ export class MailProvider implements IMailProvider {
 
   linkConfirm: string;
   linkResetPassword: string;
+  linkPlatform: string;
   constructor() {
     this.linkConfirm = `${process.env.FRONT_HOST}/auth/user/create-account`;
     this.linkResetPassword = `${process.env.FRONT_HOST}/auth/user/reset-password`;
+    this.linkPlatform = `${process.env.FRONT_HOST}`;
   }
 }

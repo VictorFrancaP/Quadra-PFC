@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  redis-bullmq:
+    image: redis:7
+    container_name: redis-bullmq
+    ports:
+      - "6380:6379"
+    command: redis-server --requirepass bull123
+    networks:
+      - quadra-network
+
+networks:
+  quadra-network:
+    driver: bridge
