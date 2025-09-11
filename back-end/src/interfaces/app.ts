@@ -22,11 +22,11 @@ import passport from "passport";
 // Importando configuração do passport.use
 import { passportConfig } from "../shared/providers/passport/passportGoogleConfig";
 
-// Importando job para lembretes diários por meio de e-mail
-import { dailyRemaiderJob } from "../shared/providers/bullmq/queues/dailyRemaiderQueue";
-
 // Importando worker
-import { dailyRemaiderWorker } from "../shared/providers/bullmq/worker/dailyRemaiderWorker";
+import "../shared/providers/jobs/workers/emailWorker";
+
+// Importando cron job
+import { startEmailCronJob } from "../shared/providers/jobs/scheduler/emailCronJob";
 
 // exportando e criando variavel para o express
 export const app = express();
@@ -36,23 +36,18 @@ app.use(express.json());
 app.use(corsConfig);
 app.use(cookieParser());
 
+// utilizando passport
+app.use(passport.initialize());
+passportConfig();
+
 // utilizando rotas
 app.use("/auth/user", userRoutes);
 app.use("/auth", refreshTokenRoutes);
 app.use("/auth/order", orderRoutes);
 app.use("/auth/soccer", soccerRoutes);
 
-// utilizando passport
-app.use(passport.initialize());
-passportConfig();
-
-// Iniciando worker
-dailyRemaiderWorker;
-
-// lembrete para e-mails do proprietários
-(async () => {
-  await dailyRemaiderJob();
-})();
+// iniciando cron job
+startEmailCronJob();
 
 // utilizando middleware de error (ultimo a ser executado)
 app.use(errorHandler);

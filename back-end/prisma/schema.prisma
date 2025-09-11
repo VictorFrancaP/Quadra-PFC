@@ -54,6 +54,7 @@ model user {
   profileImage      String
   
   // dados opcionais
+  location          Json?
   resetToken        String?
   resetTokenExpired DateTime?
   loginAttempts     Int?
@@ -137,6 +138,7 @@ model soccer {
   userName String
   
   // opcionais
+  location     Json?
   observations String?
 
   // criação e updated
