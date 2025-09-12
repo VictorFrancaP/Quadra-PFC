@@ -66,7 +66,8 @@ model user {
   refreshToken refreshToken[] @relation("user-refreshToken")
   solicitationOwner order[] @relation("user-order")
   soccer soccer[] @relation("user-owner-soccer")
-  support support[] @relation("user-support")
+  ratingsGiven  rating[] @relation("UserRatingsGiven")
+  ratingsReceived rating[] @relation("UserRatingsReceived")
 
   // criação e updated
   created_at        DateTime @default(now())
@@ -143,6 +144,9 @@ model soccer {
   longitude    Float?
   observations String?
 
+  // relacionamentos
+  ratings rating[]
+
   // criação e updated
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -151,24 +155,28 @@ model soccer {
   @@map("_Soccer_")
 }
 
-// Tabela para suporte
-model support {
-  // identificador da solicitação de suporte
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
+// Tabela de rating
+model rating {
+  // identificador
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
-  title             String
-  description       String
-  status            supportStatus @default(PEDDING)
+  rating Float
+  comments String?
+  
+  // relacionamento com usuário
+  userId String @db.ObjectId
+  user user @relation("UserRatingsGiven",fields: [userId], references: [id])
 
-  // relacionamento com a tabela user
-  user              user @relation("user-support", fields: [userId], references: [id], onDelete: Cascade)
-  userId            String @db.ObjectId
+  // relacionamento com o usuário
+  soccerId String? @db.ObjectId
+  soccer   soccer? @relation(fields: [soccerId], references: [id])
 
-  // criação e updated
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
+  ratedUserId String? @db.ObjectId
+  retedUser   user?   @relation("UserRatingsReceived", fields: [ratedUserId], references: [id])
 
-  // nome da tabela no banco de dados (mongodb)
-  @@map("_Support_")
+  // criação
+  created_at DateTime @default(now())
+
+  @@map("_Rating_")
 }

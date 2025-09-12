@@ -12,6 +12,7 @@ import { userRoutes } from "./routes/user-routes";
 import { refreshTokenRoutes } from "./routes/refresh-token.routes";
 import { orderRoutes } from "./routes/order.routes";
 import { soccerRoutes } from "./routes/soccer.routes";
+import { ratingRoutes } from "./routes/rating.routes";
 
 // Importando middleware de error
 import { errorHandler } from "./middlewares/errorHandler";
@@ -45,6 +46,7 @@ app.use("/auth/user", userRoutes);
 app.use("/auth", refreshTokenRoutes);
 app.use("/auth/order", orderRoutes);
 app.use("/auth/soccer", soccerRoutes);
+app.use("/auth/rating", ratingRoutes);
 
 // iniciando cron job
 startEmailCronJob();
