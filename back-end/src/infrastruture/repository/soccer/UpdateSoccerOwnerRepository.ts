@@ -25,6 +25,8 @@ export class UpdateSoccerOwnerRepository
         priceHour: soccer.priceHour,
         maxDuration: soccer.maxDuration,
         isActive: soccer.isActive,
+        latitude: soccer.latitude,
+        longitude: soccer.longitude,
         observations: soccer.observations,
       },
     });

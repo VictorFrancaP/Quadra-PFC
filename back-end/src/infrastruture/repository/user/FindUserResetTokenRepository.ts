@@ -30,6 +30,8 @@ export class FindUserResetTokenRepository
       userFind.cpf,
       userFind.gender,
       userFind.profileImage,
+      userFind.latitude,
+      userFind.longitude,
       userFind.id,
       userFind.resetToken,
       userFind.resetTokenExpired,

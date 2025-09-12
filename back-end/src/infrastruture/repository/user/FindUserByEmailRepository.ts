@@ -28,6 +28,8 @@ export class FindUserByEmailRepository implements IFindUserByEmailRepositories {
       userFindByEmail.cpf,
       userFindByEmail.gender,
       userFindByEmail.profileImage,
+      userFindByEmail.latitude,
+      userFindByEmail.longitude,
       userFindByEmail.id,
       userFindByEmail.resetToken,
       userFindByEmail.resetTokenExpired,

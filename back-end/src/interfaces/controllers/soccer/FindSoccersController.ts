@@ -6,7 +6,7 @@ import { FindSoccersRepository } from "../../../infrastruture/repository/soccer/
 import { DecryptData } from "../../../shared/providers/aes/decrypt/DecryptData";
 
 // Importando usecase
-import { FindSoccersUseCase } from "../../../application/usecases/soccer/FindSoccersUseCase";
+import { FindSoccersUseCase } from "../../../application/usecases/soccer/list/FindSoccersUseCase";
 
 // exportando controller
 export class FindSoccersController {

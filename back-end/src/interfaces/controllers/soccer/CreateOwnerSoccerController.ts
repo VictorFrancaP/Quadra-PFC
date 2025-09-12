@@ -5,11 +5,12 @@ import { Request, Response } from "express";
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { FindCepSoccerRepository } from "../../../infrastruture/repository/soccer/FindCepSoccerRepository";
 import { FindUserOrderRepository } from "../../../infrastruture/repository/order/FindUserOrderRepository";
+import { OpenCageProvider } from "../../../shared/providers/geocoding/OpenCageProvider";
 import { FindCnpjOwnerSoccerRepository } from "../../../infrastruture/repository/soccer/FindCnpjOwnerSoccerRepositories";
 import { CreateOwnerSoccerRepository } from "../../../infrastruture/repository/soccer/CreateOwnerSoccerRepository";
 
 // Importando usecase
-import { CreateOwnerSoccerUseCase } from "../../../application/usecases/soccer/CreateOwnerSoccerUseCase";
+import { CreateOwnerSoccerUseCase } from "../../../application/usecases/soccer/create/CreateOwnerSoccerUseCase";
 
 // exportando controller
 export class CreateOwnerSoccerController {
@@ -35,6 +36,7 @@ export class CreateOwnerSoccerController {
     const findCepSoccerRepository = new FindCepSoccerRepository();
     const findUserOrderRepository = new FindUserOrderRepository();
     const findCnpjOwnerSoccerRepository = new FindCnpjOwnerSoccerRepository();
+    const openCageProvider = new OpenCageProvider();
     const createOwnerSoccerRepository = new CreateOwnerSoccerRepository();
 
     // instância da usecase
@@ -43,6 +45,7 @@ export class CreateOwnerSoccerController {
       findCepSoccerRepository,
       findUserOrderRepository,
       findCnpjOwnerSoccerRepository,
+      openCageProvider,
       createOwnerSoccerRepository
     );
 

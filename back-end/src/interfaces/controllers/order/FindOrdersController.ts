@@ -7,7 +7,7 @@ import { FindOrdersRepository } from "../../../infrastruture/repository/order/Fi
 import { DecryptData } from "../../../shared/providers/aes/decrypt/DecryptData";
 
 // Importando usecase
-import { FindOrdersUseCase } from "../../../application/usecases/order/FindOrdersUseCase";
+import { FindOrdersUseCase } from "../../../application/usecases/order/list/FindOrdersUseCase";
 
 // exportando controller
 export class FindOrdersController {

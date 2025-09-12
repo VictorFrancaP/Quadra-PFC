@@ -1,12 +1,12 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindSoccersRepositories } from "../../../domain/repositories/soccer/IFindSoccersRepositories";
-import { IDecryptData } from "../../../shared/providers/aes/decrypt/IDecryptData";
+import { IFindSoccersRepositories } from "../../../../domain/repositories/soccer/IFindSoccersRepositories";
+import { IDecryptData } from "../../../../shared/providers/aes/decrypt/IDecryptData";
 
 // Importando entidade Soccer para ser a promise(promessa)
-import { Soccer } from "../../../domain/entities/Soccer";
+import { Soccer } from "../../../../domain/entities/Soccer";
 
 // Importando error personalizado
-import { SoccersNotFoundError } from "../../../shared/errors/soccer-error/SoccersNotFoundError";
+import { SoccersNotFoundError } from "../../../../shared/errors/soccer-error/SoccersNotFoundError";
 
 // exportando usecase
 export class FindSoccersUseCase {
@@ -45,6 +45,8 @@ export class FindSoccersUseCase {
             soccer.isActive,
             soccer.userId,
             soccer.userName,
+            soccer.latitude,
+            soccer.longitude,
             soccer.observations,
             soccer.id
           )

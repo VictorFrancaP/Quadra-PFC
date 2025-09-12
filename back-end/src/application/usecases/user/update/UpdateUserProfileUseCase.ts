@@ -1,6 +1,7 @@
 // Importando interfaces a serem instânciadas na controller
 import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
 import { IRedisProvider } from "../../../../shared/providers/redis/provider/IRedisProvider";
+import { IOpenCageProvider } from "../../../../shared/providers/geocoding/IOpenCageProvider";
 import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IUpdateUserRepositories";
 
 // Importando interface de dados
@@ -19,6 +20,7 @@ export class UpdateUserProfileUseCase {
   constructor(
     private readonly findUserByIdRepository: IFindUserByIdRepositories,
     private readonly redisProvider: IRedisProvider,
+    private readonly openCageProvider: IOpenCageProvider,
     private readonly updateUserRepository: IUpdateUserRepositories
   ) {}
 
@@ -66,6 +68,19 @@ export class UpdateUserProfileUseCase {
       }
     }
 
+    // pega latitude e longitude atual
+    let latitude = userAlreadyExists.latitude;
+    let longitude = userAlreadyExists.longitude;
+
+    // caso o usuário atualize os dados entra no if e gera as novas coordenadas
+    if (data.cep && data.cep !== userAlreadyExists.cep) {
+      // gerando novas coordenadas
+      const { latitude: lat, longitude: lng } =
+        await this.openCageProvider.getCoordinates(data.cep);
+      latitude = lat;
+      longitude = lng;
+    }
+
     // usando metodo estatico para atualização do usuário
     const updates = User.updateUserInfos(userAlreadyExists, {
       name: data.name,
@@ -73,6 +88,8 @@ export class UpdateUserProfileUseCase {
       address: data.address,
       cep: data.cep,
       cpf: data.cpf,
+      latitude: latitude,
+      longitude: longitude,
     });
 
     // definindo chave para o usuário no redis

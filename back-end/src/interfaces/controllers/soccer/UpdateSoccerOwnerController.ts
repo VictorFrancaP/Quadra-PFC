@@ -4,10 +4,11 @@ import { Request, Response } from "express";
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { FindSoccerOwnerRepository } from "../../../infrastruture/repository/soccer/FindSoccerOwnerRepository";
+import { OpenCageProvider } from "../../../shared/providers/geocoding/OpenCageProvider";
 import { UpdateSoccerOwnerRepository } from "../../../infrastruture/repository/soccer/UpdateSoccerOwnerRepository";
 
 // Importando usecase
-import { UpdateSoccerOwnerUseCase } from "../../../application/usecases/soccer/UpdateSoccerOwnerUseCase";
+import { UpdateSoccerOwnerUseCase } from "../../../application/usecases/soccer/update/UpdateSoccerOwnerUseCase";
 
 // exportando controller
 export class UpdateSoccerOwnerController {
@@ -34,12 +35,14 @@ export class UpdateSoccerOwnerController {
     // instâncias das interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
     const findSoccerOwnerRepository = new FindSoccerOwnerRepository();
+    const openCageProvider = new OpenCageProvider();
     const updateSoccerOwnerRepository = new UpdateSoccerOwnerRepository();
 
     // instância da usecase
     const useCase = new UpdateSoccerOwnerUseCase(
       findUserByIdRepository,
       findSoccerOwnerRepository,
+      openCageProvider,
       updateSoccerOwnerRepository
     );
 

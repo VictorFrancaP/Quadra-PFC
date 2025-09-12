@@ -7,7 +7,7 @@ import { FindSoccerByIdRepository } from "../../../infrastruture/repository/socc
 import { DeleteSoccerByAdminRepository } from "../../../infrastruture/repository/soccer/DeleteSoccerByAdminRepository";
 
 // Importando usecase
-import { DeleteSoccerByAdminUseCase } from "../../../application/usecases/soccer/DeleteSoccerByAdminUseCase";
+import { DeleteSoccerByAdminUseCase } from "../../../application/usecases/soccer/delete/DeleteSoccerByAdminUseCase";
 
 // exportando controller
 export class DeleteSoccerByAdminController {

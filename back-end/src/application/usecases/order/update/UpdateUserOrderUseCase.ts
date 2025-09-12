@@ -1,18 +1,18 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserOrderRepositories } from "../../../domain/repositories/order/IFindUserOrderRepositories";
-import { IRedisProvider } from "../../../shared/providers/redis/provider/IRedisProvider";
-import { IEncryptData } from "../../../shared/providers/aes/encrypt/IEncryptData";
-import { IUpdateUserOrderRepositories } from "../../../domain/repositories/order/IUpdateUserOrderRepositories";
+import { IFindUserOrderRepositories } from "../../../../domain/repositories/order/IFindUserOrderRepositories";
+import { IRedisProvider } from "../../../../shared/providers/redis/provider/IRedisProvider";
+import { IEncryptData } from "../../../../shared/providers/aes/encrypt/IEncryptData";
+import { IUpdateUserOrderRepositories } from "../../../../domain/repositories/order/IUpdateUserOrderRepositories";
 
 // Importando interface de dados
-import { IUpdateUserOrderDTO } from "../../dtos/order/IUpdateUserOrderDTO";
+import { IUpdateUserOrderDTO } from "../../../dtos/order/update/IUpdateUserOrderDTO";
 
 // Importando error personalizado
-import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
-import { UserUpdatedLimitedOrderError } from "../../../shared/errors/user-error/UserOrderError";
+import { UserOrderNotFoundError } from "../../../../shared/errors/user-error/UserOrderError";
+import { UserUpdatedLimitedOrderError } from "../../../../shared/errors/user-error/UserOrderError";
 
 // Importando entidade Order
-import { Order } from "../../../domain/entities/Order";
+import { Order } from "../../../../domain/entities/Order";
 
 // exportando usecase
 export class UpdateUserOrderUseCase {

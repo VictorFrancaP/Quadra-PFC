@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 // Importando interfaces implementadas a serem instânciadas
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { RedisProvider } from "../../../shared/providers/redis/provider/RedisProvider";
+import { OpenCageProvider } from "../../../shared/providers/geocoding/OpenCageProvider";
 import { UpdateUserRepository } from "../../../infrastruture/repository/user/UpdateUserRepository";
 
 // Importando usecase
@@ -19,12 +20,14 @@ export class UpdateUserProfileController {
     // instânciando interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
     const redisProvider = new RedisProvider();
+    const openCageProvider = new OpenCageProvider();
     const updateUserRepository = new UpdateUserRepository();
 
     // instânciando usecase
     const useCase = new UpdateUserProfileUseCase(
       findUserByIdRepository,
       redisProvider,
+      openCageProvider,
       updateUserRepository
     );
 

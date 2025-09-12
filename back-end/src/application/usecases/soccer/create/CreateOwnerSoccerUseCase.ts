@@ -1,22 +1,23 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
-import { IFindCepSoccerRepositories } from "../../../domain/repositories/soccer/IFindCepSoccerRepositories";
-import { IFindCnpjOwnerSoccerRepositories } from "../../../domain/repositories/soccer/IFindCnpjOwnerSoccerRepositories";
-import { IFindUserOrderRepositories } from "../../../domain/repositories/order/IFindUserOrderRepositories";
-import { ICreateOwnerSoccerRepositories } from "../../../domain/repositories/soccer/ICreateOwnerSoccerRepositories";
+import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IFindCepSoccerRepositories } from "../../../../domain/repositories/soccer/IFindCepSoccerRepositories";
+import { IFindCnpjOwnerSoccerRepositories } from "../../../../domain/repositories/soccer/IFindCnpjOwnerSoccerRepositories";
+import { IOpenCageProvider } from "../../../../shared/providers/geocoding/IOpenCageProvider";
+import { IFindUserOrderRepositories } from "../../../../domain/repositories/order/IFindUserOrderRepositories";
+import { ICreateOwnerSoccerRepositories } from "../../../../domain/repositories/soccer/ICreateOwnerSoccerRepositories";
 
 // Importando interface de dados
-import { ICreateOwnerSoccerDTO } from "../../dtos/soccer/ICreateOwnerSoccerDTO";
+import { ICreateOwnerSoccerDTO } from "../../../dtos/soccer/create/ICreateOwnerSoccerDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
-import { UserAccessDeniedSoccerError } from "../../../shared/errors/user-error/UserAccessDeniedError";
-import { SoccerFoundError } from "../../../shared/errors/soccer-error/SoccerFoundError";
-import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
-import { SoccerCnpjError } from "../../../shared/errors/soccer-error/SoccerCnpjError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedSoccerError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
+import { SoccerFoundError } from "../../../../shared/errors/soccer-error/SoccerFoundError";
+import { UserOrderNotFoundError } from "../../../../shared/errors/user-error/UserOrderError";
+import { SoccerCnpjError } from "../../../../shared/errors/soccer-error/SoccerCnpjError";
 
 // Importando entidade Soccer para a promise(promessa)
-import { Soccer } from "../../../domain/entities/Soccer";
+import { Soccer } from "../../../../domain/entities/Soccer";
 
 // exportando usecase
 export class CreateOwnerSoccerUseCase {
@@ -25,6 +26,7 @@ export class CreateOwnerSoccerUseCase {
     private readonly findCepSoccerRepository: IFindCepSoccerRepositories,
     private readonly findUserOrderRepository: IFindUserOrderRepositories,
     private readonly findCnpjOwnerSoccerRepository: IFindCnpjOwnerSoccerRepositories,
+    private readonly openCageProvider: IOpenCageProvider,
     private readonly createOwnerSoccerRepository: ICreateOwnerSoccerRepositories
   ) {}
 
@@ -74,6 +76,12 @@ export class CreateOwnerSoccerUseCase {
     if (userCnpjAlreadyExists && userCnpjAlreadyExists.length === 1) {
       throw new SoccerCnpjError();
     }
+
+    // pegando coordenadas do usuário
+    const { latitude, longitude } = await this.openCageProvider.getCoordinates(
+      data.cep
+    );
+
     // cria nova entidade com os dados passados
     const newSoccer = new Soccer(
       data.name,
@@ -92,6 +100,8 @@ export class CreateOwnerSoccerUseCase {
       true,
       data.userId,
       user.name,
+      latitude,
+      longitude,
       data.observations
     );
 

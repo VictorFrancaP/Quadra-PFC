@@ -18,6 +18,8 @@ export class Soccer {
   public isActive: boolean;
   public userId: string;
   public userName: string;
+  public latitude?: number | null;
+  public longitude?: number | null;
 
   // opcionais
   public observations?: string | null;
@@ -40,6 +42,8 @@ export class Soccer {
     isActive: boolean,
     userId: string,
     userName: string,
+    latitude?: number | null,
+    longitude?: number | null,
     observations?: string | null,
     id?: string
   ) {
@@ -60,6 +64,8 @@ export class Soccer {
     this.userId = userId;
     this.userName = userName;
 
+    if (latitude !== undefined) this.latitude = latitude;
+    if (longitude !== undefined) this.longitude = longitude;
     if (observations !== undefined) this.observations = observations;
     if (id) this.id = id;
   }
@@ -83,6 +89,8 @@ export class Soccer {
       updates.isActive ?? existing.isActive,
       existing.userId,
       existing.userName,
+      updates.latitude !== undefined ? updates.latitude : existing.latitude,
+      updates.longitude !== undefined ? updates.longitude : existing.longitude,
       updates.observations ?? existing.observations,
       existing.id
     );

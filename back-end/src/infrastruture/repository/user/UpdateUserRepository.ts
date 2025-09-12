@@ -16,6 +16,8 @@ export class UpdateUserRepository implements IUpdateUserRepositories {
         role: user.role,
         address: user.address,
         cep: user.cep,
+        latitude: user.latitude,
+        longitude: user.longitude,
         resetToken: user.resetToken,
         resetTokenExpired: user.resetTokenExpired,
         loginAttempts: user.loginAttempts,

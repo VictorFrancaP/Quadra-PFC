@@ -27,6 +27,8 @@ export class CreateOwnerSoccerRepository
         isActive: soccer.isActive,
         userId: soccer.userId,
         userName: soccer.userName,
+        latitude: soccer.latitude,
+        longitude: soccer.longitude,
         observations: soccer.observations,
       },
     });
@@ -49,6 +51,8 @@ export class CreateOwnerSoccerRepository
       createdSoccer.isActive,
       createdSoccer.userId,
       createdSoccer.userName,
+      createdSoccer.latitude,
+      createdSoccer.longitude,
       createdSoccer.observations,
       createdSoccer.id
     );
