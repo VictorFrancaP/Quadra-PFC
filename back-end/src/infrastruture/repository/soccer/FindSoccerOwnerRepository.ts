@@ -34,6 +34,8 @@ export class FindSoccerOwnerRepository implements IFindSoccerOwnerRepositories {
       soccer.isActive,
       soccer.userId,
       soccer.userName,
+      soccer.latitude,
+      soccer.longitude,
       soccer.observations,
       soccer.id
     );

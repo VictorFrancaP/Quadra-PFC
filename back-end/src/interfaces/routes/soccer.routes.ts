@@ -11,6 +11,7 @@ import { ensureJoi } from "../middlewares/ensureJoi";
 import { CreateOwnerSoccerValidator } from "../validators/schema/soccer/CreateOwnerSoccerValidator";
 import { RequestParamsValidator } from "../validators/schema/RequestParamsValidator";
 import { UpdateSoccerOwnerValidator } from "../validators/schema/soccer/UpdateSoccerOwnerValidator";
+import { FindNearbySoccerValidator } from "../validators/schema/soccer/FindNearbySoccerValidator";
 
 // Importando controllers
 import { CreateOwnerSoccerController } from "../controllers/soccer/CreateOwnerSoccerController";
@@ -18,6 +19,7 @@ import { FindSoccersController } from "../controllers/soccer/FindSoccersControll
 import { DeleteSoccerByAdminController } from "../controllers/soccer/DeleteSoccerByAdminController";
 import { DeleteSoccerByOwnerController } from "../controllers/soccer/DeleteSoccerByOwnerController";
 import { UpdateSoccerOwnerController } from "../controllers/soccer/UpdateSoccerOwnerController";
+import { FindNearbySoccerController } from "../controllers/soccer/FindNearbySoccerController";
 
 // instância do Router
 const routes = Router();
@@ -28,6 +30,7 @@ const findSoccersController = new FindSoccersController();
 const deleteSoccerByAdminController = new DeleteSoccerByAdminController();
 const deleteSoccerByOwnerController = new DeleteSoccerByOwnerController();
 const updateSoccerOwnerController = new UpdateSoccerOwnerController();
+const findNearbySoccerController = new FindNearbySoccerController();
 
 // post
 routes.post(
@@ -36,6 +39,12 @@ routes.post(
   ensureRole("ADMIN", "OWNER"),
   ensureHour(CreateOwnerSoccerValidator),
   createOwnerSoccerController.handle
+);
+routes.post(
+  "/nearby",
+  ensureAuthenticated,
+  ensureJoi(FindNearbySoccerValidator, "body"),
+  findNearbySoccerController.handle
 );
 
 // get

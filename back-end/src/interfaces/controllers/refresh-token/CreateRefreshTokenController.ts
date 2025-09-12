@@ -6,7 +6,7 @@ import { FindUserRefreshTokenRepository } from "../../../infrastruture/repositor
 import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvider";
 
 // Importando usecase
-import { CreateRefreshTokenUseCase } from "../../../application/usecases/refresh-token/CreateRefreshTokenUseCase";
+import { CreateRefreshTokenUseCase } from "../../../application/usecases/refresh-token/create/CreateRefreshTokenUseCase";
 
 // exportando controller
 export class CreateRefreshTokenController {

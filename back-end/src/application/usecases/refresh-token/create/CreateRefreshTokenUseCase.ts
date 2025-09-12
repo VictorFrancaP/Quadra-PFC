@@ -1,16 +1,16 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserRefreshTokenRepositories } from "../../../domain/repositories/refresh-token/IFindUserRefreshTokenRepositories";
-import { ITokenProvider } from "../../../shared/providers/tokens/jwt/ITokenProvider";
+import { IFindUserRefreshTokenRepositories } from "../../../../domain/repositories/refresh-token/IFindUserRefreshTokenRepositories";
+import { ITokenProvider } from "../../../../shared/providers/tokens/jwt/ITokenProvider";
 
 // Importando interface de response DTO e dados
-import { IRefreshTokenResponseDTO } from "../../dtos/refresh-token/IRefreshTokenResponseDTO";
-import { IRefreshTokenDTO } from "../../dtos/refresh-token/IRefreshTokenDTO";
+import { IRefreshTokenResponseDTO } from "../../../dtos/refresh-token/IRefreshTokenResponseDTO";
+import { IRefreshTokenDTO } from "../../../dtos/refresh-token/IRefreshTokenDTO";
 
 // Importando classe de error personalizada
-import { RefreshTokenNotFoundError } from "../../../shared/errors/refresh-token-error/RefreshTokenNotFoundError";
+import { RefreshTokenNotFoundError } from "../../../../shared/errors/refresh-token-error/RefreshTokenNotFoundError";
 
 // Importando entidade do RefreshToken para criação
-import { RefreshToken } from "../../../domain/entities/RefreshToken";
+import { RefreshToken } from "../../../../domain/entities/RefreshToken";
 
 // exportando usecase
 export class CreateRefreshTokenUseCase {

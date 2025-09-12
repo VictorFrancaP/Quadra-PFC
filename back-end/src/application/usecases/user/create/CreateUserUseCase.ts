@@ -1,6 +1,7 @@
 // Importando interfaces a serem instânciadas
 import { IFindUserByCPFRepositories } from "../../../../domain/repositories/user/IFindUserByCPFRepositories";
 import { IRedisProvider } from "../../../../shared/providers/redis/provider/IRedisProvider";
+import { IOpenCageProvider } from "../../../../shared/providers/geocoding/IOpenCageProvider";
 import { IHashProvider } from "../../../../shared/providers/bcrypt/hash/IHashProvider";
 import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 import { ICreateUserRepositories } from "../../../../domain/repositories/user/ICreateUserRepositories";
@@ -25,6 +26,7 @@ export class CreateUserUseCase {
     private readonly findUserByCPFRepository: IFindUserByCPFRepositories,
     private readonly redisProvider: IRedisProvider,
     private readonly hashProvider: IHashProvider,
+    private readonly openCageProvider: IOpenCageProvider,
     private readonly pictureConfig: IPictureConfig,
     private readonly createUserRepository: ICreateUserRepositories,
     private readonly mailProvider: IMailProvider
@@ -57,6 +59,11 @@ export class CreateUserUseCase {
     // criptografando senha
     const hashedPassword = await this.hashProvider.hashPassword(data.password);
 
+    // pegando coordenadas do usuário
+    const { latitude, longitude } = await this.openCageProvider.getCoordinates(
+      data.cep
+    );
+
     // criando novo usuário por meio da entidade User
     const newUser = new User(
       name,
@@ -68,7 +75,9 @@ export class CreateUserUseCase {
       data.cep,
       data.cpf,
       data.gender,
-      this.pictureConfig.profileImageDefault
+      this.pictureConfig.profileImageDefault,
+      latitude,
+      longitude
     );
 
     // criando novo usuário no banco de dados

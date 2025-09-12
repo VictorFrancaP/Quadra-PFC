@@ -12,3 +12,10 @@ export class AddUserProfileInfoError extends ErrorSuper {
     this.datas = datas;
   }
 }
+
+// exportando classe de error personalizada
+export class UserLatLgnNotFoundError extends ErrorSuper {
+  constructor() {
+    super("Não foi possível encontrar a localização do usuário", 404);
+  }
+}

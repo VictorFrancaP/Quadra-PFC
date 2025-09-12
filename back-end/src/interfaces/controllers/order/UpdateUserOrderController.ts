@@ -8,7 +8,7 @@ import { EncryptData } from "../../../shared/providers/aes/encrypt/EncryptData";
 import { UpdateUserOrderRepository } from "../../../infrastruture/repository/order/UpdateUserOrderRepository";
 
 // Importando usecase
-import { UpdateUserOrderUseCase } from "../../../application/usecases/order/UpdateUserOrderUseCase";
+import { UpdateUserOrderUseCase } from "../../../application/usecases/order/update/UpdateUserOrderUseCase";
 
 // exportando controller
 export class UpdateUserOrderController {

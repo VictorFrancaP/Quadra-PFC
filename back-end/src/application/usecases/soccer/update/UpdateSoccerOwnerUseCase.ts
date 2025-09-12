@@ -1,24 +1,26 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
-import { IFindSoccerOwnerRepositories } from "../../../domain/repositories/soccer/IFindSoccerOwnerRepositories";
-import { IUpdateSoccerOwnerRepositories } from "../../../domain/repositories/soccer/IUpdateSoccerOwnerRepositories";
+import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IFindSoccerOwnerRepositories } from "../../../../domain/repositories/soccer/IFindSoccerOwnerRepositories";
+import { IOpenCageProvider } from "../../../../shared/providers/geocoding/IOpenCageProvider";
+import { IUpdateSoccerOwnerRepositories } from "../../../../domain/repositories/soccer/IUpdateSoccerOwnerRepositories";
 
 // Importando interface de dados
-import { IUpdateSoccerOwnerDTO } from "../../dtos/soccer/IUpdateSoccerOwnerDTO";
+import { IUpdateSoccerOwnerDTO } from "../../../dtos/soccer/update/IUpdateSoccerOwnerDTO";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
-import { SoccerAccessDeniedUpdateError } from "../../../shared/errors/soccer-error/SoccerAccessDeniedError";
-import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerNotFoundError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { SoccerAccessDeniedUpdateError } from "../../../../shared/errors/soccer-error/SoccerAccessDeniedError";
+import { SoccerNotFoundError } from "../../../../shared/errors/soccer-error/SoccerNotFoundError";
 
 // Importando entidade Soccer para utilização do metodo estatico
-import { Soccer } from "../../../domain/entities/Soccer";
+import { Soccer } from "../../../../domain/entities/Soccer";
 
 // exportando usecase
 export class UpdateSoccerOwnerUseCase {
   constructor(
     private readonly findUserByIdRepository: IFindUserByIdRepositories,
     private readonly findSoccerOwnerRepository: IFindSoccerOwnerRepositories,
+    private readonly openCageProvider: IOpenCageProvider,
     private readonly updateSoccerOwnerRepository: IUpdateSoccerOwnerRepositories
   ) {}
 
@@ -46,6 +48,19 @@ export class UpdateSoccerOwnerUseCase {
       throw new SoccerNotFoundError();
     }
 
+    // pegando dados existentes da quadra
+    let latitude = userSoccer.latitude;
+    let longitude = userSoccer.longitude;
+
+    // verificando se o dado foi alterado
+    if (data.cep && data.cep !== userSoccer.cep) {
+      // pegando coordenadas
+      const { latitude: lat, longitude: lng } =
+        await this.openCageProvider.getCoordinates(data.cep);
+      latitude = lat;
+      longitude = lng;
+    }
+
     // utilizando metodo estatico para atualização de informações
     const updatesSoccer = Soccer.updateSoccer(userSoccer, {
       name: data.name,
@@ -61,6 +76,8 @@ export class UpdateSoccerOwnerUseCase {
       priceHour: data.priceHour,
       maxDuration: data.maxDuration,
       isActive: data.isActive,
+      latitude: latitude,
+      longitude: longitude,
       observations: data.observations,
     });
 

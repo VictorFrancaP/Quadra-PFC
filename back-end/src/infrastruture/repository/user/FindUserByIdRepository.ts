@@ -28,6 +28,8 @@ export class FindUserByIdRepository implements IFindUserByIdRepositories {
       userFind.cpf,
       userFind.gender,
       userFind.profileImage,
+      userFind.latitude,
+      userFind.longitude,
       userFind.id,
       userFind.resetToken,
       userFind.resetTokenExpired,

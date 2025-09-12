@@ -1,5 +1,5 @@
 // Importando tipos de status da solicitação
-import { orderStatus } from "../../../domain/entities/Order";
+import { orderStatus } from "../../../../domain/entities/Order";
 
 // exportando interface de dados
 export interface IUpdateUserOrderStatusDTO {

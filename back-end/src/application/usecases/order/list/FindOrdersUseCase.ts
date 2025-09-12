@@ -1,18 +1,18 @@
 // Importando interfaces a serem instânciadas na controller
-import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
-import { IDecryptData } from "../../../shared/providers/aes/decrypt/IDecryptData";
-import { IFindOrdersRepositories } from "../../../domain/repositories/order/IFindOrdersRepositories";
+import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IDecryptData } from "../../../../shared/providers/aes/decrypt/IDecryptData";
+import { IFindOrdersRepositories } from "../../../../domain/repositories/order/IFindOrdersRepositories";
 
 // Importando interface de dados
-import { IFindOrdersDTO } from "../../dtos/order/IFindOrdersDTO";
+import { IFindOrdersDTO } from "../../../dtos/order/list/IFindOrdersDTO";
 
 // Importando entidade Order para ser a Promise(promessa)
-import { Order } from "../../../domain/entities/Order";
+import { Order } from "../../../../domain/entities/Order";
 
 // Importando error personalizado
-import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
-import { UsersAccessDeniedError } from "../../../shared/errors/user-error/UserAccessDeniedError";
-import { UsersOrdersNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UsersAccessDeniedError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
+import { UsersOrdersNotFoundError } from "../../../../shared/errors/user-error/UserOrderError";
 
 // exportando usecase
 export class FindOrdersUseCase {

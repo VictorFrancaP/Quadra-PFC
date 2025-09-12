@@ -7,7 +7,7 @@ import { FindOrderByIdRepository } from "../../../infrastruture/repository/order
 import { UpdateUserOrderRepository } from "../../../infrastruture/repository/order/UpdateUserOrderRepository";
 
 // Importando usecase
-import { UpdateUserOrderStatusUseCase } from "../../../application/usecases/order/UpdateUserOrderStatusUseCase";
+import { UpdateUserOrderStatusUseCase } from "../../../application/usecases/order/update/UpdateUserOrderStatusUseCase";
 
 // exportando controller
 export class UpdateUserOrderStatusController {

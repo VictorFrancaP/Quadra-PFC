@@ -21,6 +21,8 @@ export class CreateUserRepository implements ICreateUserRepositories {
         gender: user.gender,
 
         // atributos opcionais
+        latitude: user.latitude,
+        longitude: user.longitude,
         profileImage: user.profileImage,
         resetToken: null,
         resetTokenExpired: null,
@@ -42,6 +44,8 @@ export class CreateUserRepository implements ICreateUserRepositories {
       createdUser.cpf,
       createdUser.gender,
       createdUser.profileImage,
+      createdUser.latitude,
+      createdUser.longitude,
       createdUser.id,
       createdUser.resetToken,
       createdUser.resetTokenExpired,

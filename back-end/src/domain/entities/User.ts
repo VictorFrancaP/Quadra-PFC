@@ -28,6 +28,8 @@ export class User {
   public profileImage: string;
 
   // atributos opcionais
+  public latitude?: number | null;
+  public longitude?: number | null;
   public resetToken?: string | null;
   public resetTokenExpired?: Date | null;
   public loginAttempts?: number | null;
@@ -46,6 +48,8 @@ export class User {
     cpf: string,
     gender: userGender,
     profileImage: string,
+    latitude?: number | null,
+    longitude?: number | null,
     id?: string,
     resetToken?: string | null,
     resetTokenExpired?: Date | null,
@@ -64,6 +68,8 @@ export class User {
     this.gender = gender;
     this.profileImage = profileImage;
 
+    if (latitude !== undefined) this.latitude = latitude;
+    if (longitude !== undefined) this.longitude = longitude;
     if (id) this.id = id;
     if (resetToken !== undefined) this.resetToken = resetToken;
     if (resetTokenExpired !== undefined)
@@ -86,6 +92,8 @@ export class User {
       existing.cpf !== "" ? existing.cpf : updates.cpf!,
       existing.gender,
       existing.profileImage,
+      updates.latitude !== undefined ? updates.latitude : existing.latitude,
+      updates.longitude !== undefined ? updates.longitude : existing.longitude,
       existing.id,
       updates.resetToken !== undefined
         ? updates.resetToken

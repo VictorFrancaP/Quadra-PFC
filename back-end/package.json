@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/LeonardoTavDev14/Quadra-PFC#readme",
   "devDependencies": {
+    "@types/axios": "^0.9.36",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
@@ -39,6 +40,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
+    "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "bee-queue": "^1.7.1",
     "cloudinary": "^1.41.3",

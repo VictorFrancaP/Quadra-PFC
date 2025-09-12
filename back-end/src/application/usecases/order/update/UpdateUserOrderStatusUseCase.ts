@@ -1,19 +1,19 @@
 // Importando interface a serem instânciadas na controller
-import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
-import { IFindOrderByIdRepositories } from "../../../domain/repositories/order/IFindOrderByIdRepositories";
-import { IUpdateUserOrderRepositories } from "../../../domain/repositories/order/IUpdateUserOrderRepositories";
+import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
+import { IFindOrderByIdRepositories } from "../../../../domain/repositories/order/IFindOrderByIdRepositories";
+import { IUpdateUserOrderRepositories } from "../../../../domain/repositories/order/IUpdateUserOrderRepositories";
 
 // Importando interface de dados
-import { IUpdateUserOrderStatusDTO } from "../../dtos/order/IUpdateUserOrderStatusDTO";
+import { IUpdateUserOrderStatusDTO } from "../../../dtos/order/update/IUpdateUserOrderStatusDTO";
 
 // Importando error personalizado
-import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
-import { OrderErrorUpdated } from "../../../shared/errors/user-error/UserOrderError";
-import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
-import { UserAccessDeniedUpdateError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+import { UserOrderNotFoundError } from "../../../../shared/errors/user-error/UserOrderError";
+import { OrderErrorUpdated } from "../../../../shared/errors/user-error/UserOrderError";
+import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedUpdateError } from "../../../../shared/errors/user-error/UserAccessDeniedError";
 
 // Importando entidade Order para metodo estatico
-import { Order } from "../../../domain/entities/Order";
+import { Order } from "../../../../domain/entities/Order";
 
 // exportando usecase
 export class UpdateUserOrderStatusUseCase {

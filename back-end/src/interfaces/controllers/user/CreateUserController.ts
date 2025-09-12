@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { FindUserByCPFRepository } from "../../../infrastruture/repository/user/FindUserByCPFRepository";
 import { RedisProvider } from "../../../shared/providers/redis/provider/RedisProvider";
 import { HashProvider } from "../../../shared/providers/bcrypt/hash/HashProvider";
+import { OpenCageProvider } from "../../../shared/providers/geocoding/OpenCageProvider";
 import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 import { CreateUserRepository } from "../../../infrastruture/repository/user/CreateUserRepository";
 import { MailProvider } from "../../../shared/providers/mail/provider/MailProvider";
@@ -23,6 +24,7 @@ export class CreateUserController {
     const findUserByCPFRepository = new FindUserByCPFRepository();
     const redisProvider = new RedisProvider();
     const hashProvider = new HashProvider();
+    const openCageProvider = new OpenCageProvider();
     const pictureConfig = new PictureConfig();
     const createUserRepository = new CreateUserRepository();
     const mailProvider = new MailProvider();
@@ -32,6 +34,7 @@ export class CreateUserController {
       findUserByCPFRepository,
       redisProvider,
       hashProvider,
+      openCageProvider,
       pictureConfig,
       createUserRepository,
       mailProvider
@@ -39,7 +42,7 @@ export class CreateUserController {
 
     // criando try/catch para a captura de erros na execução
     try {
-      await useCase.execute({
+      const user = await useCase.execute({
         token: token as string,
         password,
         age,
@@ -51,6 +54,7 @@ export class CreateUserController {
 
       return response.status(200).json({
         message: "Sua conta foi criada com sucesso!",
+        user,
       });
     } catch (err: any) {
       return response.status(400).json({
