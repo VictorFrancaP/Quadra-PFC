@@ -25,4 +25,4 @@ export const RequestParamsRatingValidator = Joi.object({
     .messages({
       "any.invalid": "Identificador de usuário inválido!",
     }),
-}).xor("soccerId", "ratedUserId"); // só aceita UM dos dois
+}).xor("soccerId", "ratedUserId");
