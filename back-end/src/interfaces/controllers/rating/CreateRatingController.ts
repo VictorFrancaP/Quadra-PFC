@@ -2,6 +2,10 @@
 import { Request, Response } from "express";
 
 // Importando interfaces implementadas a serem instânciadas nesta classe
+import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
+import { FindSoccerByIdRepository } from "../../../infrastruture/repository/soccer/FindSoccerByIdRepository";
+import { FindSoccerRatingsRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingsRepository";
+import { FindUserRatingRepository } from "../../../infrastruture/repository/rating/FindUserRatingRepository";
 import { CreateRatingRepository } from "../../../infrastruture/repository/rating/CreateRatingRepository";
 
 // Importando usecase
@@ -16,10 +20,20 @@ export class CreateRatingController {
     const { soccerId, ratedUserId } = request.params;
 
     // instâncias das interfaces implementadas
+    const findUserByIdRepository = new FindUserByIdRepository();
+    const findSoccerByIdRepository = new FindSoccerByIdRepository();
+    const findSoccerRatingRepository = new FindSoccerRatingsRepository();
+    const findUserRatingRepository = new FindUserRatingRepository();
     const createRatingRepository = new CreateRatingRepository();
 
     // instância usecase
-    const useCase = new CreateRatingUseCase(createRatingRepository);
+    const useCase = new CreateRatingUseCase(
+      findUserByIdRepository,
+      findSoccerByIdRepository,
+      findSoccerRatingRepository,
+      findUserRatingRepository,
+      createRatingRepository
+    );
 
     // criando try/catch para capturar erros na execução
     try {

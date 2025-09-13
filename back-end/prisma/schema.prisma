@@ -178,5 +178,7 @@ model rating {
   // criação
   created_at DateTime @default(now())
 
+  @@unique([userId, soccerId])
+
   @@map("_Rating_")
 }
