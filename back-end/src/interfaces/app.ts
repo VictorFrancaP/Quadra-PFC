@@ -4,6 +4,12 @@ import express from "express";
 // Importando cookieParser para utilização de httpOnly
 import cookieParser from "cookie-parser";
 
+// Importando swaggeruiexpress para a documentação da api
+import swaggerUi from "swagger-ui-express";
+
+// Importando arquivo do swagger.json para utilização da rota de documentação
+import swaggerDocs from "../../swagger.json";
+
 // Importando configuração do cors
 import { corsConfig } from "../shared/providers/cors/corsConfig";
 
@@ -36,6 +42,9 @@ export const app = express();
 app.use(express.json());
 app.use(corsConfig);
 app.use(cookieParser());
+
+// utilizando rota de documentação da api
+app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // utilizando passport
 app.use(passport.initialize());

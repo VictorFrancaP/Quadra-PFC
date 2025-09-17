@@ -39,7 +39,7 @@ export class CreateUserRequestController {
 
       return response.status(200).json({
         message:
-          "Enviamos um e-mail de confirmação para você confirmar o cadastro",
+          "Enviamos um e-mail de confirmação para você confirmar o cadastro!",
       });
     } catch (err: any) {
       return response.status(400).json({

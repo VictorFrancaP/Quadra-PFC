@@ -1,0 +1,209 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "API - Plataforma Web de Locação de Quadras",
+    "description": "Nosso projeto visa a criação de uma plataforma web que possui como propósito otimizar o processo de aluguel de quadras de futebol, proporcionando uma interface intuitiva para a organização de amistosos e eventos esportivos. O sistema conecta jogadores interessados em participar de partidas com proprietários que possuem quadras disponíveis, promovendo praticidade, agilidade e integração entre os usuários.",
+    "contact": {
+      "email": "alugueldequadrasquadramarcada@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+
+  "servers": [
+    {
+      "url": "https://apiquadramarcada.com.br",
+      "description": "Servidor da API em produção"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor da API para desenvolvimento"
+    }
+  ],
+
+  "paths": {
+    "auth/user/create": {
+      "post": {
+        "summary": "Solicitar cadastro de usuário",
+        "description": "Rota para solicitar cadastros novos usuário",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/create-user-request"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Ana Silva",
+                    "email": "ana.silva@email.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "UserFoundError": {
+                    "summary": "O e-mail já existe na base de dados",
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Este e-mail já está em uso!"
+                    }
+                  },
+                  "LimitRatingSendMailError": {
+                    "summary": "Segurança contra multiplas requisições",
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Aguarde alguns minutos para efetuar outro envio de e-mail de confirmação!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "OK": {
+                    "summary": "Enviando link para confirmação do e-mail do usuário",
+                    "value": {
+                      "statusCode": 200,
+                      "message": "Enviamos um e-mail de confirmação para você confirmar o cadastro!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "auth/user/create-account/{token}": {
+      "post": {
+        "summary": "Confirmação de cadastro de usuário",
+        "description": "Rota para confirmação de e-mail e cadastro de usuário",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "description": "Token na URL",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/create-user-confirm"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "password": "minhasupersenha",
+                    "age": 21,
+                    "address": "Rua do usuário",
+                    "cep": "12345-678",
+                    "gender": "FEMALE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "UserFoundError": {
+                    "summary": "O CPF já existe na base de dados",
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Este CPF já está em uso!"
+                    }
+                  },
+                  "UserNotFoundError": {
+                    "summary": "Dados do usuário salvo em cache temporáriamente não encontrados",
+                    "value": {
+                      "statusCode": 400,
+                      "message": "Não foi possivel encontrar nenhum usuário!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Conta do usuário criada com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "user": {
+                    "value": {
+                      "password": "minhasupersenha",
+                      "age": 21,
+                      "address": "Rua do usuário",
+                      "cep": "12345-678",
+                      "gender": "FEMALE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "create-user-request": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "email"]
+      },
+
+      "create-user-confirm": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "age": {
+            "type": "integer"
+          },
+          "address": {
+            "type": "string"
+          },
+          "cep": {
+            "type": "string"
+          },
+          "gender": {
+            "type": "string",
+            "enum": ["MALE", "FEMALE", "NOTINFORM"]
+          }
+        },
+        "required": ["password", "age", "address", "cep", "gender"]
+      }
+    }
+  }
+}
