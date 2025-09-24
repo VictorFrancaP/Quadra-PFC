@@ -8,6 +8,10 @@ import { DeleteSoccerByOwnerRepository } from "../../../infrastruture/repository
 // Importando usecase
 import { DeleteSoccerByOwnerUseCase } from "../../../application/usecases/soccer/delete/DeleteSoccerByOwnerUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { SoccerAccessDeniedDeleteError } from "../../../shared/errors/soccer-error/SoccerAccessDeniedError";
+
 // exportando controller
 export class DeleteSoccerByOwnerController {
   async handle(request: Request, response: Response) {
@@ -32,9 +36,20 @@ export class DeleteSoccerByOwnerController {
         message: "Sua quadra foi deletada com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para deletar a quadra
+      if (err instanceof SoccerAccessDeniedDeleteError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

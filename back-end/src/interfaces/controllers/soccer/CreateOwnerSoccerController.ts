@@ -12,6 +12,13 @@ import { CreateOwnerSoccerRepository } from "../../../infrastruture/repository/s
 // Importando usecase
 import { CreateOwnerSoccerUseCase } from "../../../application/usecases/soccer/create/CreateOwnerSoccerUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedSoccerError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+import { SoccerFoundError } from "../../../shared/errors/soccer-error/SoccerFoundError";
+import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+import { SoccerCnpjError } from "../../../shared/errors/soccer-error/SoccerCnpjError";
+
 // exportando controller
 export class CreateOwnerSoccerController {
   async handle(request: Request, response: Response) {
@@ -70,9 +77,35 @@ export class CreateOwnerSoccerController {
         .status(200)
         .json({ message: "Sua quadra foi cadastrada com sucesso!", soccer });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de separada
+
+      // erro de usuario não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para criar quadra
+      if (err instanceof UserAccessDeniedSoccerError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de quadra já cadastrada na base de dados
+      if (err instanceof SoccerFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de solicitação de usuário não encontrada na base de dados
+      if (err instanceof UserOrderNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de cnpj já utilizado no sistema
+      if (err instanceof SoccerCnpjError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

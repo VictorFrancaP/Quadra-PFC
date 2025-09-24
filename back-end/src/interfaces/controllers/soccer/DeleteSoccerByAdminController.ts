@@ -9,6 +9,12 @@ import { DeleteSoccerByAdminRepository } from "../../../infrastruture/repository
 // Importando usecase
 import { DeleteSoccerByAdminUseCase } from "../../../application/usecases/soccer/delete/DeleteSoccerByAdminUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { SoccerAccessDeniedDeleteError } from "../../../shared/errors/soccer-error/SoccerAccessDeniedError";
+import { SoccerAccessDeniedError } from "../../../shared/errors/soccer-error/SoccerAccessDeniedError";
+import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerNotFoundError";
+
 // exportando controller
 export class DeleteSoccerByAdminController {
   async handle(request: Request, response: Response) {
@@ -36,9 +42,30 @@ export class DeleteSoccerByAdminController {
         message: "A quadra foi deletada com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de deletar a quadra
+      if (err instanceof SoccerAccessDeniedDeleteError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão
+      if (err instanceof SoccerAccessDeniedError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de quadra não encontrada
+      if (err instanceof SoccerNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

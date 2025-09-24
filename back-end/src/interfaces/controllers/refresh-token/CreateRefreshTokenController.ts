@@ -8,6 +8,9 @@ import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvide
 // Importando usecase
 import { CreateRefreshTokenUseCase } from "../../../application/usecases/refresh-token/create/CreateRefreshTokenUseCase";
 
+// Importando classe de error personalizada
+import { RefreshTokenNotFoundError } from "../../../shared/errors/refresh-token-error/RefreshTokenNotFoundError";
+
 // exportando controller
 export class CreateRefreshTokenController {
   async handle(request: Request, response: Response) {
@@ -33,9 +36,15 @@ export class CreateRefreshTokenController {
 
       return response.status(200).json({ token });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de refreshToken não encontrado
+      if (err instanceof RefreshTokenNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

@@ -9,9 +9,6 @@ import { IRefreshTokenDTO } from "../../../dtos/refresh-token/IRefreshTokenDTO";
 // Importando classe de error personalizada
 import { RefreshTokenNotFoundError } from "../../../../shared/errors/refresh-token-error/RefreshTokenNotFoundError";
 
-// Importando entidade do RefreshToken para criação
-import { RefreshToken } from "../../../../domain/entities/RefreshToken";
-
 // exportando usecase
 export class CreateRefreshTokenUseCase {
   // interfaces a serem instânciadas na controller

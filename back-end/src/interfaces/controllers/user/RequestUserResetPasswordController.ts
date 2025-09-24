@@ -13,6 +13,11 @@ import { PictureConfig } from "../../../shared/providers/cloudinary/default-prof
 // Importando usecase
 import { RequestUserResetPasswordUseCase } from "../../../application/usecases/user/password-reset/RequestUserResetPasswordUseCase";
 
+// Importando error personalizado
+import { SendMailUserNotFoundError } from "../../../shared/errors/send-mail-error/SendMailUserNotFoundError";
+import { AccountUserIsLockedError } from "../../../shared/errors/user-error/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../shared/errors/user-error/AccountUserIsLockedError";
+
 // exportando controller
 export class RequestUserResetPasswordController {
   async handle(request: Request, response: Response) {
@@ -48,9 +53,25 @@ export class RequestUserResetPasswordController {
           "Caso este e-mail correto, enviamos uma solicitação de redefinição de senha!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de separada
+
+      // erro de envio de e-mail para o usuário
+      if (err instanceof SendMailUserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de conta bloqueada temporariamente
+      if (err instanceof AccountUserIsLockedError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de conta bloqueada permanentemente
+      if (err instanceof AccountUserIsBlockError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

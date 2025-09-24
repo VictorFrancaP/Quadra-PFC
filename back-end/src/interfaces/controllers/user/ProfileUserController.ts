@@ -7,6 +7,10 @@ import { ProfileUserRepository } from "../../../infrastruture/repository/user/Pr
 // Importando usecase
 import { ProfileUserUseCase } from "../../../application/usecases/user/list/ProfileUserUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+
 // exportando controller
 export class ProfileUserController {
   async handle(request: Request, response: Response) {
@@ -25,9 +29,21 @@ export class ProfileUserController {
 
       return response.status(200).json({ profile });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      
+      // tratando erros de separada
+
+      // erro de usuário não encontrado na base de dados
+      if(err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para o usuário acessar essa rota
+      if(err instanceof UserAccessDeniedError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

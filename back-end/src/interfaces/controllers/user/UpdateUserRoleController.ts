@@ -9,6 +9,11 @@ import { UpdateUserRepository } from "../../../infrastruture/repository/user/Upd
 // Importando usecase
 import { UpdateUserRoleUseCase } from "../../../application/usecases/user/update/UpdateUserRoleUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedRoleUpdateError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+import { UserAccessDeniedRoleSameError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+
 // exportando controller
 export class UpdateUserRoleController {
   async handle(request: Request, response: Response) {
@@ -37,9 +42,25 @@ export class UpdateUserRoleController {
         message: "Usuário atualizado com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para alteração de role do usuário
+      if (err instanceof UserAccessDeniedRoleUpdateError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de mesma permissão para o usuário
+      if (err instanceof UserAccessDeniedRoleSameError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

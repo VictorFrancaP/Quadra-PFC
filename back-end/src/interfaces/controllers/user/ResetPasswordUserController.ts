@@ -13,6 +13,11 @@ import { PictureConfig } from "../../../shared/providers/cloudinary/default-prof
 // Importando usecase
 import { ResetPasswordUserUseCase } from "../../../application/usecases/user/password-reset/ResetPasswordUserUseCase";
 
+// Importando error personalizado
+import { TokenUserError } from "../../../shared/errors/user-error/TokenUserError";
+import { ExpiredTimeUserError } from "../../../shared/errors/user-error/TokenUserError";
+import { PasswordUserSameError } from "../../../shared/errors/user-error/CredentialsUserError";
+
 // exportando controller
 export class ResetPasswordUserController {
   async handle(request: Request, response: Response) {
@@ -48,9 +53,25 @@ export class ResetPasswordUserController {
         message: "Sua senha foi alterado com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de token invalido ou não encontrado
+      if(err instanceof TokenUserError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de tempo limite para trocar a senha expirado
+      if(err instanceof ExpiredTimeUserError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de senha semelhante para o usuário
+      if(err instanceof PasswordUserSameError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

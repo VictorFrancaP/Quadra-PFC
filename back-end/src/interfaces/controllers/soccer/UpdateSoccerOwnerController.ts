@@ -10,6 +10,11 @@ import { UpdateSoccerOwnerRepository } from "../../../infrastruture/repository/s
 // Importando usecase
 import { UpdateSoccerOwnerUseCase } from "../../../application/usecases/soccer/update/UpdateSoccerOwnerUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { SoccerAccessDeniedUpdateError } from "../../../shared/errors/soccer-error/SoccerAccessDeniedError";
+import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerNotFoundError";
+
 // exportando controller
 export class UpdateSoccerOwnerController {
   async handle(request: Request, response: Response) {
@@ -70,9 +75,25 @@ export class UpdateSoccerOwnerController {
         message: "As informações da sua quadra foi atualizada com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para atualizar a quadra
+      if (err instanceof SoccerAccessDeniedUpdateError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de quadra não encontrada na base de dados
+      if (err instanceof SoccerNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

@@ -10,6 +10,10 @@ import { CreateOrderRepository } from "../../../infrastruture/repository/order/C
 // Importando usecase
 import { CreateOrderUserUseCase } from "../../../application/usecases/order/create/CreateOrderUserUseCase";
 
+// Importando error personalizado
+import { UserOrderError } from "../../../shared/errors/user-error/UserOrderError";
+import { UserOrderCnpjError } from "../../../shared/errors/user-error/UserOrderError";
+
 // exportando controller
 export class CreateOrderUserController {
   async handle(request: Request, response: Response) {
@@ -45,9 +49,20 @@ export class CreateOrderUserController {
         message: "Sua solicitação foi criada com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário já cadastrou este CNPJ
+      if (err instanceof UserOrderCnpjError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de usuário ja realizou uma solicitação
+      if (err instanceof UserOrderError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

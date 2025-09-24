@@ -14,6 +14,12 @@ import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/
 // Importando usecase
 import { AuthUserUseCase } from "../../../application/usecases/user/login/AuthUserUseCase";
 
+// Importando error personalizado
+import { CredentialsUserError } from "../../../shared/errors/user-error/CredentialsUserError";
+import { AccountUserIsLockedError } from "../../../shared/errors/user-error/AccountUserIsLockedError";
+import { AccountUserIsLockedNowError } from "../../../shared/errors/user-error/AccountUserIsLockedError";
+import { AccountUserIsBlockError } from "../../../shared/errors/user-error/AccountUserIsLockedError";
+
 // exportando controller
 export class AuthUserController {
   async handle(request: Request, response: Response) {
@@ -60,9 +66,29 @@ export class AuthUserController {
 
       return response.status(200).json({ name, token });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de credenciais invalidas
+      if (err instanceof CredentialsUserError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de conta do usuário bloqueado temporariamente
+      if (err instanceof AccountUserIsLockedError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de conta do usuário bloqueado agora
+      if (err instanceof AccountUserIsLockedNowError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de conta do usuário bloqueado permanentemente
+      if (err instanceof AccountUserIsBlockError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

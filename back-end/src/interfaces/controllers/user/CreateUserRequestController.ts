@@ -11,6 +11,10 @@ import { PictureConfig } from "../../../shared/providers/cloudinary/default-prof
 // Importando useCase
 import { CreateUserRequestUseCase } from "../../../application/usecases/user/create/CreateUserRequestUseCase";
 
+// Importando error personalizado
+import { UserFoundError } from "../../../shared/errors/user-error/UserFoundError";
+import { LimitRatingSendMailError } from "../../../shared/errors/send-mail-error/LimitRatingSendMailError";
+
 // exportando classe controller
 export class CreateUserRequestController {
   async handle(request: Request, response: Response) {
@@ -42,9 +46,20 @@ export class CreateUserRequestController {
           "Enviamos um e-mail de confirmação para você confirmar o cadastro!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário ja cadastrado no sistema
+      if (err instanceof UserFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de limite de requisição para o envio de confirmação de e-mail
+      if (err instanceof LimitRatingSendMailError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }
