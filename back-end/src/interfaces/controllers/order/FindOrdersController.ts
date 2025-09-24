@@ -9,6 +9,11 @@ import { DecryptData } from "../../../shared/providers/aes/decrypt/DecryptData";
 // Importando usecase
 import { FindOrdersUseCase } from "../../../application/usecases/order/list/FindOrdersUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UsersAccessDeniedError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+import { UsersOrdersNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+
 // exportando controller
 export class FindOrdersController {
   async handle(request: Request, response: Response) {
@@ -33,9 +38,25 @@ export class FindOrdersController {
 
       return response.status(200).json({ orders });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para visualizar as solicitações
+      if (err instanceof UsersAccessDeniedError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de nenhuma solicitação encontrada na base de dados
+      if (err instanceof UsersOrdersNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

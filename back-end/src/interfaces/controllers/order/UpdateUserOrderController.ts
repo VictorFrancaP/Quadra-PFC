@@ -10,6 +10,10 @@ import { UpdateUserOrderRepository } from "../../../infrastruture/repository/ord
 // Importando usecase
 import { UpdateUserOrderUseCase } from "../../../application/usecases/order/update/UpdateUserOrderUseCase";
 
+// Importando error personalizado
+import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+import { UserUpdatedLimitedOrderError } from "../../../shared/errors/user-error/UserOrderError";
+
 // exportando controller
 export class UpdateUserOrderController {
   async handle(request: Request, response: Response) {
@@ -39,9 +43,20 @@ export class UpdateUserOrderController {
         message: "Sua solicitação foi atualizado com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de solicitação do usuário não encontrada na base de dados
+      if (err instanceof UserOrderNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de limite de requisição para atualizar a solicitação
+      if (err instanceof UserUpdatedLimitedOrderError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

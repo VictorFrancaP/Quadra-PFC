@@ -8,6 +8,10 @@ import { FindUserByIdRepository } from "../../../infrastruture/repository/user/F
 // Importando usecase
 import { FindUserUseCase } from "../../../application/usecases/user/list/FindUserUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+
 // exportando controller
 export class FindUserController {
   async handle(request: Request, response: Response) {
@@ -35,9 +39,20 @@ export class FindUserController {
         user,
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if(err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de usuário não tem permissão para realizar esta ação
+      if(err instanceof UserAccessDeniedError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

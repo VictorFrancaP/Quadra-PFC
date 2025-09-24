@@ -11,6 +11,14 @@ import { CreateRatingRepository } from "../../../infrastruture/repository/rating
 // Importando usecase
 import { CreateRatingUseCase } from "../../../application/usecases/rating/create/CreateRatingUseCase";
 
+// Importando error personalizado
+import { RatingFoundError } from "../../../shared/errors/rating-error/RatingFoundError";
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerNotFoundError";
+import { OwnerRatingError } from "../../../shared/errors/rating-error/OwnerRatingError";
+import { UserRatingError } from "../../../shared/errors/rating-error/UserRatingError";
+import { UserRatingSameError } from "../../../shared/errors/rating-error/UserRatingError";
+
 // exportando controller
 export class CreateRatingController {
   async handle(request: Request, response: Response) {
@@ -47,9 +55,40 @@ export class CreateRatingController {
 
       return response.status(200).json(ratings);
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de avaliação já efetuada
+      if (err instanceof RatingFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de quadra não encontrada na base de dados
+      if (err instanceof SoccerNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de rating nulo (vazio) sem valor - quadra
+      if (err instanceof OwnerRatingError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de rating nulo (vazio) sem valor - usuário
+      if (err instanceof UserRatingError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de usuário se autoavaliar
+      if (err instanceof UserRatingSameError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

@@ -8,6 +8,9 @@ import { DecryptData } from "../../../shared/providers/aes/decrypt/DecryptData";
 // Importando usecase
 import { FindSoccersUseCase } from "../../../application/usecases/soccer/list/FindSoccersUseCase";
 
+// Importando error personalizado
+import { SoccersNotFoundError } from "../../../shared/errors/soccer-error/SoccersNotFoundError";
+
 // exportando controller
 export class FindSoccersController {
   async handle(request: Request, response: Response) {
@@ -24,9 +27,15 @@ export class FindSoccersController {
 
       return response.status(200).json(soccers);
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de nenhuma quadra encontrada na base de dados
+      if (err instanceof SoccersNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

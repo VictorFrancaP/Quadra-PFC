@@ -13,6 +13,10 @@ import { MailProvider } from "../../../shared/providers/mail/provider/MailProvid
 // Importando usecase
 import { CreateUserUseCase } from "../../../application/usecases/user/create/CreateUserUseCase";
 
+// Importando error personalizado
+import { UserFoundError } from "../../../shared/errors/user-error/UserFoundError";
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+
 // exportando classe controller
 export class CreateUserController {
   async handle(request: Request, response: Response) {
@@ -57,9 +61,20 @@ export class CreateUserController {
         user,
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de cpf ja utilizado
+      if (err instanceof UserFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de dados não encontrados no cache
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

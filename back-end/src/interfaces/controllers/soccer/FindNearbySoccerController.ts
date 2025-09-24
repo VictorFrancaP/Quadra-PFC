@@ -9,6 +9,11 @@ import { OpenRouteProvider } from "../../../shared/providers/open-route-service/
 // Importando usecase
 import { FindNearbySoccerUseCase } from "../../../application/usecases/soccer/list/FindNearbySoccerUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserLatLgnNotFoundError } from "../../../shared/errors/user-error/AddUserProfileInfoError";
+import { SoccersNotFoundError } from "../../../shared/errors/soccer-error/SoccersNotFoundError";
+
 // exportando controller
 export class FindNearbySoccerController {
   async handle(request: Request, response: Response) {
@@ -34,9 +39,25 @@ export class FindNearbySoccerController {
 
       return response.status(200).json(result);
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de usuário sem latitude e longitude
+      if (err instanceof UserLatLgnNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de nenhuma quadra encontrada na base de dados - nulo
+      if (err instanceof SoccersNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

@@ -10,6 +10,11 @@ import { UpdateUserRepository } from "../../../infrastruture/repository/user/Upd
 // Importando usecase
 import { UpdateUserProfileUseCase } from "../../../application/usecases/user/update/UpdateUserProfileUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { AddUserProfileInfoError } from "../../../shared/errors/user-error/AddUserProfileInfoError";
+import { LimitRatingUpdateProfileUserError } from "../../../shared/errors/send-mail-error/LimitRatingSendMailError";
+
 // exportando controller
 export class UpdateUserProfileController {
   async handle(request: Request, response: Response) {
@@ -39,9 +44,25 @@ export class UpdateUserProfileController {
         message: "Suas informações foram atualizadas com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário nao encontrado na base de dados
+      if(err instanceof UserNotFoundError) {
+       return response.status(err.statusCode).json(err.message); 
+      }
+
+      // erro de adicionar informações para o perfil do usuário
+      if(err instanceof AddUserProfileInfoError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de limite de requisição para usuário
+      if(err instanceof LimitRatingUpdateProfileUserError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

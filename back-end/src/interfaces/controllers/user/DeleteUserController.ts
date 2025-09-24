@@ -8,6 +8,9 @@ import { DeleteUserRepository } from "../../../infrastruture/repository/user/Del
 // Importando usecase
 import { DeleteUserUseCase } from "../../../application/usecases/user/delete/DeleteUserUseCase";
 
+// Importando error personalizado
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+
 // exportando controller
 export class DeleteUserController {
   async handle(request: Request, response: Response) {
@@ -32,9 +35,15 @@ export class DeleteUserController {
         message: "Sua conta foi deletado com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }

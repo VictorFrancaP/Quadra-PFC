@@ -9,6 +9,12 @@ import { UpdateUserOrderRepository } from "../../../infrastruture/repository/ord
 // Importando usecase
 import { UpdateUserOrderStatusUseCase } from "../../../application/usecases/order/update/UpdateUserOrderStatusUseCase";
 
+// Importando error personalizado
+import { UserOrderNotFoundError } from "../../../shared/errors/user-error/UserOrderError";
+import { OrderErrorUpdated } from "../../../shared/errors/user-error/UserOrderError";
+import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
+import { UserAccessDeniedUpdateError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+
 // exportando controller
 export class UpdateUserOrderStatusController {
   async handle(request: Request, response: Response) {
@@ -37,9 +43,30 @@ export class UpdateUserOrderStatusController {
         message: "Solicitação alterada com sucesso!",
       });
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      // tratando erros de forma separada
+
+      // erro de solicitação de usuário não encontrada
+      if (err instanceof UserOrderNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de atualizar a solicitação
+      if (err instanceof OrderErrorUpdated) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de usuário não encontrado na base de dados
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro de permissão insuficiente para atualizar solicitação do usuário
+      if (err instanceof UserAccessDeniedUpdateError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
+      // erro desconhecido
+      throw new Error(err.message);
     }
   }
 }
