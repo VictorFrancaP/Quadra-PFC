@@ -3,59 +3,49 @@ import { Request, Response } from "express";
 
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
-import { FindUserOrderRepository } from "../../../infrastruture/repository/order/FindUserOrderRepository";
+import { TotpProvider } from "../../../shared/providers/totp/TotpProvider";
 import { UpdateUserRepository } from "../../../infrastruture/repository/user/UpdateUserRepository";
 
 // Importando usecase
-import { UpdateUserRoleUseCase } from "../../../application/usecases/user/update/UpdateUserRoleUseCase";
+import { Setup2FAUserUseCase } from "../../../application/usecases/user/2fa/Setup2FAUserUseCase";
 
 // Importando error personalizado
 import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
-import { UserAccessDeniedRoleUpdateError } from "../../../shared/errors/user-error/UserAccessDeniedError";
-import { UserAccessDeniedRoleSameError } from "../../../shared/errors/user-error/UserAccessDeniedError";
+import { Setup2FAUserError } from "../../../shared/errors/user-error/Setup2FAUserError";
 
 // exportando controller
-export class UpdateUserRoleController {
+export class Setup2FAUserController {
   async handle(request: Request, response: Response) {
-    // atributos
+    // usuário logado
     const userId = request.user.id;
-    const { id } = request.params;
-    const { newRole } = request.body;
 
     // instâncias das interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
-    const findUserOrderRepository = new FindUserOrderRepository();
+    const totpProvider = new TotpProvider();
     const updateUserRepository = new UpdateUserRepository();
 
     // instância da usecase
-    const useCase = new UpdateUserRoleUseCase(
+    const useCase = new Setup2FAUserUseCase(
       findUserByIdRepository,
-      findUserOrderRepository,
+      totpProvider,
       updateUserRepository
     );
 
     // criando try/catch para capturar erros na execução
     try {
-      await useCase.execute({ userId, id: id as string, newRole });
+      const otpUrl = await useCase.execute({ userId });
 
-      return response.status(200).json({
-        message: "Usuário atualizado com sucesso!",
-      });
+      return response.status(200).json(otpUrl);
     } catch (err: any) {
       // tratando erros de forma separada
 
-      // erro de usuário não encontrado na base de dados
+      //   erro de usuário não encontrado na base de dados
       if (err instanceof UserNotFoundError) {
         return response.status(err.statusCode).json(err.message);
       }
 
-      // erro de permissão insuficiente para alteração de role do usuário
-      if (err instanceof UserAccessDeniedRoleUpdateError) {
-        return response.status(err.statusCode).json(err.message);
-      }
-
-      // erro de mesma permissão para o usuário
-      if (err instanceof UserAccessDeniedRoleSameError) {
+      // erro de autenticação de dois fatores já ativada
+      if (err instanceof Setup2FAUserError) {
         return response.status(err.statusCode).json(err.message);
       }
 

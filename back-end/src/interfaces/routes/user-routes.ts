@@ -16,6 +16,7 @@ import { ResetPasswordUserValidatorParams } from "../validators/schema/user/Rese
 import { UpdateUserProfileValidator } from "../validators/schema/user/UpdateUserProfileValidator";
 import { RequestParamsValidator } from "../validators/schema/RequestParamsValidator";
 import { UpdateUserRoleValidator } from "../validators/schema/user/UpdateUserRoleValidator";
+import { Verify2FAUserValidator } from "../validators/schema/user/Verify2FAUserValidator";
 
 // Importando controllers dos usuários
 import { CreateUserRequestController } from "../controllers/user/CreateUserRequestController";
@@ -30,6 +31,8 @@ import { DeleteUserController } from "../controllers/user/DeleteUserController";
 import { FindUserController } from "../controllers/user/FindUserController";
 import { UpdateUserProfileController } from "../controllers/user/UpdateUserProfileController";
 import { UpdateUserRoleController } from "../controllers/user/UpdateUserRoleController";
+import { Setup2FAUserController } from "../controllers/user/Setup2FAUserController";
+import { Verify2FAUserController } from "../controllers/user/Verify2FAUserController";
 
 // importando passport para o login com google
 import passport from "passport";
@@ -51,6 +54,8 @@ const deleteUserController = new DeleteUserController();
 const findUserController = new FindUserController();
 const updateUserProfileController = new UpdateUserProfileController();
 const updateUserRoleController = new UpdateUserRoleController();
+const setup2FAUserController = new Setup2FAUserController();
+const verify2FAUserController = new Verify2FAUserController();
 
 // criando rotas
 
@@ -75,6 +80,8 @@ routes.post(
   ensureJoi(RequestUserEmailValidator, "body"),
   requestUserResetPasswordController.handle
 );
+routes.post("/setup-2fa", ensureAuthenticated, setup2FAUserController.handle);
+routes.post("/verify-2fa/:userId", verify2FAUserController.handle);
 
 // get
 routes.get(

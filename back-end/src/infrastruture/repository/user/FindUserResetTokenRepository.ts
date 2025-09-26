@@ -37,6 +37,8 @@ export class FindUserResetTokenRepository
       userFind.resetTokenExpired,
       userFind.loginAttempts,
       userFind.lockAccount,
+      userFind.twoFactorSecret,
+      userFind.isTwoFactorEnabled,
       userFind.accountBlock
     );
   }

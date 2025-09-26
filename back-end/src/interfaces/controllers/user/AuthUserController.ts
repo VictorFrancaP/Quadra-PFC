@@ -51,20 +51,42 @@ export class AuthUserController {
     // criando try/catch para a captura de erros na execução
     try {
       // usando desestruturação para pegar dados vindos da usecase
-      const { name, token, refreshToken } = await useCase.execute({
-        email,
-        password,
-      });
+      const authResponse = await useCase.execute({ email, password });
 
-      // armazenando refreshToken no httpOnly para maior segurança
-      response.cookie("RefreshToken", refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+      // caso o usuário já tenha autenticação de dois fatores
+      if (authResponse.step === "2fa_required") {
+        return response.status(200).json({
+          step: authResponse.step,
+          user: {
+            name: authResponse.user.name,
+            id: authResponse.user.id,
+          },
+        });
+      }
 
-      return response.status(200).json({ name, token });
+      // caso o usuário não autenticação de dois fatores
+      if (authResponse.step === "setup_2fa") {
+        // desestruturação dos dados
+        const { token, refreshToken } = authResponse;
+
+        // armazenando refreshToken no httpOnly para maior segurança
+        response.cookie("RefreshToken", refreshToken, {
+          httpOnly: true,
+          secure: false,
+          sameSite: "strict",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        // retornando dados
+        return response.status(200).json({
+          step: authResponse.step,
+          user: {
+            name: authResponse.user.name,
+            id: authResponse.user.id,
+          },
+          token,
+        });
+      }
     } catch (err: any) {
       // tratando erros de forma separada
 
@@ -87,8 +109,11 @@ export class AuthUserController {
       if (err instanceof AccountUserIsBlockError) {
         return response.status(err.statusCode).json(err.message);
       }
-      // erro desconhecido
-      throw new Error(err.message);
+
+      // retornando erro desconhecido
+      return response.status(500).json({
+        message: err.message,
+      });
     }
   }
 }

@@ -56,22 +56,24 @@ export class ResetPasswordUserController {
       // tratando erros de forma separada
 
       // erro de token invalido ou não encontrado
-      if(err instanceof TokenUserError) {
+      if (err instanceof TokenUserError) {
         return response.status(err.statusCode).json(err.message);
       }
 
       // erro de tempo limite para trocar a senha expirado
-      if(err instanceof ExpiredTimeUserError) {
+      if (err instanceof ExpiredTimeUserError) {
         return response.status(err.statusCode).json(err.message);
       }
 
       // erro de senha semelhante para o usuário
-      if(err instanceof PasswordUserSameError) {
+      if (err instanceof PasswordUserSameError) {
         return response.status(err.statusCode).json(err.message);
       }
 
-      // erro desconhecido
-      throw new Error(err.message);
+      // retornando erro desconhecido
+      return response.status(500).json({
+        message: err.message,
+      });
     }
   }
 }

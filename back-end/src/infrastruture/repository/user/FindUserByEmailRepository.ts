@@ -35,6 +35,8 @@ export class FindUserByEmailRepository implements IFindUserByEmailRepositories {
       userFindByEmail.resetTokenExpired,
       userFindByEmail.loginAttempts,
       userFindByEmail.lockAccount,
+      userFindByEmail.twoFactorSecret,
+      userFindByEmail.isTwoFactorEnabled,
       userFindByEmail.accountBlock
     );
   }
