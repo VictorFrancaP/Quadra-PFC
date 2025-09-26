@@ -28,6 +28,8 @@ export class CreateUserRepository implements ICreateUserRepositories {
         resetTokenExpired: null,
         loginAttempts: 0,
         lockAccount: null,
+        twoFactorSecret: null,
+        isTwoFactorEnabled: false,
         accountBlock: false,
       },
     });
@@ -51,6 +53,8 @@ export class CreateUserRepository implements ICreateUserRepositories {
       createdUser.resetTokenExpired,
       createdUser.loginAttempts,
       createdUser.lockAccount,
+      createdUser.twoFactorSecret,
+      createdUser.isTwoFactorEnabled,
       createdUser.accountBlock
     );
   }

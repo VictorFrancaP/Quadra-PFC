@@ -35,13 +35,45 @@ export class SocialUserLoginController {
 
     // criando try/catch para captura de erros na execução
     try {
-      const authenticated = await useCase.execute({
+      const socialResponse = await useCase.execute({
         name,
         email,
         profileImage,
       });
 
-      return response.status(200).json({ authenticated });
+      // caso o usuário já tenha o 2fa ativado
+      if (socialResponse.step === "2fa_required") {
+        return response.status(200).json({
+          step: socialResponse.step,
+          user: {
+            name: socialResponse.user.name,
+            id: socialResponse.user.id,
+          },
+        });
+      }
+
+      // caso o usuário não tenha o 2fa ativado
+      if (socialResponse.step === "setup_2fa") {
+        const { token, refreshToken } = socialResponse;
+
+        // armazenando refreshToken em cookie
+        response.cookie("RefreshToken", refreshToken, {
+          httpOnly: true,
+          secure: false,
+          sameSite: "strict",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        // retornando dados
+        return response.status(200).json({
+          step: socialResponse.step,
+          user: {
+            name: socialResponse.user.name,
+            id: socialResponse.user.id,
+          },
+          token,
+        });
+      }
     } catch (err: any) {
       return response.status(400).json({
         message: err.message,

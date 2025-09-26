@@ -1,5 +1,4 @@
 // Importando interface a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
-import { faTruckMedical } from "@fortawesome/free-solid-svg-icons";
 import { IProfileUserRepositories } from "../../../domain/repositories/user/IProfileUserRepositories";
 import { IProfileRequest } from "../../../domain/repositories/user/IProfileUserRepositories";
 import { prismaClient } from "../../database/db";

@@ -46,8 +46,21 @@ export class SocialUserLoginUseCase {
         resetTokenExpired: null,
         loginAttempts: 0,
         lockAccount: null,
+        twoFactorSecret: null,
+        isTwoFactorEnabled: false,
         accountBlock: false,
       });
+    }
+
+    // caso o 2fa esteja ativo, retorna o passo para o codigo
+    if (userAlreadyExists.isTwoFactorEnabled) {
+      return {
+        step: "2fa_required",
+        user: {
+          name: userAlreadyExists.name,
+          id: userAlreadyExists.id as string,
+        },
+      };
     }
 
     // deletando refreshTokens associados ao usuário
@@ -75,7 +88,11 @@ export class SocialUserLoginUseCase {
 
     // retornando dados esperados
     return {
-      name: userAlreadyExists.name,
+      step: "setup_2fa",
+      user: {
+        name: userAlreadyExists.name,
+        id: userAlreadyExists.id as string,
+      },
       token,
       refreshToken: refreshToken.id!,
     };

@@ -122,6 +122,16 @@ export class AuthUserUseCase {
     // mandando atualização para o banco de dados
     await this.updateUserRepository.updateUser(updatesUser);
 
+    if (userAlreadyExists.isTwoFactorEnabled) {
+      return {
+        step: "2fa_required",
+        user: {
+          name: userAlreadyExists.name,
+          id: userAlreadyExists.id as string,
+        },
+      };
+    }
+
     // deletando todos os refreshTokens associados ao usuário (para gerar um novo)
     await this.deleteManyRefreshTokenRepository.deleteManyRefreshToken(
       userAlreadyExists.id as string
@@ -132,8 +142,6 @@ export class AuthUserUseCase {
       id: userAlreadyExists.id as string,
       role: userAlreadyExists.role,
     });
-
-    // criando tempo de expiração para o refreshToken
 
     // cria um novo refreshToken
     const newRefreshToken = new RefreshToken(
@@ -149,7 +157,11 @@ export class AuthUserUseCase {
 
     // retornando promise(promessa) esperada
     return {
-      name: userAlreadyExists.name,
+      step: "setup_2fa",
+      user: {
+        name: userAlreadyExists.name,
+        id: userAlreadyExists.id as string,
+      },
       token,
       refreshToken: refreshToken.id!,
     };

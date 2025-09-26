@@ -35,6 +35,8 @@ export class FindUserByIdRepository implements IFindUserByIdRepositories {
       userFind.resetTokenExpired,
       userFind.loginAttempts,
       userFind.lockAccount,
+      userFind.twoFactorSecret,
+      userFind.isTwoFactorEnabled,
       userFind.accountBlock
     );
   }

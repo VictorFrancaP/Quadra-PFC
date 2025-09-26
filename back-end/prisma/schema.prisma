@@ -60,6 +60,8 @@ model user {
   resetTokenExpired DateTime?
   loginAttempts     Int?
   lockAccount       DateTime?
+  twoFactorSecret   String?
+  isTwoFactorEnabled Boolean @default(false)
   accountBlock      Boolean @default(false)
 
   // relacionamentos

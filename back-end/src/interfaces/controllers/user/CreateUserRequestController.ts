@@ -58,8 +58,10 @@ export class CreateUserRequestController {
         return response.status(err.statusCode).json(err.message);
       }
 
-      // erro desconhecido
-      throw new Error(err.message);
+      // retornando erro desconhecido
+      return response.status(500).json({
+        message: err.message,
+      });
     }
   }
 }

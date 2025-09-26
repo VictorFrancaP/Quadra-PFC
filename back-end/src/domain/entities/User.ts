@@ -34,6 +34,8 @@ export class User {
   public resetTokenExpired?: Date | null;
   public loginAttempts?: number | null;
   public lockAccount?: Date | null;
+  public twoFactorSecret?: string | null;
+  public isTwoFactorEnabled?: boolean;
   public accountBlock?: boolean;
 
   // criando construtor (inicializador)
@@ -55,6 +57,8 @@ export class User {
     resetTokenExpired?: Date | null,
     loginAttempts?: number | null,
     lockAccount?: Date | null,
+    twoFactorSecret?: string | null,
+    isTwoFactorEnabled?: boolean,
     accountBlock?: boolean
   ) {
     this.name = name;
@@ -76,6 +80,9 @@ export class User {
       this.resetTokenExpired = resetTokenExpired;
     if (loginAttempts !== undefined) this.loginAttempts = loginAttempts;
     if (lockAccount !== undefined) this.lockAccount = lockAccount;
+    if (twoFactorSecret !== undefined) this.twoFactorSecret = twoFactorSecret;
+    if (isTwoFactorEnabled !== undefined)
+      this.isTwoFactorEnabled = isTwoFactorEnabled;
     if (accountBlock !== undefined) this.accountBlock = accountBlock;
   }
 
@@ -105,6 +112,10 @@ export class User {
       updates.lockAccount !== undefined
         ? updates.lockAccount
         : existing.lockAccount,
+      updates.twoFactorSecret !== undefined
+        ? updates.twoFactorSecret
+        : existing.twoFactorSecret,
+      updates.isTwoFactorEnabled ?? existing.isTwoFactorEnabled,
       updates.accountBlock ?? existing.accountBlock
     );
   }
