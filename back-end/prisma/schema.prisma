@@ -11,7 +11,7 @@ datasource db {
 
 // Tipos de permissões no sistema 
 enum userPermissions {
-  USER 
+  USER
   ADMIN
   OWNER
 }
@@ -30,50 +30,45 @@ enum orderStatus {
   DENIED
 }
 
-// Tipos de status do suporte
-enum supportStatus {
-  PEDDING
-  RESOLVED
-}
-
 // Tabela usuário (e seus atributos)
 model user {
   // identificador do usuário
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos obrigatórios
-  name              String
-  email             String @unique
-  password          String
-  age               Int
-  role              userPermissions @default(USER)
-  address           String
-  cep               String
-  cpf               String
-  gender            userGender
-  profileImage      String
-  
+  name         String
+  email        String          @unique
+  password     String
+  age          Int
+  role         userPermissions @default(USER)
+  address      String
+  cep          String
+  cpf          String
+  gender       userGender
+  profileImage String
+
   // dados opcionais
-  latitude          Float?
-  longitude         Float?
-  resetToken        String?
-  resetTokenExpired DateTime?
-  loginAttempts     Int?
-  lockAccount       DateTime?
-  twoFactorSecret   String?
-  isTwoFactorEnabled Boolean @default(false)
-  accountBlock      Boolean @default(false)
+  latitude           Float?
+  longitude          Float?
+  resetToken         String?
+  resetTokenExpired  DateTime?
+  loginAttempts      Int?
+  lockAccount        DateTime?
+  twoFactorSecret    String?
+  isTwoFactorEnabled Boolean   @default(false)
+  accountBlock       Boolean   @default(false)
 
   // relacionamentos
-  refreshToken refreshToken[] @relation("user-refreshToken")
-  solicitationOwner order[] @relation("user-order")
-  soccer soccer[] @relation("user-owner-soccer")
-  ratingsGiven  rating[] @relation("UserRatingsGiven")
-  ratingsReceived rating[] @relation("UserRatingsReceived")
+  refreshToken      refreshToken[] @relation("user-refreshToken")
+  solicitationOwner order[]        @relation("user-order")
+  soccer            soccer[]       @relation("user-owner-soccer")
+  ratingsGiven      rating[]       @relation("UserRatingsGiven")
+  ratingsReceived   rating[]       @relation("UserRatingsReceived")
+  sender            Message[]
 
   // criação e updated
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   // nome da tabela no banco de dados (mongodb)
   @@map("_Users_")
@@ -82,16 +77,16 @@ model user {
 // Tabela de RefreshToken
 model refreshToken {
   // identificador do refreshToken
-  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
-  userRole          userPermissions
-  userId            String @db.ObjectId
-  user              user @relation("user-refreshToken", fields: [userId], references: [id], onDelete: Cascade)
+  userRole userPermissions
+  userId   String          @db.ObjectId
+  user     user            @relation("user-refreshToken", fields: [userId], references: [id], onDelete: Cascade)
 
   // criação e updated
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   // nome da tabela no banco de dados (mongodb)
   @@map("_RefreshToken_")
@@ -99,20 +94,20 @@ model refreshToken {
 
 model order {
   // identificador da solicitação para cargo de proprietario
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
-  localName       String
-  description     String
-  cnpj            String
-  fone            String
-  status          orderStatus @default(PENDING)
-  userId          String @db.ObjectId
-  user            user @relation("user-order", fields: [userId], references: [id], onDelete: Cascade)
+  localName   String
+  description String
+  cnpj        String
+  fone        String
+  status      orderStatus @default(PENDING)
+  userId      String      @db.ObjectId
+  user        user        @relation("user-order", fields: [userId], references: [id], onDelete: Cascade)
 
   // criação e updated
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   // nome da tabela no banco de dados (mongodb)
   @@map("_Order_")
@@ -123,24 +118,24 @@ model soccer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
-  name String
-  description String
-  cep String
-  address String
-  city String
-  state String
-  cnpj String
-  fone String
+  name          String
+  description   String
+  cep           String
+  address       String
+  city          String
+  state         String
+  cnpj          String
+  fone          String
   operationDays String[]
-  openHour String
-  closingHour String
-  priceHour Float
-  maxDuration Int
-  isActive Boolean @default(true)
-  user user @relation("user-owner-soccer", fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId @unique
-  userName String
-  
+  openHour      String
+  closingHour   String
+  priceHour     Float
+  maxDuration   Int
+  isActive      Boolean  @default(true)
+  user          user     @relation("user-owner-soccer", fields: [userId], references: [id], onDelete: Cascade)
+  userId        String   @unique @db.ObjectId
+  userName      String
+
   // opcionais
   latitude     Float?
   longitude    Float?
@@ -160,20 +155,21 @@ model soccer {
 // Tabela de rating
 model rating {
   // identificador
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
   // atributos
-  rating Float
+  rating   Float
   comments String?
-  
+
   // relacionamento com usuário
   userId String @db.ObjectId
-  user user @relation("UserRatingsGiven",fields: [userId], references: [id])
+  user   user   @relation("UserRatingsGiven", fields: [userId], references: [id])
 
-  // relacionamento com o usuário
+  // relacionamento com a quadra
   soccerId String? @db.ObjectId
   soccer   soccer? @relation(fields: [soccerId], references: [id])
 
+  // relacionamento com o usuário avaliado
   ratedUserId String? @db.ObjectId
   retedUser   user?   @relation("UserRatingsReceived", fields: [ratedUserId], references: [id])
 
@@ -181,6 +177,49 @@ model rating {
   created_at DateTime @default(now())
 
   @@unique([userId, soccerId])
-
   @@map("_Rating_")
+}
+
+model chat {
+  // identificador
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  participantIds String[] @db.ObjectId
+
+  // relação com a tabela mensagens
+  messages Message[]
+
+  // criação de atualização
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // definindo indice por id dos participantes, assim tendo melhor performance do banco de dados
+  @@index([participantIds])
+  
+  // nome da tabela no banco de dados
+  @@map("_Chat_")
+}
+
+// tabela message
+model Message {
+  // identificador 
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  content String
+
+  // relacionamento com usuário
+  senderId String @db.ObjectId
+  sender   user   @relation(fields: [senderId], references: [id])
+
+  // relacionamento com o chat
+  chatId String @db.ObjectId
+  chat   chat   @relation(fields: [chatId], references: [id])
+
+  // quando a mensagem foi enviada
+  created_at DateTime @default(now())
+
+  // nome da tabela no mongodb atlas
+  @@map("_Message_")
 }
