@@ -7,7 +7,7 @@ import { IUpdateUserRepositories } from "../../../../domain/repositories/user/IU
 import { ISetup2FAUserDTO } from "../../../dtos/user/2fa/ISetup2FAUserDTO";
 import { ISetup2FAUserResponseDTO } from "../../../dtos/user/2fa/ISetup2FAUserDTO";
 
-// Importando entidade User para a utilização do método estatico
+// Importando entidade User para a utilização do método estático
 import { User } from "../../../../domain/entities/User";
 
 // Importando error personalizado
