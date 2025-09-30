@@ -34,7 +34,7 @@ export class CreateUserRequestUseCase {
     }
 
     // definindo uma chave para o e-mail no redis, no caso se o usuário ficar fazendo requisições
-    const limitRequest = `pending_user_limited_request:${data.email}`;
+    const limitRequest = `pending_user_limited_request:${data.email.toLowerCase()}`;
 
     // verifica o se e-mail já está alocado no cache (redis)
     const isLocked = await this.redisProvider.dataGet(limitRequest);
@@ -65,7 +65,7 @@ export class CreateUserRequestUseCase {
 
     // Enviando e-mail via nodemailer
     await this.mailProvider.send({
-      email: data.email,
+      email: data.email.toLowerCase(),
       content: confirmEmailTemplate(
         data.name,
         linkConfirm,
