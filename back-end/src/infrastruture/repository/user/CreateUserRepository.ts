@@ -11,7 +11,7 @@ export class CreateUserRepository implements ICreateUserRepositories {
       data: {
         // atributos obrigatórios
         name: user.name,
-        email: user.email,
+        email: user.email.toLowerCase(),
         password: user.password,
         age: user.age,
         role: user.role,
