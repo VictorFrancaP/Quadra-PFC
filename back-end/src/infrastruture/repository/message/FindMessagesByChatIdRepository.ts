@@ -7,7 +7,7 @@ import { prismaClient } from "../../database/db";
 export class FindMessagesByChatIdRepository
   implements IFindMessagesByChatIdRepositories
 {
-  async findMessagesByChatId(chatId: string): Promise<Message[] | null> {
+  async findMessagesByChatId(chatId: string): Promise<Message[]> {
     // procurando mensagens de um chat no banco de dados
     const findMessages = await prismaClient.message.findMany({
       where: {
@@ -18,11 +18,6 @@ export class FindMessagesByChatIdRepository
         created_at: "desc",
       },
     });
-
-    // caso não encontre nenhuma mensagem, retorna nulo
-    if (!findMessages) {
-      return null;
-    }
 
     // retornando dados encontrados em uma nova entidade
     return findMessages.map(
