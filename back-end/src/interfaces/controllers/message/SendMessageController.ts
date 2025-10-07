@@ -24,10 +24,11 @@ export class SendMessageController {
     socket: Socket,
     data: {
       content: string;
-      senderId: string;
       receiverId: string;
     }
   ) {
+    // verificando se usuário está logado
+    const authUser = socket.data.userId;
     // instânciando interfaces já implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
     const findChatByParticipantsRepository =
@@ -54,7 +55,11 @@ export class SendMessageController {
     // criando try/catch para capturar erros na execução
     try {
       // desustruturando dados recebidos da usecase
-      const { message, chatId } = await useCase.execute(data);
+      const { message, chatId } = await useCase.execute({
+        senderId: authUser,
+        content: data.content,
+        receiverId: data.receiverId,
+      });
 
       // emitindo mensagem apenas para os usuários do chat
       this.io.to(chatId).emit("newMessage", message);
