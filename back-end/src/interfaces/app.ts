@@ -35,8 +35,30 @@ import "../shared/providers/jobs/workers/emailWorker";
 // Importando cron job
 import { startEmailCronJob } from "../shared/providers/jobs/scheduler/emailCronJob";
 
+// Importando http do node para iniciar um servidor
+import http from "http";
+
+// Importando Server do socket.io para instânciar um novo server
+import { Server } from "socket.io";
+
+// Importando dotenv para a utilização de variaveis de ambiente
+import dotenv from "dotenv";
+dotenv.config();
+
 // exportando e criando variavel para o express
-export const app = express();
+const app = express();
+
+// criando novo servidor em cima do app express
+const httpServer = http.createServer(app);
+
+// instãnciando novo server do socket.io
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
 // criando middlewares para utilização de dados do tipo json
 app.use(express.json());
@@ -62,3 +84,6 @@ startEmailCronJob();
 
 // utilizando middleware de error (ultimo a ser executado)
 app.use(errorHandler);
+
+// exportando servidores
+export { httpServer, io };
