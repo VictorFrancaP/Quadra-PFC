@@ -21,25 +21,15 @@ io.use(ensureSocketAuth);
 
 // registando os handlers de eventos do Socket.IO
 io.on("connection", (socket) => {
+  // eventos do socket.io
   socket.on("sendMessage", (data) =>
-    sendMessageController.handle(socket, data).catch((err) => {
-      console.error(`ERRO NÃO TRATADO em sendMessageController:`, err.message);
-    })
+    sendMessageController.handle(socket, data)
   );
 
-  socket.on("joinChat", (data) =>
-    joinChatController.handle(socket, data).catch((err) => {
-      console.error(`ERRO NÃO TRATADO em joinChatController:`, err.message);
-    })
-  );
+  socket.on("joinChat", (data) => joinChatController.handle(socket, data));
 
   socket.on("loadHistory", (data) =>
-    loadHistoryMessagesController.handle(socket, data).catch((err) => {
-      console.error(
-        `ERRO NÃO TRATADO em loadHistoryMessagesController:`,
-        err.message
-      );
-    })
+    loadHistoryMessagesController.handle(socket, data)
   );
 
   socket.on("disconnect", (reason) => {
@@ -53,8 +43,11 @@ const port = process.env.PORT || 3000;
 // Iniciando o servidor
 const startingServer = () => {
   try {
+    console.log("Iniciando servidor...");
     httpServer.listen(port, () => {
-      console.log(`Servidor HTTP e WebSocket rodando na porta: ${port}`);
+      setTimeout(() => {
+        console.log(`Servidor http e websocket rodando na porta: ${port}`);
+      }, 1000);
     });
   } catch (err: any) {
     process.exit(1);

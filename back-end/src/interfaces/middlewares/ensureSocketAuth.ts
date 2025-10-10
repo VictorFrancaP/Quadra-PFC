@@ -19,49 +19,28 @@ export const ensureSocketAuth = (
   socket: Socket,
   next: (err?: ExtendedError) => void
 ) => {
-  console.log("\n--- [NOVA TENTATIVA DE CONEXÃO] ---");
-
   try {
+    // pegando token do usuário logado
     const token = socket.handshake.auth.token;
-    console.log("Token recebido do cliente:", token ? "Sim" : "Não");
 
+    // caso não tenha token retorna um erro
     if (!token) {
-      return next(new Error("Token de autenticação não fornecido."));
+      return next(new TokenNotFoundError());
     }
 
-    // Vamos inspecionar o token ANTES de o verificar
-    const decoded_sem_verificar = jwt.decode(token);
-    console.log(
-      "Conteúdo do token (sem verificar assinatura):",
-      decoded_sem_verificar
-    );
-
-    const secret = process.env.JWT_SECRET;
-    console.log(
-      "JWT_SECRET sendo usada:",
-      secret ? `Encontrada (tamanho: ${secret.length})` : "NÃO ENCONTRADA!"
-    );
-
-    // CORREÇÃO: Ajustado o tipo para esperar 'sub' em vez de 'id'.
+    // verificando token e pegando dados do usuário
     const payload = jwt.verify(
       token,
-      secret as string,
-      // Vamos manter a opção para ignorar a expiração por agora
+      process.env.JWT_SECRET as string,
+
+      // mudar isto depois
       { ignoreExpiration: true }
     ) as { sub: string };
 
-    console.log("Token verificado com sucesso! Payload:", payload);
-
-    // CORREÇÃO: Usando 'payload.sub' para extrair o ID do usuário.
+    // pegando id do usuário
     socket.data.userId = payload.sub;
     next();
   } catch (error: any) {
-    // ESTE É O LOG MAIS IMPORTANTE
-    console.error("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-    console.error("ERRO FINAL NA AUTENTICAÇÃO DO SOCKET:");
-    console.error("  - Mensagem do Erro:", error.message);
-    console.error("  - Nome do Erro:", error.name);
-    console.error("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     next(new Error("Autenticação falhou."));
   }
 };
