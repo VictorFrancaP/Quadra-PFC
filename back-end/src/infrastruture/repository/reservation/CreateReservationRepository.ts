@@ -14,10 +14,13 @@ export class CreateReservationRepository
         startTime: reservation.startTime,
         endTime: reservation.endTime,
         statusPayment: reservation.statusPayment,
+        expiredIn: reservation.expiredIn,
         totalPrice: reservation.totalPrice,
         duration: reservation.duration,
         soccerId: reservation.soccerId,
         userId: reservation.userId,
+        paymentTransactionId: null,
+        paymentReceivedAt: null,
       },
     });
 
@@ -26,10 +29,13 @@ export class CreateReservationRepository
       createdReservation.startTime,
       createdReservation.endTime,
       createdReservation.statusPayment,
+      createdReservation.expiredIn,
       createdReservation.totalPrice,
       createdReservation.duration,
       createdReservation.soccerId,
       createdReservation.userId,
+      createdReservation.paymentTransactionId,
+      createdReservation.paymentReceivedAt,
       createdReservation.id
     );
   }

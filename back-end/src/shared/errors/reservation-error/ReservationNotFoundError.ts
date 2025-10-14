@@ -2,8 +2,8 @@
 import { ErrorSuper } from "../ErrorSuper";
 
 // exportando classe de error personalizado
-export class ReservationAlreadyExists extends ErrorSuper {
+export class ReservationNotFoundError extends ErrorSuper {
   constructor() {
-    super("Reserva já alocada!", 409);
+    super("Reserva não encontrada!", 404);
   }
 }
