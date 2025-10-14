@@ -19,4 +19,9 @@ export class DayJsProvider implements IDayJsProvider {
     // retornando adição
     return timeAdd;
   }
+
+  async now(): Promise<dayjs.Dayjs> {
+    // retornando data atual
+    return dayjs();
+  }
 }

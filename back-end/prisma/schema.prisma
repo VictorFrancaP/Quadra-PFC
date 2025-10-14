@@ -241,8 +241,13 @@ model reservation {
   startTime DateTime
   endTime   DateTime
   statusPayment paymentStatus @default(PENDING_PAYMENT)
+  expiredIn DateTime
   totalPrice Float
   duration Int
+
+  // opcionais
+  paymentTransactionId String?
+  paymentReceivedAt DateTime?
 
   // relacionamentos
 

@@ -2,7 +2,13 @@
 import { IFindUserByIdRepositories } from "../../../domain/repositories/user/IFindUserByIdRepositories";
 import { IFindSoccerByIdRepositories } from "../../../domain/repositories/soccer/IFindSoccerByIdRepositories";
 import { IFindReservationRepositories } from "../../../domain/repositories/reservation/IFindReservationRepositories";
+import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
+import { IPaymentProvider } from "../../../shared/providers/payment/IPaymentProvider";
+import { IUpdateReservationRepositories } from "../../../domain/repositories/reservation/IUpdateReservationRepositories";
 import { ICreateReservationRepositories } from "../../../domain/repositories/reservation/ICreateReservationRepositories";
+
+// Importando reservationQueue para manipular o tempo de pagamento
+import { reservationQueue } from "../../../shared/providers/jobs/queues/reservationQueue";
 
 // Importando interface de dados
 import { ICreateReservationDTO } from "../../dtos/reservation/ICreateReservationDTO";
@@ -24,10 +30,15 @@ export class CreateReservationUseCase {
     private readonly findUserByIdRepository: IFindUserByIdRepositories,
     private readonly findSoccerByIdRepository: IFindSoccerByIdRepositories,
     private readonly findReservationRepository: IFindReservationRepositories,
+    private readonly dayJsProvider: IDayJsProvider,
+    private readonly paymentProvider: IPaymentProvider,
+    private readonly updateReservationRepository: IUpdateReservationRepositories,
     private readonly createReservationRepository: ICreateReservationRepositories
   ) {}
 
-  async execute(data: ICreateReservationDTO): Promise<Reservation> {
+  async execute(
+    data: ICreateReservationDTO
+  ): Promise<{ reservation: Reservation; initPoint: string }> {
     // procurando usuário na base de dados
     const user = await this.findUserByIdRepository.findUserById(data.userId);
 
@@ -75,14 +86,18 @@ export class CreateReservationUseCase {
 
     // caso exista, retorna um erro
     if (reservation) {
-        throw new ReservationAlreadyExists();
+      throw new ReservationAlreadyExists();
     }
+
+    // tempo de expiração para efetuar o pagamento
+    const expiredIn = await this.dayJsProvider.add(15, "minute");
 
     // instânciando nova entidade Reservation
     const newReservation = new Reservation(
       data.startTime,
       endTime,
       "PENDING_PAYMENT",
+      expiredIn,
       totalPrice,
       data.duration,
       soccer.id as string,
@@ -93,7 +108,40 @@ export class CreateReservationUseCase {
     const createReservation =
       await this.createReservationRepository.createReservation(newReservation);
 
-    // retornando reserva criado
-    return createReservation;
+    // chamando provider do mercadopago e desestruturando dados
+    const { preferenceId, initPoint } =
+      await this.paymentProvider.createPaymentPreference(
+        createReservation.totalPrice,
+        `Reserva da quadra: ${soccer.id}`,
+        createReservation.id as string
+      );
+
+    // adicionando a fila
+    await reservationQueue
+      .createJob({
+        reservationId: createReservation.id as string,
+        statusPayment: createReservation.statusPayment === "PENDING_PAYMENT",
+      })
+      .delayUntil(expiredIn.valueOf())
+      .save();
+
+    // chamando metodo estatico para atualização de informação do usuário
+    const updatesReservation = Reservation.updatesReservation(
+      createReservation,
+      {
+        paymentTransactionId: preferenceId,
+      }
+    );
+
+    // mandando atualização para o banco de dados
+    await this.updateReservationRepository.updateReservation(
+      updatesReservation
+    );
+
+    // retornando dados esperados
+    return {
+      reservation: createReservation,
+      initPoint,
+    };
   }
 }

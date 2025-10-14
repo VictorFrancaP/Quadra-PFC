@@ -31,6 +31,7 @@ import { passportConfig } from "../shared/providers/passport/passportGoogleConfi
 
 // Importando worker
 import "../shared/providers/jobs/workers/emailWorker";
+import "../shared/providers/jobs/workers/reservationWorker";
 
 // Importando cron job
 import { startEmailCronJob } from "../shared/providers/jobs/scheduler/emailCronJob";

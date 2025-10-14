@@ -1,41 +1,24 @@
 // Importando interface a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
-import { IFindReservationRepositories } from "../../../domain/repositories/reservation/IFindReservationRepositories";
+import { IFindReservationByIdRepositories } from "../../../domain/repositories/reservation/IFindReservationByIdRepositories";
 import { Reservation } from "../../../domain/entities/Reservation";
 import { prismaClient } from "../../database/db";
 
 // exportando classe de implementação de interface
-export class FindReservationRepository implements IFindReservationRepositories {
-  async findReservation(
-    soccerId: string,
-    startTime: Date,
-    endTime: Date
-  ): Promise<Reservation | null> {
+export class FindReservationByIdRepository
+  implements IFindReservationByIdRepositories
+{
+  async findReservationById(id: string): Promise<Reservation | null> {
     // procurando reserva no banco de dados
     const reservation = await prismaClient.reservation.findFirst({
-      where: {
-        soccerId,
-        AND: [
-          {
-            startTime: {
-              lt: endTime,
-            },
-            endTime: {
-              gt: startTime,
-            },
-          },
-        ],
-        statusPayment: {
-          in: ["PENDING_PAYMENT", "CONFIRMED"],
-        },
-      },
+      where: { id },
     });
 
-    // caso não exista, retorna um erro
+    // caso não encontre nada, retorna nulo
     if (!reservation) {
       return null;
     }
 
-    // retornando dados encontrados em uma nova entidade
+    // retornando dados encontrados
     return new Reservation(
       reservation.startTime,
       reservation.endTime,
