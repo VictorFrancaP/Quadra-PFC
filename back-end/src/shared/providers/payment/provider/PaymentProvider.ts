@@ -60,4 +60,17 @@ export class PaymentProvider implements IPaymentProvider {
       payment_id: paymentTransactionId,
     });
   }
+
+  async fetchTransactionDetails(paymentId: string): Promise<any> {
+    // criando try/catch para capturar erros na execução
+    try {
+      // pegando resposta do pagamento
+      const response = await mercadopago.payment.get(paymentId);
+
+      // retornando dados
+      return response.body;
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  }
 }

@@ -19,6 +19,8 @@ import { refreshTokenRoutes } from "./routes/refresh-token.routes";
 import { orderRoutes } from "./routes/order.routes";
 import { soccerRoutes } from "./routes/soccer.routes";
 import { ratingRoutes } from "./routes/rating.routes";
+import { reservationRoutes } from "./routes/reservation.routes";
+import { webHookRoutes } from "./routes/payment.routes";
 
 // Importando middleware de error
 import { errorHandler } from "./middlewares/errorHandler";
@@ -42,6 +44,9 @@ import http from "http";
 // Importando Server do socket.io para instânciar um novo server
 import { Server } from "socket.io";
 
+// Importando middleware para o webhook do mercadopago
+import { ensurePayment } from "./middlewares/ensurePayment";
+
 // Importando dotenv para a utilização de variaveis de ambiente
 import dotenv from "dotenv";
 dotenv.config();
@@ -61,6 +66,11 @@ const io = new Server(httpServer, {
   },
 });
 
+// rawRouter para a utilização do mercagopago
+const rawRouter = express.Router();
+rawRouter.use(express.raw({ type: "*/*" }), ensurePayment);
+rawRouter.use(webHookRoutes);
+
 // criando middlewares para utilização de dados do tipo json
 app.use(express.json());
 app.use(corsConfig);
@@ -79,6 +89,8 @@ app.use("/auth", refreshTokenRoutes);
 app.use("/auth/order", orderRoutes);
 app.use("/auth/soccer", soccerRoutes);
 app.use("/auth/rating", ratingRoutes);
+app.use("/auth/reservation", reservationRoutes);
+app.use("/", rawRouter);
 
 // iniciando cron job
 startEmailCronJob();

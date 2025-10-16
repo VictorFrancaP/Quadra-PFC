@@ -5,6 +5,9 @@ import { Request, Response } from "express";
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { FindSoccerByIdRepository } from "../../../infrastruture/repository/soccer/FindSoccerByIdRepository";
 import { FindReservationRepository } from "../../../infrastruture/repository/reservation/FindReservationRepository";
+import { DayJsProvider } from "../../../shared/providers/dayjs/DayJsProvider";
+import { PaymentProvider } from "../../../shared/providers/payment/provider/PaymentProvider";
+import { UpdateReservationRepository } from "../../../infrastruture/repository/reservation/UpdateReservationRepository";
 import { CreateReservationRepository } from "../../../infrastruture/repository/reservation/CreateReservationRepository";
 
 // Importando usecase
@@ -33,6 +36,9 @@ export class CreateReservationController {
     const findUserByIdRepository = new FindUserByIdRepository();
     const findSoccerByIdRepository = new FindSoccerByIdRepository();
     const findReservationRepository = new FindReservationRepository();
+    const dayJsProvider = new DayJsProvider();
+    const paymentProvider = new PaymentProvider();
+    const updateReservationRepository = new UpdateReservationRepository();
     const createReservationRepository = new CreateReservationRepository();
 
     // instãnciando usecase
@@ -40,20 +46,26 @@ export class CreateReservationController {
       findUserByIdRepository,
       findSoccerByIdRepository,
       findReservationRepository,
+      dayJsProvider,
+      paymentProvider,
+      updateReservationRepository,
       createReservationRepository
     );
 
     // criando try/catch para capturar erros na execução
     try {
-      const reservation = await useCase.execute({
+      const res = await useCase.execute({
         userId,
         soccerId: soccerId as string,
         startTime: startTimeDate,
         duration,
       });
 
-      return response.status(200).json({
+      return response.status(201).json({
         message: "Sua reserva foi criada com sucesso!",
+        reservationId: res.reservation.id,
+        paymentLink: res.initPoint,
+        expiredIn: res.reservation.expiredIn,
       });
     } catch (err: any) {
       // tratando erros de forma separada

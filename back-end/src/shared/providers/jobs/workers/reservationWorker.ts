@@ -11,7 +11,7 @@ import { ExpiredReservationUseCase } from "../../../../application/usecases/rese
 // exportando worker
 reservationQueue.process(async (job) => {
   // desestruturando dados
-  const { reservationId, statusPayment } = job.data;
+  const { reservationId, expectedStatus } = job.data;
 
   // instânciando interfaces implementadas
   const findReservationByIdRepository = new FindReservationByIdRepository();
@@ -25,7 +25,7 @@ reservationQueue.process(async (job) => {
 
   // criando try/catch para capturar erros na execução
   try {
-    await useCase.execute({ reservationId, statusPayment });
+    await useCase.execute({ reservationId, expectedStatus });
   } catch (err: any) {
     console.error(err.message);
   }

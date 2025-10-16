@@ -7,4 +7,5 @@ export interface IPaymentProvider {
     soccerOwnerKey?: string
   ): Promise<{ preferenceId: string; initPoint: string }>;
   createRefund(paymentTransactionId: string): Promise<void>;
+  fetchTransactionDetails(paymentId: string): Promise<any>;
 }

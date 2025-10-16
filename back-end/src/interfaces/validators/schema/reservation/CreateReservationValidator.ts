@@ -3,8 +3,9 @@ import Joi from "joi";
 
 // exportando schema do joi.object
 export const CreateReservationValidator = Joi.object({
-  startTime: Joi.string()
-    .pattern(/^([01]\d|2[0-3]):([0-5]\d)$/)
-    .required(),
-  duration: Joi.number().positive().max(7).required(),
+  startTime: Joi.date().iso().min("now").required().messages({
+    "date.min": "Não é possível reservar um horário que já passou!",
+    "date.iso": "O formato da data deve ser completo (YYYY-MM-DDTHH:MM:SSZ).",
+  }),
+  duration: Joi.number().integer().positive().max(5).required(),
 });

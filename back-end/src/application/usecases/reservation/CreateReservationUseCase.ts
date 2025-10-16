@@ -116,13 +116,15 @@ export class CreateReservationUseCase {
         createReservation.id as string
       );
 
+    // expiração em milisegundos
+    const expiredInMiliseconds = expiredIn.valueOf();
     // adicionando a fila
     await reservationQueue
       .createJob({
         reservationId: createReservation.id as string,
-        statusPayment: createReservation.statusPayment === "PENDING_PAYMENT",
+        expectedStatus: "PENDING_PAYMENT",
       })
-      .delayUntil(expiredIn.valueOf())
+      .delayUntil(expiredInMiliseconds)
       .save();
 
     // chamando metodo estatico para atualização de informação do usuário

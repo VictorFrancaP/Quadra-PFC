@@ -3,6 +3,7 @@ export const statusPayment = {
   PENDIND_PAYMENT: "PENDING_PAYMENT",
   CONFIRMED: "CONFIRMED",
   CANCELLED: "CANCELLED",
+  REFUNDED: "REFUNDED",
 } as const;
 
 // pegando valores do objeto statusPayment
