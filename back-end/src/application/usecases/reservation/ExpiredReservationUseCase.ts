@@ -28,7 +28,7 @@ export class ExpiredReservationUseCase {
     }
 
     // verificando se o status da reserva é pending ainda, caso seja entra no if
-    if (reservation.statusPayment === data.statusPayment) {
+    if (reservation.statusPayment === data.expectedStatus) {
       // atualizando status para cancelado
       const updatesReservation = Reservation.updatesReservation(reservation, {
         statusPayment: "CANCELLED",

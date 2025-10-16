@@ -12,22 +12,32 @@ import { CreateReservationValidator } from "../validators/schema/reservation/Cre
 
 // Importando controllers
 import { CreateReservationController } from "../controllers/reservation/CreateReservationController";
+import { CancelReservationController } from "../controllers/reservation/CancelReservationController";
 
 // instânciando router
 const routes = Router();
 
 // instânciando controllers
 const createReservationController = new CreateReservationController();
+const cancelReservationController = new CancelReservationController();
 
 // criando rotas
 
 // post
 routes.post(
-  "/create",
+  "/create/:soccerId",
   ensureAuthenticated,
   ensureJoi(RequestParamsValidator, "params"),
   ensureJoi(CreateReservationValidator, "body"),
   createReservationController.handle
+);
+
+// delete
+routes.delete(
+  "/cancel/:reservationId",
+  ensureAuthenticated,
+  ensureJoi(RequestParamsValidator, "params"),
+  cancelReservationController.handle
 );
 
 // exportando rota
