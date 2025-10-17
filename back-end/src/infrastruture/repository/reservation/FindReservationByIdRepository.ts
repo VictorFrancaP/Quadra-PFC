@@ -23,6 +23,7 @@ export class FindReservationByIdRepository
       reservation.startTime,
       reservation.endTime,
       reservation.statusPayment,
+      reservation.statusPayout,
       reservation.expiredIn,
       reservation.totalPrice,
       reservation.duration,
@@ -30,6 +31,10 @@ export class FindReservationByIdRepository
       reservation.userId,
       reservation.paymentTransactionId,
       reservation.paymentReceivedAt,
+      reservation.systemFeeAmount,
+      reservation.netPayoutAmount,
+      reservation.payoutDate,
+      reservation.payoutTransactionId,
       reservation.id
     );
   }

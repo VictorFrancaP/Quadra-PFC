@@ -14,6 +14,7 @@ export class CreateReservationRepository
         startTime: reservation.startTime,
         endTime: reservation.endTime,
         statusPayment: reservation.statusPayment,
+        statusPayout: reservation.statusPayout,
         expiredIn: reservation.expiredIn,
         totalPrice: reservation.totalPrice,
         duration: reservation.duration,
@@ -21,6 +22,10 @@ export class CreateReservationRepository
         userId: reservation.userId,
         paymentTransactionId: null,
         paymentReceivedAt: null,
+        systemFeeAmount: null,
+        netPayoutAmount: null,
+        payoutDate: null,
+        payoutTransactionId: null,
       },
     });
 
@@ -29,6 +34,7 @@ export class CreateReservationRepository
       createdReservation.startTime,
       createdReservation.endTime,
       createdReservation.statusPayment,
+      createdReservation.statusPayout,
       createdReservation.expiredIn,
       createdReservation.totalPrice,
       createdReservation.duration,
@@ -36,6 +42,10 @@ export class CreateReservationRepository
       createdReservation.userId,
       createdReservation.paymentTransactionId,
       createdReservation.paymentReceivedAt,
+      createdReservation.systemFeeAmount,
+      createdReservation.netPayoutAmount,
+      createdReservation.payoutDate,
+      createdReservation.payoutTransactionId,
       createdReservation.id
     );
   }

@@ -12,5 +12,6 @@ export interface ICreateOwnerSoccerDTO {
   closingHour: string;
   priceHour: number;
   maxDuration: number;
+  ownerPixKey: string;
   observations?: string;
 }

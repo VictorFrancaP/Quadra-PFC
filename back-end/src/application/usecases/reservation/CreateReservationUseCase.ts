@@ -97,6 +97,7 @@ export class CreateReservationUseCase {
       data.startTime,
       endTime,
       "PENDING_PAYMENT",
+      "PENDING",
       expiredIn,
       totalPrice,
       data.duration,
@@ -118,6 +119,7 @@ export class CreateReservationUseCase {
 
     // expiração em milisegundos
     const expiredInMiliseconds = expiredIn.valueOf();
+
     // adicionando a fila
     await reservationQueue
       .createJob({

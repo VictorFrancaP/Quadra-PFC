@@ -1,5 +1,5 @@
 // exportando interface de dados
 export interface IFindExpiredReservationDTO {
-    reservationId: string;
-    expectedStatus: string;
+  reservationId: string;
+  expectedStatus: string;
 }

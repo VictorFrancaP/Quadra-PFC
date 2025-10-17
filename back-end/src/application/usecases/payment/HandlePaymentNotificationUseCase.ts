@@ -1,10 +1,12 @@
 // Importando interfaces a serem instânciadas na controller
 import { IFindReservationByIdRepositories } from "../../../domain/repositories/reservation/IFindReservationByIdRepositories";
 import { IUpdateReservationRepositories } from "../../../domain/repositories/reservation/IUpdateReservationRepositories";
+import { IDayJsProvider } from "../../../shared/providers/dayjs/IDayJsProvider";
 import { IPaymentProvider } from "../../../shared/providers/payment/IPaymentProvider";
 
 // Importando queue para gerenciamento de filas
 import { reservationQueue } from "../../../shared/providers/jobs/queues/reservationQueue";
+import { payoutQueue } from "../../../shared/providers/jobs/queues/payoutQueue";
 
 // Importando tipos de status de pagamento
 import { statusPayment } from "../../../domain/entities/Reservation";
@@ -20,6 +22,7 @@ export class HandlePaymentNotificationUseCase {
   constructor(
     private readonly findReservationRepository: IFindReservationByIdRepositories,
     private readonly updateReservationRepository: IUpdateReservationRepositories,
+    private readonly dayJsProvider: IDayJsProvider,
     private readonly paymentProvider: IPaymentProvider
   ) {}
 
@@ -55,6 +58,41 @@ export class HandlePaymentNotificationUseCase {
       // caso exista o job, entra no if
       if (job) {
         await job.remove();
+      }
+
+      // pegando data de inicio da reserva
+      const startTime = await this.dayJsProvider.parse(reservation.startTime);
+
+      // calcula quando o reembolso não é possivel
+      const payoutRefundNotPossible = startTime.subtract(24, "hour");
+
+      // pegando data atual
+      const now = await this.dayJsProvider.now();
+
+      // calculando delay para executar o payout de acordo com a data atual
+      const delayMilliseconds =
+        payoutRefundNotPossible.valueOf() - now.valueOf();
+
+      // valor timestamp absoluto
+      const absoluteTime = payoutRefundNotPossible.valueOf();
+
+      // caso o delay seja maior que zero, agenda o job
+      if (delayMilliseconds > 0) {
+        // criando job
+        await payoutQueue
+          .createJob({
+            reservationId: reservation.id,
+          })
+          .setId(reservation.id + "-PAYOUT")
+          .delayUntil(absoluteTime)
+          .save();
+      } else {
+        await payoutQueue
+          .createJob({
+            reservationId: reservation.id,
+          })
+          .setId(reservation.id + "-PAYOUT")
+          .save();
       }
 
       // atualizando com metodo estatico
