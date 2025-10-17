@@ -13,8 +13,13 @@ export class UpdateReservationRepository
       where: { id: reservation.id },
       data: {
         statusPayment: reservation.statusPayment,
+        statusPayout: reservation.statusPayout,
         paymentTransactionId: reservation.paymentTransactionId,
         paymentReceivedAt: reservation.paymentReceivedAt,
+        systemFeeAmount: reservation.systemFeeAmount,
+        netPayoutAmount: reservation.netPayoutAmount,
+        payoutDate: reservation.payoutDate,
+        payoutTransactionId: reservation.payoutTransactionId,
       },
     });
   }

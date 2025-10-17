@@ -1,17 +1,25 @@
-// Importando interface a ser implementada nesta classe
-import { IPaymentProvider } from "../IPaymentProvider";
+// src/shared/providers/payment/provider/PaymentProvider.ts
 
-// Importando lib do mercadopago
-import * as mercadopago from "mercadopago";
+// Importando interfaces de contrato
+import {
+  IPaymentProvider,
+  IPayoutRequest,
+  IPayoutResult,
+} from "../IPaymentProvider";
 
 // Importando dotenv para a utilização de variaveis de ambiente
 import dotenv from "dotenv";
 dotenv.config();
 
-// pegando access_token do mercadopago
-mercadopago.configure({
+const MP_SDK = require("mercadopago");
+
+const MercadoPagoClient = MP_SDK.default || MP_SDK;
+
+const mercadopago = new MercadoPagoClient({
   access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN as string,
 });
+
+const WEBHOOK_HOST = process.env.WEBHOOK_HOST || "";
 
 // exportando classe de implementação
 export class PaymentProvider implements IPaymentProvider {
@@ -21,11 +29,9 @@ export class PaymentProvider implements IPaymentProvider {
     reservationId: string,
     soccerOwnerKey?: string
   ): Promise<{ preferenceId: string; initPoint: string }> {
-    // arrumar url de notificação com outro servidor
-    const notificationUrl = "/mercadopago/webhook";
+    const notificationUrl = `${WEBHOOK_HOST}/webhooks/mercadopago`;
 
-    // preferencias
-    const preferences = {
+    const preferencesBody = {
       items: [
         {
           title: description,
@@ -33,7 +39,6 @@ export class PaymentProvider implements IPaymentProvider {
           quantity: 1,
         },
       ],
-
       external_reference: reservationId,
       notification_url: notificationUrl,
       back_urls: {
@@ -44,10 +49,8 @@ export class PaymentProvider implements IPaymentProvider {
       auto_return: "approved",
     };
 
-    // armazenando resposta da api
-    const response = await mercadopago.preferences.create(preferences);
+    const response = await mercadopago.preferences.create(preferencesBody);
 
-    // retornando id da transferência e link para pagamento
     return {
       preferenceId: response.body.id,
       initPoint: response.body.init_point,
@@ -55,22 +58,53 @@ export class PaymentProvider implements IPaymentProvider {
   }
 
   async createRefund(paymentTransactionId: string): Promise<void> {
-    // reembolso para o usuário no prazo antes de 24hrs
-    await mercadopago.refund.create({
-      payment_id: paymentTransactionId,
-    });
+    try {
+      await mercadopago.refund.create({
+        payment_id: paymentTransactionId,
+      });
+    } catch (err: any) {
+      throw new Error(
+        "Falha na comunicação com a API do Mercado Pago para reembolso."
+      );
+    }
   }
 
   async fetchTransactionDetails(paymentId: string): Promise<any> {
-    // criando try/catch para capturar erros na execução
     try {
-      // pegando resposta do pagamento
       const response = await mercadopago.payment.get(paymentId);
-
-      // retornando dados
       return response.body;
     } catch (err: any) {
-      console.error(err.message);
+      console.error(`Falha ao buscar pagamento ${paymentId}:`, err.message);
+      throw new Error(`Falha ao consultar transação: ${err.message}`);
+    }
+  }
+
+  async makePayout(data: IPayoutRequest): Promise<IPayoutResult> {
+    const transferPayload = {
+      transaction_amount: data.amount,
+      description: data.description,
+      currency_id: "BRL",
+      recipient: {
+        id: data.destination,
+      },
+    };
+
+    try {
+      console.log(
+        `Simulado repasse de R$ ${data.amount.toFixed(2)} agendado para ${
+          data.destination
+        }`
+      );
+      return {
+        transactionId: `TX-TCC-PAYOUT-${Date.now()}`,
+        status: "success",
+      };
+    } catch (err: any) {
+      console.error(
+        `Erro na API do Mercado Pago para ${data.destination}`,
+        err.message
+      );
+      throw new Error(`Falha no repasse: ${err.message}`);
     }
   }
 }

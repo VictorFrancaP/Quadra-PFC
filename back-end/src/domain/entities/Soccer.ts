@@ -20,6 +20,7 @@ export class Soccer {
   public userName: string;
   public latitude?: number | null;
   public longitude?: number | null;
+  public ownerPixKey?: string | null;
 
   // opcionais
   public observations?: string | null;
@@ -44,6 +45,7 @@ export class Soccer {
     userName: string,
     latitude?: number | null,
     longitude?: number | null,
+    ownerPixKey?: string | null,
     observations?: string | null,
     id?: string
   ) {
@@ -66,6 +68,7 @@ export class Soccer {
 
     if (latitude !== undefined) this.latitude = latitude;
     if (longitude !== undefined) this.longitude = longitude;
+    if (ownerPixKey !== undefined) this.ownerPixKey = ownerPixKey;
     if (observations !== undefined) this.observations = observations;
     if (id) this.id = id;
   }
@@ -91,6 +94,7 @@ export class Soccer {
       existing.userName,
       updates.latitude !== undefined ? updates.latitude : existing.latitude,
       updates.longitude !== undefined ? updates.longitude : existing.longitude,
+      existing.ownerPixKey,
       updates.observations ?? existing.observations,
       existing.id
     );

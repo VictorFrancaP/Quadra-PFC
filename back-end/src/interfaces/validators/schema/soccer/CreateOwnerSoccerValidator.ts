@@ -31,5 +31,6 @@ export const CreateOwnerSoccerValidator = Joi.object({
     .required(),
   priceHour: Joi.number().min(20).positive().required(),
   maxDuration: Joi.number().integer().positive().required(),
+  ownerPixKey: Joi.string().required(),
   observations: Joi.string().min(50).max(155),
 });

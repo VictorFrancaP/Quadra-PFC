@@ -36,6 +36,7 @@ export class CreateOwnerSoccerController {
       closingHour,
       priceHour,
       maxDuration,
+      ownerPixKey,
     } = request.body;
 
     // instâncias das interfaces implementadas
@@ -71,6 +72,7 @@ export class CreateOwnerSoccerController {
         closingHour,
         priceHour,
         maxDuration,
+        ownerPixKey,
       });
 
       return response

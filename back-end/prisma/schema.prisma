@@ -38,6 +38,13 @@ enum paymentStatus {
   REFUNDED
 }
 
+// Tipos de status para payout
+enum payoutStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
 // Tabela usuário (e seus atributos)
 model user {
   // identificador do usuário
@@ -149,6 +156,7 @@ model soccer {
   latitude     Float?
   longitude    Float?
   observations String?
+  ownerPixKey  String?
 
   // relacionamentos
   ratings     rating[]
@@ -242,6 +250,7 @@ model reservation {
   startTime     DateTime
   endTime       DateTime
   statusPayment paymentStatus @default(PENDING_PAYMENT)
+  statusPayout  payoutStatus  @default(PENDING)
   expiredIn     DateTime
   totalPrice    Float
   duration      Int
@@ -249,8 +258,10 @@ model reservation {
   // opcionais
   paymentTransactionId String?
   paymentReceivedAt    DateTime?
-
-  // relacionamentos
+  systemFeeAmount      Float?
+  netPayoutAmount      Float?
+  payoutDate           DateTime?
+  payoutTransactionId  String?
 
   // soccer
   soccer   soccer @relation(fields: [soccerId], references: [id])
