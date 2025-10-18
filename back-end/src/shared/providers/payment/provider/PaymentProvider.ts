@@ -11,10 +11,13 @@ import {
 import dotenv from "dotenv";
 dotenv.config();
 
+// Importando mercadopago com commonjs como o SDK espera
 const MP_SDK = require("mercadopago");
 
+// Fallback para obter a própria classe construtora do SDK
 const MercadoPagoClient = MP_SDK.default || MP_SDK;
 
+// Instânciando SDK Client
 const mercadopago = new MercadoPagoClient({
   access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN as string,
 });
