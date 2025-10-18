@@ -36,6 +36,7 @@ export class FindSoccerOwnerRepository implements IFindSoccerOwnerRepositories {
       soccer.userName,
       soccer.latitude,
       soccer.longitude,
+      soccer.ownerPixKey,
       soccer.observations,
       soccer.id
     );

@@ -30,6 +30,21 @@ enum orderStatus {
   DENIED
 }
 
+// Tipos de status de pagamento
+enum paymentStatus {
+  PENDING_PAYMENT
+  CONFIRMED
+  CANCELLED
+  REFUNDED
+}
+
+// Tipos de status para payout
+enum payoutStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
 // Tabela usuário (e seus atributos)
 model user {
   // identificador do usuário
@@ -64,7 +79,8 @@ model user {
   soccer            soccer[]       @relation("user-owner-soccer")
   ratingsGiven      rating[]       @relation("UserRatingsGiven")
   ratingsReceived   rating[]       @relation("UserRatingsReceived")
-  sender            Message[]
+  sender            message[]
+  reservation       reservation[]
 
   // criação e updated
   created_at DateTime @default(now())
@@ -140,9 +156,11 @@ model soccer {
   latitude     Float?
   longitude    Float?
   observations String?
+  ownerPixKey  String?
 
   // relacionamentos
-  ratings rating[]
+  ratings     rating[]
+  reservation reservation[]
 
   // criação e updated
   created_at DateTime @default(now())
@@ -188,7 +206,7 @@ model chat {
   participantIds String[] @db.ObjectId
 
   // relação com a tabela mensagens
-  messages Message[]
+  messages message[]
 
   // criação de atualização
   created_at DateTime @default(now())
@@ -196,13 +214,12 @@ model chat {
 
   // definindo indice por id dos participantes, assim tendo melhor performance do banco de dados
   @@index([participantIds])
-  
   // nome da tabela no banco de dados
   @@map("_Chat_")
 }
 
 // tabela message
-model Message {
+model message {
   // identificador 
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
@@ -222,4 +239,42 @@ model Message {
 
   // nome da tabela no mongodb atlas
   @@map("_Message_")
+}
+
+// tabela reservas
+model reservation {
+  // identificador
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // atributos
+  startTime     DateTime
+  endTime       DateTime
+  statusPayment paymentStatus @default(PENDING_PAYMENT)
+  statusPayout  payoutStatus  @default(PENDING)
+  expiredIn     DateTime
+  totalPrice    Float
+  duration      Int
+
+  // opcionais
+  paymentTransactionId String?
+  paymentReceivedAt    DateTime?
+  systemFeeAmount      Float?
+  netPayoutAmount      Float?
+  payoutDate           DateTime?
+  payoutTransactionId  String?
+
+  // soccer
+  soccer   soccer @relation(fields: [soccerId], references: [id])
+  soccerId String @db.ObjectId
+
+  // user
+  user   user   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  // criação e update
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // nome da tabela
+  @@map("_Reservation_")
 }

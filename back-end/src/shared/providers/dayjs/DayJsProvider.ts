@@ -19,4 +19,19 @@ export class DayJsProvider implements IDayJsProvider {
     // retornando adição
     return timeAdd;
   }
+
+  async now(): Promise<dayjs.Dayjs> {
+    // retornando data atual
+    return dayjs()
+  }
+
+  async parse(date: string | Date): Promise<dayjs.Dayjs> {
+    // retornando dado convertido
+    return dayjs(date);
+  }
+
+  async diffInHours(date1: dayjs.Dayjs, date2: dayjs.Dayjs): Promise<number> {
+    // retorna a diferença entre as horas ou dias
+    return date1.diff(date2, "hour", true);
+  }
 }

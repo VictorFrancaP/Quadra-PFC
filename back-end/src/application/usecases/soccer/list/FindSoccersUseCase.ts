@@ -47,6 +47,7 @@ export class FindSoccersUseCase {
             soccer.userName,
             soccer.latitude,
             soccer.longitude,
+            soccer.ownerPixKey,
             soccer.observations,
             soccer.id
           )

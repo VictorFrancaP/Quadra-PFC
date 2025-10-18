@@ -53,7 +53,7 @@ export class CreateMessageUseCase {
       throw new UserNotFoundError();
     }
 
-    // verificando se usuário existe, antes de criar uma mensagem
+    // verificando se o chat existe, antes de criar uma mensagem
     const chat = await this.findChatUseCase.execute({
       userOneId: data.senderId,
       userTwoId: data.receiverId,

@@ -1,28 +1,57 @@
-// Importando app
-import { app } from "./interfaces/app";
+// Importando httpServer para iniciar o servidor
+import { httpServer } from "./interfaces/app";
+
+// Importando io instância do Server do socket.io
+import { io } from "./interfaces/app";
 
 // Importando dotenv para a utilização de variaveis de ambiente
 import dotenv from "dotenv";
 dotenv.config();
 
-// criando variavel da porta do servidor
-const port = process.env.PORT || 5500;
+// Importando middleware para validar token do usuário
+import { ensureSocketAuth } from "./interfaces/middlewares/ensureSocketAuth";
 
-// criando arrow function para iniciar o servidor
-const startingServer = async () => {
-  // criando try/catch para capturar erros na execução
+// Importando instâncias das controllers
+import { sendMessageController } from "./interfaces/container";
+import { joinChatController } from "./interfaces/container";
+import { loadHistoryMessagesController } from "./interfaces/container";
+
+// usando o middleware de autenticação para todas as novas conexões
+io.use(ensureSocketAuth);
+
+// registando os handlers de eventos do Socket.IO
+io.on("connection", (socket) => {
+  // eventos do socket.io
+  socket.on("sendMessage", (data) =>
+    sendMessageController.handle(socket, data)
+  );
+
+  socket.on("joinChat", (data) => joinChatController.handle(socket, data));
+
+  socket.on("loadHistory", (data) =>
+    loadHistoryMessagesController.handle(socket, data)
+  );
+
+  socket.on("disconnect", (reason) => {
+    console.log(`Cliente desconectado: ${socket.id} | Razão: ${reason}`);
+  });
+});
+
+// Criando a variável da porta do servidor
+const port = process.env.PORT || 3000;
+
+// Iniciando o servidor
+const startingServer = () => {
   try {
-    console.log("Iniciando...");
-    app.listen(port, () => {
+    console.log("Iniciando servidor...");
+    httpServer.listen(port, () => {
       setTimeout(() => {
-        console.log(`Servidor rodando na porta: ${port}`);
+        console.log(`Servidor http e websocket rodando na porta: ${port}`);
       }, 1000);
     });
   } catch (err: any) {
-    console.error(err.message);
     process.exit(1);
   }
 };
 
-// chamando arrow function para execução
 startingServer();

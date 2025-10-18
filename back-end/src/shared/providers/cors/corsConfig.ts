@@ -7,6 +7,6 @@ dotenv.config();
 
 // exportando configuração do cors
 export const corsConfig = cors({
-  origin: process.env.FRONT_HOST,
-  // credentials:true - ativar para produção em HTTPS
+  origin: "*",
+  credentials: true,
 });
