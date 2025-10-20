@@ -102,6 +102,7 @@ export class CreateOwnerSoccerUseCase {
       user.name,
       latitude,
       longitude,
+      data.ownerPixKey,
       data.observations
     );
 

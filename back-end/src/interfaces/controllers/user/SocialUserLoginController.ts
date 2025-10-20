@@ -43,13 +43,12 @@ export class SocialUserLoginController {
 
       // caso o usuário já tenha o 2fa ativado
       if (socialResponse.step === "2fa_required") {
-        return response.status(200).json({
-          step: socialResponse.step,
-          user: {
-            name: socialResponse.user.name,
-            id: socialResponse.user.id,
-          },
-        });
+        //  url para redirecionar
+        const redirectUrl = new URL(`${process.env.FRONT_HOST}/login/2fa`);
+        redirectUrl.searchParams.append("step", socialResponse.step);
+        redirectUrl.searchParams.append("userId", socialResponse.user.id);
+
+        return response.redirect(redirectUrl.toString());
       }
 
       // caso o usuário não tenha o 2fa ativado
@@ -63,21 +62,22 @@ export class SocialUserLoginController {
           sameSite: "strict",
           maxAge: 7 * 24 * 60 * 60 * 1000,
         });
+        
+        //  url para redirecionar
+        const redirectUrl = new URL(`${process.env.FRONT_HOST}/login/callback`);
+        redirectUrl.searchParams.append("step", socialResponse.step);
+        redirectUrl.searchParams.append(
+          "token",
+          socialResponse.token as string
+        );
 
-        // retornando dados
-        return response.status(200).json({
-          step: socialResponse.step,
-          user: {
-            name: socialResponse.user.name,
-            id: socialResponse.user.id,
-          },
-          token,
-        });
+        return response.redirect(redirectUrl.toString());
       }
     } catch (err: any) {
-      return response.status(400).json({
-        message: err.message,
-      });
+      const redirectUrl = new URL(`${process.env.FRONT_HOST}/login`);
+      redirectUrl.searchParams.append("error", err.message);
+
+      return response.redirect(redirectUrl.toString());
     }
   }
 }
