@@ -4,6 +4,10 @@ import { yearNow } from "../dayjs/year/DayJsYearProvider";
 // ano atual
 const year = yearNow();
 
+// Importando dotenv para a utilização de variaveis de ambiente
+import dotenv from "dotenv";
+dotenv.config();
+
 // exportando arrow function para templates de e-mails
 export const welcomeTemplate = (name: string, image: string) => {
   // template do e-mail
@@ -17,7 +21,7 @@ export const welcomeTemplate = (name: string, image: string) => {
             <p style="color: #333333; font-size: 16px; line-height: 1.5;">Bem-vindo à nossa comunidade de apaixonados por futebol! Estamos muito felizes em tê-lo conosco. Prepare-se para aproveitar tudo o nosso sistema como um todo!</p>
             <p style="color: #333333; font-size: 16px; line-height: 1.5;">Para começar, clique no botão abaixo e explore todas as funcionalidades do nosso sistema:</p>
             <p style="text-align: center; margin: 30px 0;">
-                <a href="*******ADICIONAR LINK DA HOME*******" style="background-color: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Acessar o Sistema</a>
+                <a href="${process.env.FRONT_HOST}" style="background-color: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Acessar o Sistema</a>
             </p>
             <p style="color: #555555; font-size: 14px; margin-top: 40px;">Um abraço do nosso time,</p>
             <p style="color: #555555; font-size: 14px;">Equipe Quadra Marcada</p>

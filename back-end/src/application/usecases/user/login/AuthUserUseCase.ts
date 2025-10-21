@@ -125,10 +125,7 @@ export class AuthUserUseCase {
     if (userAlreadyExists.isTwoFactorEnabled) {
       return {
         step: "2fa_required",
-        user: {
-          name: userAlreadyExists.name,
-          id: userAlreadyExists.id as string,
-        },
+        user: userAlreadyExists,
       };
     }
 
@@ -158,10 +155,7 @@ export class AuthUserUseCase {
     // retornando promise(promessa) esperada
     return {
       step: "setup_2fa",
-      user: {
-        name: userAlreadyExists.name,
-        id: userAlreadyExists.id as string,
-      },
+      user: userAlreadyExists,
       token,
       refreshToken: refreshToken.id!,
     };
