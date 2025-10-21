@@ -1,19 +1,41 @@
-// Importando Route e Routes para utilizar rotas
-import { Routes } from "react-router-dom";
-import { Route } from "react-router-dom";
 
-// Importando Paginas
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import { Home } from "../pages/Home";
 import { CadastroRequest } from "../pages/CadastroRequest";
 import { CadastroConfirm } from "../pages/CadastroConfirm";
+
+import { LoginPage } from "../pages/Login";
+import { PrivateRoute } from "./PrivateRoute";
+
+const DashboardPage = () => (
+  <div>
+    <h1>Dashboard</h1>
+    <p>Bem-vindo! Você está logado.</p>
+  </div>
+);
+
+const ProfilePage = () => <h1>Sua Página de Perfil (Privada)</h1>;
 
 export const AppIndex = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/cadastrar" element={<CadastroRequest />} />
-        <Route path="/cadastrar/:token" element={<CadastroConfirm />} />
+        <Route path="/user/cadastrar" element={<CadastroRequest />} />
+        <Route
+          path="/auth/user/cadastrar/:token"
+          element={<CadastroConfirm />}
+        />
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* rotas privadas */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+        
       </Routes>
     </>
   );
