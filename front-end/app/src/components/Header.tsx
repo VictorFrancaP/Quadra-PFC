@@ -41,7 +41,7 @@ export const Header = () => {
 
         <div className={styles.groupThree}>
           <Link to="/login">Entrar</Link>
-          <Link to="/cadastrar">Cadastrar</Link>
+          <Link to="/user/cadastrar">Cadastrar</Link>
         </div>
       </header>
     </>

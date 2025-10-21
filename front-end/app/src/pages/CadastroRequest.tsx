@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 // Importando navigate para navegação entre as rotas
 import { useNavigate } from "react-router-dom";
 
-// Importando axios
-import axios from "axios";
+// Importando api
+import { api } from "../context/AuthContext";
 
 // Importando useState
 import { useState } from "react";
@@ -59,13 +59,10 @@ export const CadastroRequest = () => {
     if (!validate()) return;
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_CADASTRO_REQUEST}`,
-        {
-          name,
-          email,
-        }
-      );
+      const response = await api.post("/auth/user/create", {
+        name,
+        email,
+      });
 
       setPopupMessage(response.data.message);
       setPopupIsVisible(true);
@@ -75,7 +72,7 @@ export const CadastroRequest = () => {
         navigate("/");
       }, 3000);
     } catch (err: any) {
-      setPopupMessage(err.response.data.message);
+      setPopupMessage(err.response.data);
       setPopupIsVisible(true);
     }
   };
