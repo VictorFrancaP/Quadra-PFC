@@ -6,7 +6,6 @@ export interface IVerify2FAUserDTO {
 
 // exportando interface de resposta
 export interface IVerify2FAUserResponse {
-  object?: {};
   accessToken?: string;
   refreshToken?: string;
 }

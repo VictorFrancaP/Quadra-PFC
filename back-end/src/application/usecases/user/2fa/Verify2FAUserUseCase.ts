@@ -66,9 +66,6 @@ export class Verify2FAUserUseCase {
 
       // mandando atualização para o banco de dados
       await this.updateUserRepository.updateUser(updatesUser);
-
-      // retorna um objeto vazio
-      return {};
     }
 
     // deleta todos os refreshTokens vinculados ao usuário

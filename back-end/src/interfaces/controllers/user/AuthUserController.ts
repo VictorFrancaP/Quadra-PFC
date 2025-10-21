@@ -57,10 +57,7 @@ export class AuthUserController {
       if (authResponse.step === "2fa_required") {
         return response.status(200).json({
           step: authResponse.step,
-          user: {
-            name: authResponse.user.name,
-            id: authResponse.user.id,
-          },
+          user: authResponse.user,
         });
       }
 
@@ -80,10 +77,7 @@ export class AuthUserController {
         // retornando dados
         return response.status(200).json({
           step: authResponse.step,
-          user: {
-            name: authResponse.user.name,
-            id: authResponse.user.id,
-          },
+          user: authResponse.user,
           token,
         });
       }
