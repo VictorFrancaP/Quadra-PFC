@@ -6,6 +6,7 @@ import { CadastroRequest } from "../pages/CadastroRequest";
 import { CadastroConfirm } from "../pages/CadastroConfirm";
 
 import { LoginPage } from "../pages/Login";
+import { ProfilePage } from "../pages/Profile";
 import { PrivateRoute } from "./PrivateRoute";
 
 const DashboardPage = () => (
@@ -14,8 +15,6 @@ const DashboardPage = () => (
     <p>Bem-vindo! Você está logado.</p>
   </div>
 );
-
-const ProfilePage = () => <h1>Sua Página de Perfil (Privada)</h1>;
 
 export const AppIndex = () => {
   return (
