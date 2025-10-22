@@ -1,0 +1,207 @@
+/* Container principal da página (centraliza o card) */
+.pageContainer {
+  width: 100%;
+  min-height: calc(100vh - 70px); /* Altura total - altura do header */
+  margin-top: 70px; /* Evita que o header cubra o conteúdo */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Alinha no topo */
+  padding: 40px 20px;
+  background-color: #f4f7f6; /* Um fundo cinza claro */
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* O card de perfil */
+.profileCard {
+  width: 100%;
+  max-width: 700px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Cabeçalho com foto, nome e role */
+.profileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  background-color: #fdfdfd;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.profileImage {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #04a347;
+  margin-bottom: 15px;
+}
+
+.profileIconFallback {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #04a347;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  margin-bottom: 15px;
+}
+
+.profileHeader h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.profileRole {
+  font-size: 16px;
+  color: #555;
+  text-transform: capitalize;
+  margin-top: 5px;
+  font-weight: 500;
+  background-color: #e7f6ec; /* Fundo verde claro para tag de Admin */
+  color: #04a347;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* Seção de "Informações" */
+.profileDetails {
+  padding: 30px;
+}
+
+.profileDetails h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #04a347;
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #04a347;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+/* ================== MUDANÇA DE ESPAÇAMENTO 1 ================== */
+.subHeader {
+  /* Reutiliza o estilo do h3 */
+  font-size: 18px;
+  font-weight: 600;
+  color: #04a347;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #04a347;
+  padding-bottom: 5px;
+  display: inline-block;
+  /* Adiciona mais espaço acima do subtítulo "Endereço" */
+  margin-top: 25px;
+}
+/* ========================================================== */
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  /* ================== MUDANÇA DE ESPAÇAMENTO 2 ================== */
+  padding: 22px 0; /* Aumentado de 15px para 22px */
+  /* ========================================================== */
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detailItem:last-child {
+  border-bottom: none;
+}
+
+.detailItem strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.detailItem span {
+  color: #555;
+}
+
+.userId {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 14px;
+  background-color: #f4f7f6;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+/* Seção dos botões */
+.profileActions {
+  padding: 30px; /* Aumentado de 20px para 30px */
+  background-color: #fdfdfd;
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+  gap: 15px;
+}
+
+.actionButton {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.actionButton:first-child {
+  background-color: #04a347;
+  color: white;
+}
+
+.actionButton:first-child:hover {
+  background-color: #038b3d;
+}
+
+.actionButton:nth-child(2) {
+  /* "Alterar Senha" */
+  background-color: #f4f7f6;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.actionButton:nth-child(2):hover {
+  background-color: #e5e5e5;
+}
+
+/* ================== NOVO ESTILO PARA DELETAR ================== */
+.deleteButton {
+  background-color: #d9534f; /* Vermelho */
+  color: white;
+  border: none;
+  margin-left: auto; /* Joga o botão para a direita */
+}
+
+.deleteButton:hover {
+  background-color: #c9302c; /* Vermelho escuro */
+}
+
+.deleteButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+/* ========================================================== */
+
+/* ================== NOVO ESTILO PARA ERROS DE AÇÃO ================== */
+.actionError {
+  color: #d9534f;
+  font-weight: 600;
+  background-color: #fdd;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 0 30px; /* Alinha com o padding das 'profileActions' */
+  text-align: center;
+}
+/* ========================================================== */

@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { api, useAuth } from "../context/AuthContext";
 import { QRCodeSVG } from "qrcode.react";
 import type { User } from "../context/AuthContext";
+import Soccer from "../assets/soccer-3.jpg";
+import styles from "../css/Setup2FA.module.css";
 
 interface Setup2FAProps {
   user: User;
@@ -84,12 +86,13 @@ export const Setup2FA = ({ user, tempToken }: Setup2FAProps) => {
           err.response?.data ||
           "Código 2FA inválido."
       );
+      setOtp("");
       setLoading(false);
     }
   };
 
   if (error && !qrCodeUrl) {
-    return <p className="error-message">{error}</p>;
+    return <p className={styles.error}>{error}</p>;
   }
 
   if (!qrCodeUrl) {
@@ -97,38 +100,50 @@ export const Setup2FA = ({ user, tempToken }: Setup2FAProps) => {
   }
 
   return (
-    <div className="auth-form">
-      <h3>Configure sua Autenticação</h3>
-      <p>
-        Este é seu primeiro acesso. Escaneie o QR Code abaixo com seu app
-        autenticador (Google, Microsoft, Authy, etc).
-      </p>
-      <div className="qr-code-container">
-        <QRCodeSVG value={qrCodeUrl} size={200} />
-      </div>
-      <p>Após escanear, digite o código de 6 dígitos gerado:</p>
-      <div className="form-group">
-        <label htmlFor="otp-code">Código de 6 dígitos</label>
-        <input
-          id="otp-code"
-          type="tel"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          placeholder="123456"
-          maxLength={6}
-          className="otp-input"
-        />
-      </div>
-      {error && <p className="error-message">{error}</p>}
-      <button
-        onClick={handleVerify}
-        disabled={loading || otp.length < 6}
-        className="auth-button primary"
-      >
-        {loading ? "Verificando..." : "Ativar e Entrar"}
-      </button>
-    </div>
+    <>
+      <section className={`${styles.sectionCadastro} ${styles.fadeIn}`}>
+        <img src={Soccer} alt="Imagem bola de futebol" />
+        <div className={styles.containerForm}>
+          <h2>Configure sua Autenticação</h2>
+          <p>
+            Este é seu primeiro acesso. Escaneie o QR Code abaixo com seu app
+            autenticador (Google ou Microsoft).
+          </p>
+          <div className={styles.qrcode}>
+            <QRCodeSVG value={qrCodeUrl} size={200} />
+          </div>
+          <p>Após escanear, digite o código de 6 dígitos gerado:</p>
+          <div className={styles.groupForm}>
+            <label htmlFor="otp-code">Código de 6 dígitos</label>
+            <input
+              id="otp-code"
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              placeholder="Seu codigo"
+              maxLength={6}
+            />
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
+          <button
+            onClick={handleVerify}
+            disabled={loading || otp.length < 6}
+            className={styles.button}
+          >
+            {loading ? "Verificando..." : "Ativar e Entrar"}
+          </button>
+          <div className={styles.link}>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.azure.authenticator&hl=pt_BR&pli=1"
+              target="_blank"
+            >
+              Baixar autenticador
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };

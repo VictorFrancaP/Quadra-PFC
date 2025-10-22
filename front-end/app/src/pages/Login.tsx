@@ -15,7 +15,7 @@ export const LoginPage = () => {
   const [tempToken, setTempToken] = useState<string | null>(null);
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
 
   const handleLoginSuccess = (data: any) => {
