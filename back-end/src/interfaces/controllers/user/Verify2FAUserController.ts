@@ -60,7 +60,7 @@ export class Verify2FAUserController {
       response.cookie("RefreshToken", refreshToken, {
         httpOnly: true,
         secure: false,
-        sameSite: "strict",
+        sameSite: "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 

@@ -33,6 +33,7 @@ import { UpdateUserProfileController } from "../controllers/user/UpdateUserProfi
 import { UpdateUserRoleController } from "../controllers/user/UpdateUserRoleController";
 import { Setup2FAUserController } from "../controllers/user/Setup2FAUserController";
 import { Verify2FAUserController } from "../controllers/user/Verify2FAUserController";
+import { LogoutUserController } from "../controllers/user/LogoutUserController";
 
 // importando passport para o login com google
 import passport from "passport";
@@ -56,6 +57,7 @@ const updateUserProfileController = new UpdateUserProfileController();
 const updateUserRoleController = new UpdateUserRoleController();
 const setup2FAUserController = new Setup2FAUserController();
 const verify2FAUserController = new Verify2FAUserController();
+const logoutUserController = new LogoutUserController();
 
 // criando rotas
 
@@ -82,6 +84,7 @@ routes.post(
 );
 routes.post("/setup-2fa", ensureAuthenticated, setup2FAUserController.handle);
 routes.post("/verify-2fa/:userId", verify2FAUserController.handle);
+routes.post("/logout", ensureAuthenticated, logoutUserController.handle);
 
 // get
 routes.get(

@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindReservationByIdRepository } from "../../../infrastruture/repository/reservation/FindReservationByIdRepository";
 import { UpdateReservationRepository } from "../../../infrastruture/repository/reservation/UpdateReservationRepository";
+import { DayJsProvider } from "../../../shared/providers/dayjs/DayJsProvider";
 import { PaymentProvider } from "../../../shared/providers/payment/provider/PaymentProvider";
 
 // Importando usecase
@@ -26,12 +27,14 @@ export class WebHookController {
     // instânciando interfaces implementadas
     const findReservationByIdRepository = new FindReservationByIdRepository();
     const updateReservationRepository = new UpdateReservationRepository();
+    const dayJsProvider = new DayJsProvider();
     const paymentProvider = new PaymentProvider();
 
     // instânciando usecase
     const useCase = new HandlePaymentNotificationUseCase(
       findReservationByIdRepository,
       updateReservationRepository,
+      dayJsProvider,
       paymentProvider
     );
 

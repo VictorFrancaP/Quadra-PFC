@@ -44,9 +44,9 @@ export class SocialUserLoginController {
       // caso o usuário já tenha o 2fa ativado
       if (socialResponse.step === "2fa_required") {
         //  url para redirecionar
-        const redirectUrl = new URL(`${process.env.FRONT_HOST}/login/2fa`);
+        const redirectUrl = new URL(`${process.env.FRONT_HOST}/login`);
         redirectUrl.searchParams.append("step", socialResponse.step);
-        redirectUrl.searchParams.append("userId", socialResponse.user.id);
+        redirectUrl.searchParams.append("userId", socialResponse.user.id as string);
 
         return response.redirect(redirectUrl.toString());
       }
@@ -59,12 +59,12 @@ export class SocialUserLoginController {
         response.cookie("RefreshToken", refreshToken, {
           httpOnly: true,
           secure: false,
-          sameSite: "strict",
+          sameSite: "lax",
           maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         
         //  url para redirecionar
-        const redirectUrl = new URL(`${process.env.FRONT_HOST}/login/callback`);
+        const redirectUrl = new URL(`${process.env.FRONT_HOST}/login`);
         redirectUrl.searchParams.append("step", socialResponse.step);
         redirectUrl.searchParams.append(
           "token",

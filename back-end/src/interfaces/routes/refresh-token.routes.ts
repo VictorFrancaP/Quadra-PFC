@@ -13,11 +13,7 @@ const routes = Router();
 const createRefreshTokenController = new CreateRefreshTokenController();
 
 // post
-routes.post(
-  "/refresh",
-  ensureAuthenticated,
-  createRefreshTokenController.handle
-);
+routes.post("/refresh", createRefreshTokenController.handle);
 
 // exportando rotas
 export { routes as refreshTokenRoutes };
