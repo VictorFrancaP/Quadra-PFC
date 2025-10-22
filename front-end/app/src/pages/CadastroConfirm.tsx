@@ -24,6 +24,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 // Importando axios para requisição da API
+import { api } from "../context/AuthContext";
 import axios from "axios";
 
 // exportando pagina
@@ -146,17 +147,14 @@ export const CadastroConfirm = () => {
     try {
       const cepLimpo = cep.replace(/\D/g, "");
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_CADASTRO}/${token}`,
-        {
-          age,
-          cep: cepLimpo,
-          address,
-          cpf,
-          gender,
-          password,
-        }
-      );
+      const response = await api.post(`/auth/user/create-account/${token}`, {
+        age,
+        cep: cepLimpo,
+        address,
+        cpf,
+        gender,
+        password,
+      });
 
       setPopupMessage(response.data.message);
       setPopupIsVisible(true);
@@ -170,7 +168,7 @@ export const CadastroConfirm = () => {
         navigate("/login");
       }, 3000);
     } catch (err: any) {
-      setPopupMessage(err.response.data.message);
+      setPopupMessage(err.response.data);
       setPopupIsVisible(true);
     }
   };
@@ -178,12 +176,17 @@ export const CadastroConfirm = () => {
   const SearchCep = async () => {
     const cepLimpo = cep.replace(/\D/g, "");
 
-    if (cepLimpo.length > 8) return;
+    if (cepLimpo.length !== 8) return;
 
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_VIACEP}/${cepLimpo}/json/`
       );
+
+      if (response.data === undefined) {
+        setCepError("CEP não encontrado!");
+        setAddress("");
+      }
 
       if (response.data.erro) {
         setCepError("CEP não encontrado!");
@@ -193,7 +196,10 @@ export const CadastroConfirm = () => {
       setCepError("");
       const address = `${response.data.logradouro}, ${response.data.bairro} - ${response.data.localidade}/${response.data.uf}`;
       setAddress(address);
-    } catch (err: any) {}
+    } catch (err: any) {
+      setCepError("Erro ao buscar o CEP. Tente novamente");
+      setAddress("");
+    }
   };
 
   return (
@@ -344,26 +350,26 @@ export const CadastroConfirm = () => {
                 <li
                   style={{ color: passwordValidation.length ? "green" : "red" }}
                 >
-                  {passwordValidation.length ? "✔️" : "❌"} No minimo 7
+                  {passwordValidation.length ? "✅" : "❌"} No minimo 7
                   caracteres
                 </li>
 
                 <li
                   style={{ color: passwordValidation.upper ? "green" : "red" }}
                 >
-                  {passwordValidation.upper ? "✔️" : "❌"} Uma letra maiúscula
+                  {passwordValidation.upper ? "✅" : "❌"} Uma letra maiúscula
                 </li>
 
                 <li
                   style={{ color: passwordValidation.lower ? "green" : "red" }}
                 >
-                  {passwordValidation.lower ? "✔️" : "❌"} Uma letra minuscula
+                  {passwordValidation.lower ? "✅" : "❌"} Uma letra minuscula
                 </li>
 
                 <li
                   style={{ color: passwordValidation.number ? "green" : "red" }}
                 >
-                  {passwordValidation.number ? "✔️" : "❌"} Um número
+                  {passwordValidation.number ? "✅" : "❌"} Um número
                 </li>
 
                 <li
@@ -371,7 +377,7 @@ export const CadastroConfirm = () => {
                     color: passwordValidation.special ? "green" : "red",
                   }}
                 >
-                  {passwordValidation.special ? "✔️" : "❌"} Um caracter
+                  {passwordValidation.special ? "✅" : "❌"} Um caracter
                   especial
                 </li>
               </ul>

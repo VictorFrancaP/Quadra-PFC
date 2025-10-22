@@ -181,7 +181,7 @@ model rating {
 
   // relacionamento com usuário
   userId String @db.ObjectId
-  user   user   @relation("UserRatingsGiven", fields: [userId], references: [id])
+  user   user   @relation("UserRatingsGiven", fields: [userId], references: [id], onDelete: Cascade)
 
   // relacionamento com a quadra
   soccerId String? @db.ObjectId
@@ -189,7 +189,7 @@ model rating {
 
   // relacionamento com o usuário avaliado
   ratedUserId String? @db.ObjectId
-  retedUser   user?   @relation("UserRatingsReceived", fields: [ratedUserId], references: [id])
+  retedUser   user?   @relation("UserRatingsReceived", fields: [ratedUserId], references: [id], onDelete: Cascade )
 
   // criação
   created_at DateTime @default(now())
@@ -268,7 +268,7 @@ model reservation {
   soccerId String @db.ObjectId
 
   // user
-  user   user   @relation(fields: [userId], references: [id])
+  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
 
   // criação e update

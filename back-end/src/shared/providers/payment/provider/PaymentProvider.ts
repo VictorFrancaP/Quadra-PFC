@@ -32,7 +32,7 @@ export class PaymentProvider implements IPaymentProvider {
     reservationId: string,
     soccerOwnerKey?: string
   ): Promise<{ preferenceId: string; initPoint: string }> {
-    const notificationUrl = `${WEBHOOK_HOST}/webhooks/mercadopago`;
+    const notificationUrl = `${WEBHOOK_HOST}/webhook/mercadopago`;
 
     const preferencesBody = {
       items: [
