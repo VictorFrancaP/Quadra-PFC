@@ -27,10 +27,10 @@ export const ProfilePage = () => {
   const [profile, setProfile] = useState<ProfileData | null>(contextUser);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-  const [popupIsVisible, setPopupIsVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   useEffect(() => {
     const fetchProfile = async () => {
       setIsLoading(true);
@@ -52,24 +52,20 @@ export const ProfilePage = () => {
     fetchProfile();
   }, []);
 
-  const handleDeleteAccount = async () => {
-    const isConfirmed = window.confirm(
-      "TEM CERTEZA QUE DESEJA DELETAR SUA CONTA?\n\nEsta ação é permanente e irreversível. Todos os seus dados serão perdidos."
-    );
+  const handleDeleteClick = () => {
+    setError(null);
+    setIsConfirmOpen(true);
+  };
 
-    if (!isConfirmed) {
-      return;
-    }
-
+  const handleConfirmDelete = async () => {
+    setIsConfirmOpen(false);
     setIsDeleting(true);
     setError(null);
 
     try {
       await api.delete("/auth/user/delete");
 
-      setPopupMessage("Sua conta foi deletada com sucesso!");
-      setPopupIsVisible(true);
-      signOut();
+      setIsSuccessOpen(true);
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.message ||
@@ -78,6 +74,10 @@ export const ProfilePage = () => {
       setError(errorMessage);
       setIsDeleting(false);
     }
+  };
+  const handleSuccessPopupClose = () => {
+    setIsSuccessOpen(false);
+    signOut();
   };
 
   const renderContent = () => {
@@ -108,17 +108,17 @@ export const ProfilePage = () => {
             </div>
           )}
           <h2>{profile.name}</h2>
-          {profile.role === "ADMIN" && (
+          {profile.role?.toLowerCase() === "admin" && (
             <span className={styles.profileRole}>Administrador</span>
           )}
         </div>
         <div className={styles.profileDetails}>
           <h3>Informações Pessoais</h3>
           <div className={styles.detailItem}>
+            {" "}
             <strong>Nome:</strong>
             <span>{profile.name}</span>
           </div>
-
           <div className={styles.detailItem}>
             <strong>Email:</strong>
             <span>{profile.email}</span>
@@ -127,7 +127,6 @@ export const ProfilePage = () => {
             <strong>CPF:</strong>
             <span>{formatCPF(profile.cpf)}</span>
           </div>
-
           <div className={styles.detailItem}>
             <strong>Idade:</strong>
             <span>{profile.age ? `${profile.age} anos` : "Não informado"}</span>
@@ -146,10 +145,9 @@ export const ProfilePage = () => {
         <div className={styles.profileActions}>
           <button className={styles.actionButton}>Editar Perfil</button>
           <button className={styles.actionButton}>Alterar Senha</button>
-
           <button
             className={`${styles.actionButton} ${styles.deleteButton}`}
-            onClick={handleDeleteAccount}
+            onClick={handleDeleteClick}
             disabled={isDeleting}
           >
             {isDeleting ? "Deletando..." : "Deletar Conta"}
@@ -165,10 +163,19 @@ export const ProfilePage = () => {
       <div className={styles.pageContainer}>{renderContent()}</div>
       <Footer />
       <Popup
-        isOpen={popupIsVisible}
-        onClose={() => setPopupIsVisible(false)}
-        title="Deletar conta"
-        message={popupMessage}
+        isOpen={isSuccessOpen}
+        onClose={handleSuccessPopupClose}
+        title="Conta Deletada"
+        message="Sua conta foi deletada com sucesso!"
+      />
+      <Popup
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Deletar Conta"
+        message="Tem certeza que deseja deletar a sua conta?"
+        confirmText="Deletar"
+        cancelText="Cancelar"
       />
     </>
   );

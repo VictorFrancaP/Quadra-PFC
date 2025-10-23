@@ -31,22 +31,16 @@ export const LoginPage = () => {
 
   const renderStep = () => {
     switch (step) {
-      case "login": // Passo 1: Mostra o formulário de login
+      case "login":
         return <LoginForm onLoginSuccess={handleLoginSuccess} />;
-      case "setup_2fa": // Passo 2: Mostra o setup do QR Code
-        // Usamos 'tempUser!' (com '!') para dizer ao TypeScript:
-        // "Eu garanto que 'tempUser' não é nulo neste passo"
+      case "setup_2fa":
         return <Setup2FA user={tempUser!} tempToken={tempToken!} />;
-      case "verify_2fa": // Passo 3: Mostra a verificação normal
+      case "verify_2fa":
         return <Verify2FA user={tempUser!} />;
-      default: // Fallback (nunca deve acontecer)
+      default:
         return <LoginForm onLoginSuccess={handleLoginSuccess} />;
     }
   };
-  /**
-   * 10. O JSX final
-   * Apenas um container que chama a função 'renderStep'.
-   */
 
   return <div className="login-container">{renderStep()}</div>;
 };

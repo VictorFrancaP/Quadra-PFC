@@ -1,35 +1,18 @@
-// Importando useState para validação de dados
 import { useState } from "react";
-
-// Importando styles para estilização com css
 import styles from "../css/CadastroConfirm.module.css";
-
-// Importando useParams para recuperar o token de validação de e-mail
 import { useParams } from "react-router-dom";
-
-// Importando useNavigate para navegação entre páginas
 import { useNavigate } from "react-router-dom";
-
-// Importando mascara para inputs
 import { IMaskInput } from "react-imask";
-
-// Importando componentes
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Popup } from "../components/Popup";
-
-// Importando icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
-// Importando axios para requisição da API
 import { api } from "../context/AuthContext";
 import axios from "axios";
 
-// exportando pagina
 export const CadastroConfirm = () => {
-  // atributos
   const { token } = useParams();
   const [age, setAge] = useState<number | null>(null);
   const [cep, setCep] = useState("");
@@ -55,14 +38,9 @@ export const CadastroConfirm = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  // array genero
   const genderOptions = ["MALE", "FEMALE", "NOTINFORM"];
-
-  // regex para o cep
   const regexCEP = /\d/g;
 
-  // validando senha
   const validationPassword = (password: string) => ({
     length: password.length >= 7,
     upper: /[A-Z]/.test(password),
@@ -71,7 +49,6 @@ export const CadastroConfirm = () => {
     special: /[#?!@$%^&*-]/.test(password),
   });
 
-  // validando dados
   const validate = () => {
     let isValid = true;
 
@@ -183,7 +160,7 @@ export const CadastroConfirm = () => {
         `${import.meta.env.VITE_VIACEP}/${cepLimpo}/json/`
       );
 
-      if (response.data === undefined) {
+      if (response.data === undefined || response.data === null) {
         setCepError("CEP não encontrado!");
         setAddress("");
       }
@@ -205,7 +182,7 @@ export const CadastroConfirm = () => {
   return (
     <>
       <Header />
-      <section className={`${styles.sectionCadastro} ${styles.fadeIn}`}>
+      <section className={`${styles.section} ${styles.fadeIn}`}>
         <video
           src="/video-soccer-2.mp4"
           autoPlay
@@ -216,7 +193,7 @@ export const CadastroConfirm = () => {
         />
 
         <div className={styles.containerForm}>
-          <h1>Finalizar cadastro</h1>
+          <h2>Finalizar cadastro</h2>
           <p>Encontre as melhoras reservas de quadras da sua região</p>
 
           <form className={styles.form} onSubmit={handleSubmit}>
@@ -273,7 +250,7 @@ export const CadastroConfirm = () => {
               {cpfError && <span className={styles.error}>{cpfError}</span>}
             </div>
 
-            <div className={styles.groupForm}>
+            <div className={`${styles.groupForm} ${styles.groupForm}`}>
               <label htmlFor="gender">Gênero</label>
               <select
                 id="gender"
