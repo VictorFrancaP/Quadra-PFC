@@ -86,7 +86,7 @@ export const CadastroRequest = () => {
   return (
     <>
       <Header />
-      <section className={styles.sectionCadastro}>
+      <section className={`${styles.section} ${styles.fadeIn}`}>
         <video
           src="/video-soccer.mp4"
           autoPlay
@@ -96,7 +96,7 @@ export const CadastroRequest = () => {
           className="backgroundVideo"
         />
 
-        <div className={`${styles.containerForm} ${styles.fadeIn}`}>
+        <div className={`${styles.containerForm}`}>
           <h1>Cadastro</h1>
           <p>Encontre as melhoras reservas de quadras da sua região</p>
 

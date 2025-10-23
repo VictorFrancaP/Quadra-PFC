@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
 // Importando Link
 import { Link } from "react-router-dom";
-import Logo from "../assets/logo.png";
+import Logo from '../../public/logo.png';
 
 export const Footer = () => {
   // pegando ano atual
@@ -41,7 +41,7 @@ export const Footer = () => {
             </div>
             <Link to="/">Inicio</Link>
             <Link to="/quadras">Quadras</Link>
-            <Link to="/perfil">Meu Perfil</Link>
+            <Link to="/profile">Meu Perfil</Link>
             <Link to="/">Como funciona</Link>
           </div>
 

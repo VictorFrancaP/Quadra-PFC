@@ -1,14 +1,9 @@
-// Importando css
 import styles from "../css/Header.module.css";
-// Importando Link
 import { Link } from "react-router-dom";
-// Importando ícones
 import { FaMapMarkerAlt, FaUsers, FaUser, FaSignOutAlt } from "react-icons/fa";
-// Importando imagem
-import Logo from "../assets/logo.png";
-
-// IMPORTAR O HOOK 'useAuth' DO SEU CONTEXTO
+import Logo from "../../public/logo.png";
 import { useAuth } from "../context/AuthContext";
+import { FaUserShield } from "react-icons/fa";
 
 export const Header = () => {
   const { isAuthenticated, user, signOut } = useAuth();
@@ -38,12 +33,22 @@ export const Header = () => {
               Quadras
             </Link>
           </div>
+          {isAuthenticated && user?.role?.toLowerCase() === "admin" && (
+            <div className={styles.container}>
+              <FaUserShield className={styles.icon} />
+              <Link className={styles.link} to="/admin/dashboard">
+                Admin
+              </Link>
+            </div>
+          )}
         </div>
         <div className={styles.groupThree}>
           {!isAuthenticated ? (
             <>
               <Link to="/login">Entrar</Link>
-              <Link className={styles.cadastrar} to="/user/cadastrar">Cadastrar</Link>
+              <Link className={styles.cadastrar} to="/user/cadastrar">
+                Cadastrar
+              </Link>
             </>
           ) : (
             <div className={styles.profileContainer}>

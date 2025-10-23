@@ -13,7 +13,7 @@
   }
 }
 
-.sectionCadastro {
+.section {
   position: relative;
   width: 100%;
   height: 100vh;
@@ -23,7 +23,7 @@
   overflow: hidden;
 }
 
-.sectionCadastro video {
+.section video {
   position: absolute;
   top: 0;
   left: 0;
@@ -33,7 +33,7 @@
   z-index: -2;
 }
 
-.sectionCadastro::after {
+.section::after {
   content: "";
   position: absolute;
   top: 0;
