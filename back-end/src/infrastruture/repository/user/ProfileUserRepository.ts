@@ -13,6 +13,7 @@ export class ProfileUserRepository implements IProfileUserRepositories {
         name: true,
         email: true,
         age: true,
+        role: true,
         address: true,
         cep: true,
         cpf: true,
