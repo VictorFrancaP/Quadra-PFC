@@ -85,6 +85,13 @@ routes.post(
 routes.post("/setup-2fa", ensureAuthenticated, setup2FAUserController.handle);
 routes.post("/verify-2fa/:userId", verify2FAUserController.handle);
 routes.post("/logout", ensureAuthenticated, logoutUserController.handle);
+routes.post(
+  "/find",
+  ensureAuthenticated,
+  ensureRole("ADMIN"),
+  ensureJoi(RequestUserEmailValidator, "body"),
+  findUserController.handle
+);
 
 // get
 routes.get(
@@ -102,13 +109,6 @@ routes.get(
   ensureAuthenticated,
   ensureRole("ADMIN"),
   findUsersController.handle
-);
-routes.get(
-  "/find",
-  ensureAuthenticated,
-  ensureRole("ADMIN"),
-  ensureJoi(RequestUserEmailValidator, "body"),
-  findUserController.handle
 );
 
 // put
