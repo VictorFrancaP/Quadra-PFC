@@ -1,0 +1,196 @@
+:root {
+  --color-primary: #20bf6b;
+  --color-primary-dark: #1aa059;
+  --color-white: #ffffff;
+  --color-gray-light: #e0e0e0;
+  --color-gray-dark: #666;
+  --color-text: #222;
+  --color-error: #e74c3c;
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 120px 20px 60px 20px;
+  box-sizing: border-box;
+}
+
+.section :global(img) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: -1;
+}
+
+.containerForm {
+  background: var(--color-white);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  max-width: 450px;
+  text-align: center;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.containerForm h2 {
+  font-size: 1.8rem;
+  color: var(--color-text);
+  margin-bottom: 0.3rem;
+}
+
+.containerForm p {
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+}
+
+.groupForm {
+  display: flex;
+  flex-flow: column;
+  text-align: left;
+}
+
+.groupForm label {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.groupForm input {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
+  border: 1px solid var(--color-gray-light);
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #fcfcfc;
+}
+
+.groupForm input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(32, 191, 107, 0.3);
+}
+
+.groupForm textarea {
+  padding: 10px;
+  height: 150px;
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(32, 191, 107, 0.3);
+  }
+}
+
+.button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 0.9rem;
+  background-color: var(--color-primary);
+  border: none;
+  border-radius: 8px;
+  color: var(--color-white);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+}
+
+.button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.containerForm p:last-child {
+  font-size: 0.9rem;
+}
+
+.containerForm a {
+  color: #28a745;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.link {
+  display: flex;
+  justify-content: space-between;
+
+  div p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 0;
+
+    a {
+      font-size: 13px;
+    }
+  }
+}
+
+.containerForm a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-error);
+  font-family: inherit;
+  margin-top: 5px;
+}

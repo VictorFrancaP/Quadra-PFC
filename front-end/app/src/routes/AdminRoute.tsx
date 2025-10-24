@@ -8,7 +8,7 @@ export const AdminRoute = () => {
     return <div>Verificando permissões...</div>;
   }
 
-  if (!isAuthenticated || !user || user.role?.toLowerCase() !== "admin") {
+  if (!isAuthenticated || !user || user.role?.toUpperCase() !== "ADMIN") {
     return <Navigate to="/" replace />;
   }
 

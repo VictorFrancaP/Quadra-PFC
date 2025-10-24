@@ -72,6 +72,23 @@
   gap: 16px;
 }
 
+.headerActionLink {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: #555;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.headerActionLink:hover {
+  color: #04a347;
+}
+
+.headerActionLink svg {
+  font-size: 20px;
+}
+
 .groupThree a {
   text-decoration: none;
   font-size: 14px;
@@ -79,7 +96,6 @@
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.3s ease;
-
 }
 
 .groupThree a:first-child {
@@ -99,6 +115,26 @@
 
 .groupThree a:last-child:hover {
   background: #038b3d;
+}
+
+.becomeOwnerLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #04a347;
+  background-color: #e7f6ec;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.becomeOwnerLink:hover {
+  background-color: #d1f0db;
+  color: #038b3d;
 }
 
 .profileContainer {

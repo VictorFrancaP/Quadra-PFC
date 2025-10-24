@@ -7,6 +7,8 @@ import { ProfilePage } from "../pages/Profile";
 import { PrivateRoute } from "./PrivateRoute";
 import { AdminRoute } from "./AdminRoute";
 import { AdminDashboard } from "../pages/AdminDashboard";
+import { Order } from "../pages/OrderForm";
+import { ViewOrderPage } from "../pages/ViewOrder";
 
 export const AppIndex = () => {
   return (
@@ -22,6 +24,8 @@ export const AppIndex = () => {
 
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/solicitar-proprietario" element={<Order />} />
+          <Route path="/minha-solicitacao" element={<ViewOrderPage />} />
         </Route>
 
         <Route element={<AdminRoute />}>
