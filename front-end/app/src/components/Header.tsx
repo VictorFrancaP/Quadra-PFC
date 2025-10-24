@@ -1,12 +1,26 @@
 import styles from "../css/Header.module.css";
 import { Link } from "react-router-dom";
-import { FaMapMarkerAlt, FaUsers, FaUser, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaMapMarkerAlt,
+  FaUsers,
+  FaUser,
+  FaSignOutAlt,
+  FaStore,
+  FaFileAlt,
+  FaDoorOpen,
+} from "react-icons/fa";
 import Logo from "../../public/logo.png";
 import { useAuth } from "../context/AuthContext";
 import { FaUserShield } from "react-icons/fa";
 
 export const Header = () => {
   const { isAuthenticated, user, signOut } = useAuth();
+
+  const isCommonUser =
+    isAuthenticated &&
+    user &&
+    user.role?.toUpperCase() !== "ADMIN" &&
+    user.role?.toUpperCase() !== "OWNER";
 
   const handleLogout = () => {
     signOut();
@@ -70,6 +84,25 @@ export const Header = () => {
               <span className={styles.userName}>
                 Olá, {user?.name.split(" ")[0]}
               </span>
+              {isCommonUser && (
+                <Link
+                  to="/minha-solicitacao"
+                  className={styles.headerActionLink}
+                  title="Minha Solicitação"
+                >
+                  <FaFileAlt />
+                </Link>
+              )}
+              {isCommonUser && (
+                <Link
+                  to="/solicitar-proprietario"
+                  className={styles.becomeOwnerLink}
+                  title="Virar Proprietário"
+                >
+                  <FaStore />
+                  <span>Virar Proprietário</span>
+                </Link>
+              )}
               <button onClick={handleLogout} className={styles.logoutButton}>
                 <FaSignOutAlt title="Sair" />
               </button>

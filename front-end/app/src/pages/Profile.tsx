@@ -111,6 +111,9 @@ export const ProfilePage = () => {
           {profile.role?.toLowerCase() === "admin" && (
             <span className={styles.profileRole}>Administrador</span>
           )}
+          {profile.role?.toLowerCase() === "owner" && (
+            <span className={styles.profileRole}>Proprietário</span>
+          )}
         </div>
         <div className={styles.profileDetails}>
           <h3>Informações Pessoais</h3>
