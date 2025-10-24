@@ -17,6 +17,7 @@ import { CreateOrderUserController } from "../controllers/order/CreateOrderUserC
 import { FindOrdersController } from "../controllers/order/FindOrdersController";
 import { UpdateUserOrderController } from "../controllers/order/UpdateUserOrderController";
 import { UpdateUserOrderStatusController } from "../controllers/order/UpdateUserOrderStatusController";
+import { FindOrderController } from "../controllers/order/FindOrderController";
 
 // criando variavel para instânciar o Router do express
 const routes = Router();
@@ -26,6 +27,7 @@ const createOrderUserController = new CreateOrderUserController();
 const findOrdersController = new FindOrdersController();
 const updateUserOrderController = new UpdateUserOrderController();
 const updateUserOrderStatusController = new UpdateUserOrderStatusController();
+const findOrderController = new FindOrderController();
 
 // criando rotas
 
@@ -44,6 +46,7 @@ routes.get(
   ensureRole("ADMIN"),
   findOrdersController.handle
 );
+routes.get("/find", ensureAuthenticated, findOrderController.handle);
 
 // put
 routes.put(
