@@ -7,7 +7,7 @@ import { cpf } from "cpf-cnpj-validator";
 // exportando schema do Joi.object para validação
 export const UpdateUserProfileValidator = Joi.object({
   name: Joi.string().min(3),
-  age: Joi.number().min(14),
+  age: Joi.number().min(13),
   address: Joi.string().max(255),
   cep: Joi.string()
     .length(8)
