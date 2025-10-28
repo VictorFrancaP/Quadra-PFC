@@ -34,6 +34,7 @@ export class FindSoccerByIdRepository implements IFindSoccerByIdRepositories {
       soccer.isActive,
       soccer.userId,
       soccer.userName,
+      soccer.images,
       soccer.latitude,
       soccer.longitude,
       soccer.ownerPixKey,

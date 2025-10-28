@@ -151,6 +151,7 @@ model soccer {
   user          user     @relation("user-owner-soccer", fields: [userId], references: [id], onDelete: Cascade)
   userId        String   @unique @db.ObjectId
   userName      String
+  images        String[]
 
   // opcionais
   latitude     Float?
@@ -189,7 +190,7 @@ model rating {
 
   // relacionamento com o usuário avaliado
   ratedUserId String? @db.ObjectId
-  retedUser   user?   @relation("UserRatingsReceived", fields: [ratedUserId], references: [id], onDelete: Cascade )
+  retedUser   user?   @relation("UserRatingsReceived", fields: [ratedUserId], references: [id], onDelete: Cascade)
 
   // criação
   created_at DateTime @default(now())
@@ -264,7 +265,7 @@ model reservation {
   payoutTransactionId  String?
 
   // soccer
-  soccer   soccer @relation(fields: [soccerId], references: [id])
+  soccer   soccer @relation(fields: [soccerId], references: [id], onDelete: Cascade)
   soccerId String @db.ObjectId
 
   // user

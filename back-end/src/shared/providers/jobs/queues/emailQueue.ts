@@ -5,7 +5,14 @@ import BeeQueue from "bee-queue";
 import dotenv from "dotenv";
 dotenv.config();
 
+// pegando host do redis no .env
+const redisConfig = {
+  host: process.env.REDIS_HOST_LOCAL,
+  port: Number(process.env.REDIS_PORT) || 6379,
+};
+
 // exportando queue de e-mail
 export const emailQueue = new BeeQueue("email-queue", {
-  redis: process.env.REDIS_HOST,
+  redis: redisConfig,
+  isWorker: false,
 });

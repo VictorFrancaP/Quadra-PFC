@@ -24,6 +24,7 @@ export class UpdateSoccerOwnerRepository
         closingHour: soccer.closingHour,
         priceHour: soccer.priceHour,
         maxDuration: soccer.maxDuration,
+        images: soccer.images,
         isActive: soccer.isActive,
         latitude: soccer.latitude,
         longitude: soccer.longitude,

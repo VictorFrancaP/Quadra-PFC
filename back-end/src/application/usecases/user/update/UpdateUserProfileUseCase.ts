@@ -88,6 +88,7 @@ export class UpdateUserProfileUseCase {
       address: data.address,
       cep: data.cep,
       cpf: data.cpf,
+      profileImage: data.profileImage,
       latitude: latitude,
       longitude: longitude,
     });

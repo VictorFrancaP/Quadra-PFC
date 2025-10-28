@@ -3,6 +3,7 @@ import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/
 import { IFindSoccerByIdRepositories } from "../../../../domain/repositories/soccer/IFindSoccerByIdRepositories";
 import { IFindSoccerRatingRepositories } from "../../../../domain/repositories/rating/IFindSoccerRatingRepositories";
 import { IFindUserRatingRepositories } from "../../../../domain/repositories/rating/IFindUserRatingRepositories";
+import { IFindReservationConfirmedRepositories } from "../../../../domain/repositories/reservation/IFindReservationConfirmedRepositories";
 import { ICreateRatingRepositories } from "../../../../domain/repositories/rating/ICreateRatingRepositories";
 
 // Importando entidade Rating para ser uma promise(promessa)
@@ -20,6 +21,7 @@ import {
   UserRatingError,
   UserRatingSameError,
 } from "../../../../shared/errors/rating-error/UserRatingError";
+import { ReservationNotFoundError } from "../../../../shared/errors/reservation-error/ReservationNotFoundError";
 
 // exportando usecase
 export class CreateRatingUseCase {
@@ -28,6 +30,7 @@ export class CreateRatingUseCase {
     private readonly findSoccerByIdRepository: IFindSoccerByIdRepositories,
     private readonly findSoccerRatingRepository: IFindSoccerRatingRepositories,
     private readonly findUserRatingRepository: IFindUserRatingRepositories,
+    private readonly findReservationConfirmedRepository: IFindReservationConfirmedRepositories,
     private readonly createRatingRepository: ICreateRatingRepositories
   ) {}
 
@@ -62,6 +65,18 @@ export class CreateRatingUseCase {
         if (soccer.userId === user.id) {
           throw new OwnerRatingError();
         }
+
+        // procurando reserva do usuário
+        const reservationUser =
+          await this.findReservationConfirmedRepository.findReservationConfirmed(
+            user.id as string,
+            soccer.id as string
+          );
+
+        if (!reservationUser) {
+          throw new ReservationNotFoundError();
+        }
+
         // verificando se usuário já fez uma avaliação para a quadra
         const existingRating =
           await this.findSoccerRatingRepository.findSoccerRating(

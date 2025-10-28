@@ -20,6 +20,12 @@ import { DeleteSoccerByAdminController } from "../controllers/soccer/DeleteSocce
 import { DeleteSoccerByOwnerController } from "../controllers/soccer/DeleteSoccerByOwnerController";
 import { UpdateSoccerOwnerController } from "../controllers/soccer/UpdateSoccerOwnerController";
 import { FindNearbySoccerController } from "../controllers/soccer/FindNearbySoccerController";
+import { UploadSoccerImagesController } from "../controllers/soccer/UploadSoccerImagesController";
+import { FindSoccerController } from "../controllers/soccer/FindSoccerController";
+import { FindSoccerOwnerController } from "../controllers/soccer/FindSoccerOwnerController";
+
+// Importando configuração do cloudinary para imagens
+import { updateSoccerImages } from "../../shared/providers/cloudinary/cloudinaryConfig";
 
 // instância do Router
 const routes = Router();
@@ -31,6 +37,9 @@ const deleteSoccerByAdminController = new DeleteSoccerByAdminController();
 const deleteSoccerByOwnerController = new DeleteSoccerByOwnerController();
 const updateSoccerOwnerController = new UpdateSoccerOwnerController();
 const findNearbySoccerController = new FindNearbySoccerController();
+const uploadSoccerImagesController = new UploadSoccerImagesController();
+const findSoccerController = new FindSoccerController();
+const findSoccerOwnerController = new FindSoccerOwnerController();
 
 // post
 routes.post(
@@ -46,9 +55,29 @@ routes.post(
   ensureJoi(FindNearbySoccerValidator, "body"),
   findNearbySoccerController.handle
 );
+routes.post(
+  "/images/:id",
+  ensureAuthenticated,
+  ensureRole("ADMIN", "OWNER"),
+  ensureJoi(RequestParamsValidator, "params"),
+  updateSoccerImages.array("images", 5),
+  uploadSoccerImagesController.handle
+);
 
 // get
 routes.get("/findAll", ensureAuthenticated, findSoccersController.handle);
+routes.get(
+  "/find",
+  ensureAuthenticated,
+  ensureRole("OWNER"),
+  findSoccerOwnerController.handle
+);
+routes.get(
+  "/:id",
+  ensureAuthenticated,
+  ensureJoi(RequestParamsValidator, "params"),
+  findSoccerController.handle
+);
 
 // delete
 routes.delete(
