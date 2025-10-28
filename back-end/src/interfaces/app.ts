@@ -31,13 +31,6 @@ import passport from "passport";
 // Importando configuração do passport.use
 import { passportConfig } from "../shared/providers/passport/passportGoogleConfig";
 
-// Importando worker
-import "../shared/providers/jobs/workers/emailWorker";
-import "../shared/providers/jobs/workers/reservationWorker";
-
-// Importando cron job
-import { startEmailCronJob } from "../shared/providers/jobs/scheduler/emailCronJob";
-
 // Importando http do node para iniciar um servidor
 import http from "http";
 
@@ -91,9 +84,6 @@ app.use("/auth/soccer", soccerRoutes);
 app.use("/auth/rating", ratingRoutes);
 app.use("/auth/reservation", reservationRoutes);
 app.use("/", rawRouter);
-
-// iniciando cron job
-startEmailCronJob();
 
 // utilizando middleware de error (ultimo a ser executado)
 app.use(errorHandler);

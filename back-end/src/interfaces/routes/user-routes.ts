@@ -34,6 +34,7 @@ import { UpdateUserRoleController } from "../controllers/user/UpdateUserRoleCont
 import { Setup2FAUserController } from "../controllers/user/Setup2FAUserController";
 import { Verify2FAUserController } from "../controllers/user/Verify2FAUserController";
 import { LogoutUserController } from "../controllers/user/LogoutUserController";
+import { GetProfileImagesUserController } from "../controllers/user/GetProfileImagesUserController";
 
 // importando passport para o login com google
 import passport from "passport";
@@ -58,6 +59,7 @@ const updateUserRoleController = new UpdateUserRoleController();
 const setup2FAUserController = new Setup2FAUserController();
 const verify2FAUserController = new Verify2FAUserController();
 const logoutUserController = new LogoutUserController();
+const getProfileImagesUserController = new GetProfileImagesUserController();
 
 // criando rotas
 
@@ -85,6 +87,13 @@ routes.post(
 routes.post("/setup-2fa", ensureAuthenticated, setup2FAUserController.handle);
 routes.post("/verify-2fa/:userId", verify2FAUserController.handle);
 routes.post("/logout", ensureAuthenticated, logoutUserController.handle);
+routes.post(
+  "/find",
+  ensureAuthenticated,
+  ensureRole("ADMIN"),
+  ensureJoi(RequestUserEmailValidator, "body"),
+  findUserController.handle
+);
 
 // get
 routes.get(
@@ -103,13 +112,7 @@ routes.get(
   ensureRole("ADMIN"),
   findUsersController.handle
 );
-routes.get(
-  "/find",
-  ensureAuthenticated,
-  ensureRole("ADMIN"),
-  ensureJoi(RequestUserEmailValidator, "body"),
-  findUserController.handle
-);
+routes.get("/images", getProfileImagesUserController.handle);
 
 // put
 routes.put(

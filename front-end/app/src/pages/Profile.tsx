@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Popup } from "../components/Popup";
+import { EditProfileModal } from "../components/EditProfile";
 import { api, useAuth } from "../context/AuthContext";
 import type { User } from "../context/AuthContext";
 import { FaUser } from "react-icons/fa";
@@ -23,53 +24,46 @@ interface ProfileData extends User {
 
 export const ProfilePage = () => {
   const { user: contextUser, signOut } = useAuth();
-
   const [profile, setProfile] = useState<ProfileData | null>(contextUser);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-  const [popupIsVisible, setPopupIsVisible] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const fetchProfile = async () => {
+    setIsLoading(true);
+    try {
+      const response = await api.get("/auth/user/profile");
+      setProfile(response.data.profile);
+      setError(null);
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Erro ao carregar perfil.";
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      setIsLoading(true);
-      try {
-        const response = await api.get("/auth/user/profile");
-        setProfile(response.data.profile);
-        setError(null);
-      } catch (err: any) {
-        const errorMessage =
-          err.response?.data?.message ||
-          err.response?.data ||
-          "Erro ao carregar perfil.";
-        setError(errorMessage);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchProfile();
   }, []);
 
-  const handleDeleteAccount = async () => {
-    const isConfirmed = window.confirm(
-      "TEM CERTEZA QUE DESEJA DELETAR SUA CONTA?\n\nEsta ação é permanente e irreversível. Todos os seus dados serão perdidos."
-    );
+  const handleDeleteClick = () => {
+    setError(null);
+    setIsConfirmOpen(true);
+  };
 
-    if (!isConfirmed) {
-      return;
-    }
-
+  const handleConfirmDelete = async () => {
+    setIsConfirmOpen(false);
     setIsDeleting(true);
     setError(null);
-
     try {
       await api.delete("/auth/user/delete");
-
-      setPopupMessage("Sua conta foi deletada com sucesso!");
-      setPopupIsVisible(true);
-      signOut();
+      setIsSuccessOpen(true);
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.message ||
@@ -80,17 +74,41 @@ export const ProfilePage = () => {
     }
   };
 
+  const handleSuccessPopupClose = () => {
+    setIsSuccessOpen(false);
+    signOut();
+  };
+  const handleEditClick = () => {
+    setError(null);
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateSuccess = (updatedData: Partial<ProfileData>) => {
+    setProfile((prev) => (prev ? { ...prev, ...updatedData } : null));
+    setIsEditModalOpen(false);
+  };
+
   const renderContent = () => {
     if (isLoading && !profile) {
-      return <p>Carregando perfil...</p>;
+      return (
+        <div className={styles.centeredMessage}>
+          <p>Carregando perfil...</p>
+        </div>
+      );
     }
-
     if (error && !profile) {
-      return <p className={styles.errorMessage}>{error}</p>;
+      return (
+        <div className={styles.centeredMessage}>
+          <p className={styles.errorMessage}>{error}</p>
+        </div>
+      );
     }
-
     if (!profile) {
-      return <p>Não foi possível carregar o perfil.</p>;
+      return (
+        <div className={styles.centeredMessage}>
+          <p>Não foi possível carregar o perfil.</p>
+        </div>
+      );
     }
 
     return (
@@ -108,9 +126,15 @@ export const ProfilePage = () => {
             </div>
           )}
           <h2>{profile.name}</h2>
-          {profile.role === "ADMIN" && (
-            <span className={styles.profileRole}>Administrador</span>
-          )}
+          {profile.role &&
+            (profile.role.toUpperCase() === "ADMIN" ||
+              profile.role.toUpperCase() === "OWNER") && (
+              <span className={styles.profileRole}>
+                {profile.role.toUpperCase() === "ADMIN"
+                  ? "Administrador"
+                  : "Proprietário"}
+              </span>
+            )}
         </div>
         <div className={styles.profileDetails}>
           <h3>Informações Pessoais</h3>
@@ -118,7 +142,6 @@ export const ProfilePage = () => {
             <strong>Nome:</strong>
             <span>{profile.name}</span>
           </div>
-
           <div className={styles.detailItem}>
             <strong>Email:</strong>
             <span>{profile.email}</span>
@@ -127,7 +150,6 @@ export const ProfilePage = () => {
             <strong>CPF:</strong>
             <span>{formatCPF(profile.cpf)}</span>
           </div>
-
           <div className={styles.detailItem}>
             <strong>Idade:</strong>
             <span>{profile.age ? `${profile.age} anos` : "Não informado"}</span>
@@ -144,12 +166,13 @@ export const ProfilePage = () => {
         </div>
         {error && <p className={styles.actionError}>{error}</p>}
         <div className={styles.profileActions}>
-          <button className={styles.actionButton}>Editar Perfil</button>
+          <button className={styles.actionButton} onClick={handleEditClick}>
+            Editar Perfil
+          </button>
           <button className={styles.actionButton}>Alterar Senha</button>
-
           <button
             className={`${styles.actionButton} ${styles.deleteButton}`}
-            onClick={handleDeleteAccount}
+            onClick={handleDeleteClick}
             disabled={isDeleting}
           >
             {isDeleting ? "Deletando..." : "Deletar Conta"}
@@ -165,11 +188,28 @@ export const ProfilePage = () => {
       <div className={styles.pageContainer}>{renderContent()}</div>
       <Footer />
       <Popup
-        isOpen={popupIsVisible}
-        onClose={() => setPopupIsVisible(false)}
-        title="Deletar conta"
-        message={popupMessage}
+        isOpen={isSuccessOpen}
+        onClose={handleSuccessPopupClose}
+        title="Conta Deletada"
+        message="Sua conta foi deletada com sucesso!"
       />
+      <Popup
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Confirmar Exclusão"
+        message="Tem certeza que deseja deletar sua conta?"
+        confirmText="Deletar"
+        cancelText="Cancelar"
+      />
+      {profile && (
+        <EditProfileModal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          currentProfile={profile}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
+      )}
     </>
   );
 };

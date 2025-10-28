@@ -1,0 +1,352 @@
+.dashboardContainer {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+  padding: 40px;
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.dashboardContainer h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 40px;
+}
+
+.tabSelector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #eee;
+}
+
+.tabSelector button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #555;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.tabSelector button:hover {
+  color: #04a347;
+}
+
+.tabSelector button.activeTab {
+  color: #04a347;
+  font-weight: 600;
+  border-bottom-color: #04a347;
+}
+
+.searchSection {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.searchSection h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.searchForm {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.searchInput {
+  flex-grow: 1;
+  padding: 10px 15px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.searchButton,
+.clearButton {
+  padding: 10px 15px;
+  font-size: 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.searchButton {
+  background-color: #04a347;
+  color: white;
+}
+.searchButton:hover {
+  background-color: #038b3d;
+}
+.searchButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.clearButton {
+  background-color: #6c757d;
+  color: white;
+}
+.clearButton:hover {
+  background-color: #5a6268;
+}
+
+.searchError {
+  margin-top: 15px;
+  text-align: left;
+}
+
+.userListSection,
+.orderListSection,
+.soccerListSection {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-top: 30px;
+}
+
+.userListSection h2,
+.orderListSection h2,
+.soccerListSection h2 {
+  color: #04a347;
+  border-bottom: 2px solid #04a347;
+  padding-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.userTable,
+.orderTable,
+.soccerTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  min-width: 700px;
+}
+
+.userTable th,
+.userTable td,
+.orderTable th,
+.orderTable td,
+.soccerTable th,
+.soccerTable td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.userTable td:nth-child(2),
+.orderTable td:nth-child(2),
+.soccerTable td:nth-child(2) {
+  white-space: normal;
+}
+
+.userTable th,
+.orderTable th,
+.soccerTable th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+  color: #333;
+}
+
+.userTable tbody tr:nth-child(even),
+.orderTable tbody tr:nth-child(even),
+.soccerTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.userTable tbody tr:hover,
+.orderTable tbody tr:hover,
+.soccerTable tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.userTable td,
+.orderTable td,
+.soccerTable td {
+  font-size: 14px;
+  color: #555;
+}
+
+.userActions {
+  text-align: center;
+}
+
+.makeOwnerButton {
+  background-color: #ffc107;
+  color: #333;
+  border: none;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.makeOwnerButton svg {
+  font-size: 14px;
+}
+
+.makeOwnerButton:hover {
+  background-color: #e0a800;
+}
+
+.makeOwnerButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+.status {
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+}
+.statusPENDING {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.statusAPPROVED,
+.statusActive {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusDENIED,
+.statusREJECTED,
+.statusInactive {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.orderActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.orderActions button {
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.2s ease;
+}
+.orderActions button svg {
+  font-size: 14px;
+}
+.approveButton {
+  background-color: #28a745;
+  color: white;
+}
+.approveButton:hover {
+  background-color: #218838;
+}
+.approveButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.rejectButton {
+  background-color: #dc3545;
+  color: white;
+}
+.rejectButton:hover {
+  background-color: #c82333;
+}
+.rejectButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.soccerActions {
+  text-align: center;
+}
+
+.deleteSoccerButton {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.deleteSoccerButton svg {
+  font-size: 14px;
+}
+
+.deleteSoccerButton:hover {
+  background-color: #c82333;
+}
+
+.deleteSoccerButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 15px;
+  border-radius: 4px;
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

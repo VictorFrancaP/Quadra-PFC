@@ -33,6 +33,11 @@ export class CreateRefreshTokenController {
 
     // criando try/catch para a captura de erros na execução
     try {
+      // verificando o se refreshToken existe no cookies do navegador
+      if (!refresh_token) {
+        throw new RefreshTokenNotFoundError();
+      }
+
       // usando desestruturação para pegar os dados de token e refreshToken
       const { token, user } = await useCase.execute({
         refreshToken: refresh_token,
@@ -53,7 +58,7 @@ export class CreateRefreshTokenController {
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

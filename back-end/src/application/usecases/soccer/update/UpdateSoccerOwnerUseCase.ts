@@ -2,6 +2,7 @@
 import { IFindUserByIdRepositories } from "../../../../domain/repositories/user/IFindUserByIdRepositories";
 import { IFindSoccerOwnerRepositories } from "../../../../domain/repositories/soccer/IFindSoccerOwnerRepositories";
 import { IOpenCageProvider } from "../../../../shared/providers/geocoding/IOpenCageProvider";
+import { IEncryptData } from "../../../../shared/providers/aes/encrypt/IEncryptData";
 import { IUpdateSoccerOwnerRepositories } from "../../../../domain/repositories/soccer/IUpdateSoccerOwnerRepositories";
 
 // Importando interface de dados
@@ -21,6 +22,7 @@ export class UpdateSoccerOwnerUseCase {
     private readonly findUserByIdRepository: IFindUserByIdRepositories,
     private readonly findSoccerOwnerRepository: IFindSoccerOwnerRepositories,
     private readonly openCageProvider: IOpenCageProvider,
+    private readonly encryptData: IEncryptData,
     private readonly updateSoccerOwnerRepository: IUpdateSoccerOwnerRepositories
   ) {}
 
@@ -61,6 +63,9 @@ export class UpdateSoccerOwnerUseCase {
       longitude = lng;
     }
 
+    // criptografando dado
+    const fone = await this.encryptData.encrypted(data.fone);
+
     // utilizando metodo estatico para atualização de informações
     const updatesSoccer = Soccer.updateSoccer(userSoccer, {
       name: data.name,
@@ -69,12 +74,13 @@ export class UpdateSoccerOwnerUseCase {
       address: data.address,
       city: data.city,
       state: data.state,
-      fone: data.fone,
+      fone: fone,
       operationDays: data.operationDays,
       openHour: data.openHour,
       closingHour: data.closingHour,
       priceHour: data.priceHour,
       maxDuration: data.maxDuration,
+      images: data.images,
       isActive: data.isActive,
       latitude: latitude,
       longitude: longitude,

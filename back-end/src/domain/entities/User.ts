@@ -98,7 +98,7 @@ export class User {
       updates.cep ?? existing.cep,
       existing.cpf !== "" ? existing.cpf : updates.cpf!,
       existing.gender,
-      existing.profileImage,
+      updates.profileImage ?? existing.profileImage,
       updates.latitude !== undefined ? updates.latitude : existing.latitude,
       updates.longitude !== undefined ? updates.longitude : existing.longitude,
       existing.id,

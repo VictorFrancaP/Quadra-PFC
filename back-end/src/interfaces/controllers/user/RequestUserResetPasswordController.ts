@@ -70,7 +70,7 @@ export class RequestUserResetPasswordController {
         return response.status(err.statusCode).json(err.message);
       }
 
-      // retornando erro desconhecido
+      // erro desconhecido
       return response.status(500).json({
         message: err.message,
       });

@@ -1,0 +1,137 @@
+.pageContainer {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background-color: #f4f7f6;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.orderCard {
+  width: 100%;
+  max-width: 800px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 30px 40px;
+}
+
+.orderCard h2 {
+  text-align: center;
+  color: #04a347;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: 600;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+}
+
+.detailItem {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 15px;
+  font-size: 16px;
+  padding: 18px 0;
+  border-bottom: 1px solid #f0f0f0;
+  align-items: center;
+}
+
+.detailItem:last-child {
+  border-bottom: none;
+}
+
+.detailItem strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.detailItem span {
+  color: #555;
+  word-break: break-word;
+}
+
+.status {
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 13px;
+  text-transform: uppercase;
+  display: inline-block;
+  text-align: center;
+}
+
+.statusPENDING {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusAPPROVED {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusREJECTED {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 30px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.editButton svg {
+  font-size: 16px;
+}
+
+.editButton:hover {
+  background-color: #0056b3;
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #555;
+}
+
+.spinner {
+  margin-right: 10px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  color: #d9534f;
+  background-color: #fdd;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

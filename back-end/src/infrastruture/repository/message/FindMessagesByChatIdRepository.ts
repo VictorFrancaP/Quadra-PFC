@@ -15,7 +15,7 @@ export class FindMessagesByChatIdRepository
       },
 
       orderBy: {
-        created_at: "desc",
+        created_at: "asc",
       },
     });
 

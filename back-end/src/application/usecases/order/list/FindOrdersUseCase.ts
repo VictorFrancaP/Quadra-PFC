@@ -49,14 +49,13 @@ export class FindOrdersUseCase {
     // descriptografando dados do array
     const decryptedOrders = await Promise.all(
       orders.map(async (order) => {
-        return new Order(
-          await this.decryptData.decrypted(order.localName),
-          await this.decryptData.decrypted(order.description),
-          await this.decryptData.decrypted(order.cnpj),
-          await this.decryptData.decrypted(order.fone),
-          order.status,
-          order.userId
-        );
+        return {
+          ...order,
+          localName: await this.decryptData.decrypted(order.localName),
+          description: await this.decryptData.decrypted(order.description),
+          cnpj: await this.decryptData.decrypted(order.cnpj),
+          fone: await this.decryptData.decrypted(order.fone),
+        };
       })
     );
 

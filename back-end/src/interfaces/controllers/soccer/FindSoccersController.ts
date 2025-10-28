@@ -35,7 +35,7 @@ export class FindSoccersController {
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

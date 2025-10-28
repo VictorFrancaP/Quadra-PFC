@@ -1,0 +1,272 @@
+.pageContainer {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  margin-top: 70px;
+  padding: 40px;
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", sans-serif;
+}
+.pageContainer h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.quadrasGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 40px auto 0;
+}
+.quadraCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+.quadraCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.cardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  background-color: #eee;
+}
+.cardContent {
+  padding: 15px 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.cardContent h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.location svg {
+  color: #04a347;
+  flex-shrink: 0;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  color: #04a347;
+  margin-bottom: 0;
+  margin-top: auto;
+  padding-top: 10px;
+  font-weight: bold;
+}
+
+.price svg {
+  color: #04a347;
+  flex-shrink: 0;
+}
+
+.cardActions {
+  padding: 15px 15px;
+  border-top: 1px solid #eee;
+  background-color: #fdfdfd;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.actionButton {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.actionButton svg {
+  font-size: 14px;
+}
+
+.detailsButton {
+  background-color: #f8f9fa;
+  color: #343a40;
+  border-color: #dee2e6;
+}
+
+.detailsButton:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #000;
+}
+
+.reserveButton {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #04a347;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reserveButton:hover {
+  background-color: #038b3d;
+  border-color: #038b3d;
+}
+
+.reserveButton:disabled {
+  background-color: #aaa;
+  border-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.loadingMessage,
+.errorMessage,
+.centeredMessage {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 18px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 200px;
+}
+
+.spinner {
+  font-size: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorMessage {
+  color: #d9534f;
+  background-color: #fdd;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.distanceControl {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.distanceControlPlaceholder {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: #555;
+}
+
+.distanceControlPlaceholder strong {
+  color: #04a347;
+}
+
+.mapPlaceholder {
+  height: 400px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  border: 2px dashed #ced4da;
+}
+
+.distanceInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #17a2b8;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.distanceInfo svg {
+  color: #17a2b8;
+  flex-shrink: 0;
+}
+
+.mapContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+@media (max-width: 600px) {
+  .quadrasGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .pageContainer {
+    padding: 20px;
+  }
+  .mapPlaceholder {
+    height: 300px;
+  }
+}

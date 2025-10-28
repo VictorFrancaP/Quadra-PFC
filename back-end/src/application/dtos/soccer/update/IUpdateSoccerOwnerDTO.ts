@@ -14,5 +14,6 @@ export interface IUpdateSoccerOwnerDTO {
     priceHour: number;
     maxDuration: number;
     isActive: boolean;
+    images: string[];
     observations: string;
 }

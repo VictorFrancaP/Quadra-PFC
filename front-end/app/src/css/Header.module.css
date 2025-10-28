@@ -10,7 +10,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 999;
   font-family: "Segoe UI", sans-serif;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .groupOne img {
-  width: 25px;
-  height: 25px;
+  width: 45px;
+  height: 30px;
   border-radius: 50%;
   background: #04a347;
   cursor: pointer;
@@ -45,7 +45,7 @@
 .container {
   display: flex;
   align-items: center;
-  gap: 5px; /* MODIFICADO: Reduzido de 8px para 5px */
+  gap: 5px;
   font-size: 16px;
   color: #555;
   transition: color 0.3s ease;
@@ -69,10 +69,26 @@
 .groupThree {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-/* Estilos para <a> (Botões Entrar/Cadastrar) */
+.headerActionLink {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  color: #555;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.headerActionLink:hover {
+  color: #04a347;
+}
+
+.headerActionLink svg {
+  font-size: 20px;
+}
+
 .groupThree a {
   text-decoration: none;
   font-size: 14px;
@@ -80,10 +96,10 @@
   padding: 8px 16px;
   border-radius: 8px;
   transition: all 0.3s ease;
-
 }
 
 .groupThree a:first-child {
+  padding: 0;
   color: #333;
 }
 
@@ -101,11 +117,26 @@
   background: #038b3d;
 }
 
-/* ================================================== */
-/* === ESTILOS ADICIONADOS PARA O USUÁRIO LOGADO === */
-/* ================================================== */
+.becomeOwnerLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #04a347;
+  background-color: #e7f6ec;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
 
-/* O container que agrupa a foto, nome e botão de sair */
+.becomeOwnerLink:hover {
+  background-color: #d1f0db;
+  color: #038b3d;
+}
+
 .profileContainer {
   display: flex;
   align-items: center;
@@ -116,31 +147,25 @@
   }
 }
 
-/* Este é o <Link> (tag <a>) que envolve a foto.
-  Garante que não haja sublinhado ou cor azul de link.
-*/
 .profileLink {
   display: block;
   text-decoration: none;
-  line-height: 0; /* Impede altura extra */
+  line-height: 0;
   transition: transform 0.2s ease-in-out;
 }
 
 .profileLink:hover {
-  transform: scale(1.1); /* Efeito de zoom sutil no hover */
+  transform: scale(1.1);
 }
 
-/* A <img> da foto de perfil do usuário */
 .profileImage {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #04a347;
-  padding: 0;
 }
 
-/* O ícone <FaUser> que aparece se não houver 'profileImage' */
 .profileIcon {
   width: 36px;
   height: 36px;
@@ -153,16 +178,13 @@
   font-size: 18px;
 }
 
-/* O <span> "Olá, {Nome}" */
 .userName {
   font-size: 15px;
   font-weight: 600;
   color: #333;
-  /* Impede que o nome "quebre" em duas linhas */
   white-space: nowrap;
 }
 
-/* O <button> de Sair (Logout) */
 .logoutButton {
   background: none;
   border: none;
@@ -177,5 +199,5 @@
 }
 
 .logoutButton:hover {
-  color: #d9534f; /* Vermelho no hover */
+  color: #d9534f;
 }

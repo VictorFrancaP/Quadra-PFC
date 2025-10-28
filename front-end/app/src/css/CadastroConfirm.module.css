@@ -23,7 +23,7 @@
   }
 }
 
-.sectionCadastro {
+.section {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -35,7 +35,7 @@
   box-sizing: border-box;
 }
 
-.sectionCadastro :global(.backgroundVideo) {
+.section :global(.backgroundVideo) {
   position: absolute;
   top: 0;
   left: 0;
@@ -45,7 +45,7 @@
   z-index: -2;
 }
 
-.sectionCadastro::after {
+.section::after {
   content: "";
   position: absolute;
   top: 0;
@@ -68,7 +68,7 @@
   box-sizing: border-box;
 }
 
-.containerForm h1 {
+.containerForm h2 {
   font-size: 1.8rem;
   color: var(--color-text);
   margin-bottom: 0.3rem;

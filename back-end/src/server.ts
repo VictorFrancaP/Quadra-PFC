@@ -11,10 +11,17 @@ dotenv.config();
 // Importando middleware para validar token do usuário
 import { ensureSocketAuth } from "./interfaces/middlewares/ensureSocketAuth";
 
-// Importando instâncias das controllers
-import { sendMessageController } from "./interfaces/container";
-import { joinChatController } from "./interfaces/container";
-import { loadHistoryMessagesController } from "./interfaces/container";
+// Importando controllers
+import { FindChatController } from "./interfaces/controllers/chat/FindChatController";
+import { SendMessageController } from "./interfaces/controllers/message/SendMessageController";
+import { JoinChatController } from "./interfaces/controllers/chat/JoinChatController";
+import { LoadHistoryMessagesController } from "./interfaces/controllers/message/LoadHistoryMessagesController";
+
+// instânciando controllers
+const sendMessageController = new SendMessageController(io);
+const joinChatController = new JoinChatController();
+const loadHistoryMessagesController = new LoadHistoryMessagesController();
+const findChatController = new FindChatController();
 
 // usando o middleware de autenticação para todas as novas conexões
 io.use(ensureSocketAuth);
@@ -27,6 +34,10 @@ io.on("connection", (socket) => {
   );
 
   socket.on("joinChat", (data) => joinChatController.handle(socket, data));
+
+  socket.on("findOrCreateChat", (data, callback) =>
+    findChatController.handle(socket, data, callback)
+  );
 
   socket.on("loadHistory", (data) =>
     loadHistoryMessagesController.handle(socket, data)

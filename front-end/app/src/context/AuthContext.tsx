@@ -9,6 +9,8 @@ export interface User {
   email: string;
   role: string;
   profileImage: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 export const api = axios.create({
