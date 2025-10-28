@@ -5,6 +5,7 @@ import { IFindCnpjOwnerSoccerRepositories } from "../../../../domain/repositorie
 import { IOpenCageProvider } from "../../../../shared/providers/geocoding/IOpenCageProvider";
 import { IFindUserOrderRepositories } from "../../../../domain/repositories/order/IFindUserOrderRepositories";
 import { ICreateOwnerSoccerRepositories } from "../../../../domain/repositories/soccer/ICreateOwnerSoccerRepositories";
+import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando interface de dados
 import { ICreateOwnerSoccerDTO } from "../../../dtos/soccer/create/ICreateOwnerSoccerDTO";
@@ -27,6 +28,7 @@ export class CreateOwnerSoccerUseCase {
     private readonly findUserOrderRepository: IFindUserOrderRepositories,
     private readonly findCnpjOwnerSoccerRepository: IFindCnpjOwnerSoccerRepositories,
     private readonly openCageProvider: IOpenCageProvider,
+    private readonly pictureConfig: IPictureConfig,
     private readonly createOwnerSoccerRepository: ICreateOwnerSoccerRepositories
   ) {}
 
@@ -100,6 +102,7 @@ export class CreateOwnerSoccerUseCase {
       true,
       data.userId,
       user.name,
+      this.pictureConfig.soccerDefault,
       latitude,
       longitude,
       data.ownerPixKey,

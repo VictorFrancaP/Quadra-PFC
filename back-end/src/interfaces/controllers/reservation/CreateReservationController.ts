@@ -26,7 +26,7 @@ export class CreateReservationController {
   async handle(request: Request, response: Response) {
     // verificando usuário logado
     const userId = request.user.id;
-    const { soccerId } = request.params;
+    const { id } = request.params;
     const { startTime, duration } = request.body;
 
     // convertendo string para date
@@ -56,7 +56,7 @@ export class CreateReservationController {
     try {
       const res = await useCase.execute({
         userId,
-        soccerId: soccerId as string,
+        soccerId: id as string,
         startTime: startTimeDate,
         duration,
       });
@@ -101,7 +101,7 @@ export class CreateReservationController {
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

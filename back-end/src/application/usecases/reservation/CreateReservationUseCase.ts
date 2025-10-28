@@ -20,7 +20,10 @@ import { Reservation } from "../../../domain/entities/Reservation";
 import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
 import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerNotFoundError";
 import { SoccerNotActiveError } from "../../../shared/errors/soccer-error/SoccerNotActiveError";
-import { OwnerReservationError } from "../../../shared/errors/reservation-error/OwnerReservationError";
+import {
+  OwnerReservationError,
+  OwnerReservationOtherError,
+} from "../../../shared/errors/reservation-error/OwnerReservationError";
 import { ReservationDurationError } from "../../../shared/errors/reservation-error/ReservationDurationError";
 import { ReservationAlreadyExists } from "../../../shared/errors/reservation-error/ReservationAlreadyExistsError";
 
@@ -45,6 +48,11 @@ export class CreateReservationUseCase {
     // caso não exista, retorna um erro
     if (!user) {
       throw new UserNotFoundError();
+    }
+
+    // caso o usuário for proprietario, retorna um erro
+    if (user.role === "OWNER") {
+      throw new OwnerReservationOtherError();
     }
 
     // procurando quadra na base de dados

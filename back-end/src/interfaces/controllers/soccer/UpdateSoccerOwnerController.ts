@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { FindSoccerOwnerRepository } from "../../../infrastruture/repository/soccer/FindSoccerOwnerRepository";
 import { OpenCageProvider } from "../../../shared/providers/geocoding/OpenCageProvider";
+import { EncryptData } from "../../../shared/providers/aes/encrypt/EncryptData";
 import { UpdateSoccerOwnerRepository } from "../../../infrastruture/repository/soccer/UpdateSoccerOwnerRepository";
 
 // Importando usecase
@@ -34,6 +35,7 @@ export class UpdateSoccerOwnerController {
       priceHour,
       maxDuration,
       isActive,
+      images,
       observations,
     } = request.body;
 
@@ -41,6 +43,7 @@ export class UpdateSoccerOwnerController {
     const findUserByIdRepository = new FindUserByIdRepository();
     const findSoccerOwnerRepository = new FindSoccerOwnerRepository();
     const openCageProvider = new OpenCageProvider();
+    const encryptData = new EncryptData();
     const updateSoccerOwnerRepository = new UpdateSoccerOwnerRepository();
 
     // instância da usecase
@@ -48,6 +51,7 @@ export class UpdateSoccerOwnerController {
       findUserByIdRepository,
       findSoccerOwnerRepository,
       openCageProvider,
+      encryptData,
       updateSoccerOwnerRepository
     );
 
@@ -68,6 +72,7 @@ export class UpdateSoccerOwnerController {
         priceHour,
         maxDuration,
         isActive,
+        images,
         observations,
       });
 
@@ -93,7 +98,7 @@ export class UpdateSoccerOwnerController {
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

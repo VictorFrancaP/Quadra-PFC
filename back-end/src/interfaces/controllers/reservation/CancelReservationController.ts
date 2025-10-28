@@ -18,6 +18,7 @@ import { ReservationAccessDeniedError } from "../../../shared/errors/reservation
 import { ReservationCancelledError } from "../../../shared/errors/reservation-error/ReservationCancelledError";
 import { ReservationTransactionError } from "../../../shared/errors/reservation-error/ReservationTransactionError";
 import { ReservationRefundError } from "../../../shared/errors/reservation-error/ReservationRefundError";
+import { OwnerReservationOtherError } from "../../../shared/errors/reservation-error/OwnerReservationError";
 
 // exportando controller
 export class CancelReservationController {
@@ -26,7 +27,7 @@ export class CancelReservationController {
     const userId = request.user.id;
 
     // pegando id da reserva
-    const { reservationId } = request.params;
+    const { id: reservationId } = request.params;
 
     // instânciando interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
@@ -63,6 +64,11 @@ export class CancelReservationController {
         return response.status(err.statusCode).json(err.message);
       }
 
+      // erro de usuário é proprietário
+      if (err instanceof OwnerReservationOtherError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
       // erro de reserva não encontrada
       if (err instanceof ReservationNotFoundError) {
         return response.status(err.statusCode).json(err.message);
@@ -89,7 +95,7 @@ export class CancelReservationController {
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

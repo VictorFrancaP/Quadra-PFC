@@ -44,7 +44,6 @@ export class WebHookController {
 
       return response.status(200).json("Notificação processada com sucesso!.");
     } catch (err: any) {
-      console.error(err.message);
       return response.status(500).json(err.message);
     }
   }

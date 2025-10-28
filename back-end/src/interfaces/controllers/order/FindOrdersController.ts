@@ -54,9 +54,9 @@ export class FindOrdersController {
       if (err instanceof UsersOrdersNotFoundError) {
         return response.status(err.statusCode).json(err.message);
       }
-
+      
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

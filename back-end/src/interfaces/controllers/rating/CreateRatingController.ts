@@ -6,6 +6,7 @@ import { FindUserByIdRepository } from "../../../infrastruture/repository/user/F
 import { FindSoccerByIdRepository } from "../../../infrastruture/repository/soccer/FindSoccerByIdRepository";
 import { FindSoccerRatingsRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingsRepository";
 import { FindUserRatingRepository } from "../../../infrastruture/repository/rating/FindUserRatingRepository";
+import { FindReservationConfirmedRepository } from "../../../infrastruture/repository/reservation/FindReservationConfirmedRepository";
 import { CreateRatingRepository } from "../../../infrastruture/repository/rating/CreateRatingRepository";
 
 // Importando usecase
@@ -18,6 +19,7 @@ import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerN
 import { OwnerRatingError } from "../../../shared/errors/rating-error/OwnerRatingError";
 import { UserRatingError } from "../../../shared/errors/rating-error/UserRatingError";
 import { UserRatingSameError } from "../../../shared/errors/rating-error/UserRatingError";
+import { ReservationNotFoundError } from "../../../shared/errors/reservation-error/ReservationNotFoundError";
 
 // exportando controller
 export class CreateRatingController {
@@ -32,6 +34,8 @@ export class CreateRatingController {
     const findSoccerByIdRepository = new FindSoccerByIdRepository();
     const findSoccerRatingRepository = new FindSoccerRatingsRepository();
     const findUserRatingRepository = new FindUserRatingRepository();
+    const findReservationConfirmedRepository =
+      new FindReservationConfirmedRepository();
     const createRatingRepository = new CreateRatingRepository();
 
     // instância usecase
@@ -40,6 +44,7 @@ export class CreateRatingController {
       findSoccerByIdRepository,
       findSoccerRatingRepository,
       findUserRatingRepository,
+      findReservationConfirmedRepository,
       createRatingRepository
     );
 
@@ -82,13 +87,18 @@ export class CreateRatingController {
         return response.status(err.statusCode).json(err.message);
       }
 
+      // erro de reserva não encontrada
+      if (err instanceof ReservationNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
+      }
+
       // erro de usuário se autoavaliar
       if (err instanceof UserRatingSameError) {
         return response.status(err.statusCode).json(err.message);
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

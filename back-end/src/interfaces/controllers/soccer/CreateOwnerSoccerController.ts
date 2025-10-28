@@ -8,6 +8,7 @@ import { FindUserOrderRepository } from "../../../infrastruture/repository/order
 import { OpenCageProvider } from "../../../shared/providers/geocoding/OpenCageProvider";
 import { FindCnpjOwnerSoccerRepository } from "../../../infrastruture/repository/soccer/FindCnpjOwnerSoccerRepositories";
 import { CreateOwnerSoccerRepository } from "../../../infrastruture/repository/soccer/CreateOwnerSoccerRepository";
+import { PictureConfig } from "../../../shared/providers/cloudinary/default-profile/PictureConfig";
 
 // Importando usecase
 import { CreateOwnerSoccerUseCase } from "../../../application/usecases/soccer/create/CreateOwnerSoccerUseCase";
@@ -45,6 +46,7 @@ export class CreateOwnerSoccerController {
     const findUserOrderRepository = new FindUserOrderRepository();
     const findCnpjOwnerSoccerRepository = new FindCnpjOwnerSoccerRepository();
     const openCageProvider = new OpenCageProvider();
+    const pictureConfig = new PictureConfig();
     const createOwnerSoccerRepository = new CreateOwnerSoccerRepository();
 
     // instância da usecase
@@ -54,6 +56,7 @@ export class CreateOwnerSoccerController {
       findUserOrderRepository,
       findCnpjOwnerSoccerRepository,
       openCageProvider,
+      pictureConfig,
       createOwnerSoccerRepository
     );
 
@@ -107,7 +110,7 @@ export class CreateOwnerSoccerController {
       }
 
       // erro desconhecido
-      throw new Error(err.message);
+      return response.status(500).json(err.message);
     }
   }
 }

@@ -6,4 +6,5 @@ export interface IUpdateUserDTO {
   cep?: string;
   cpf?: string;
   name?: string;
+  profileImage?: string;
 }
