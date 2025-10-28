@@ -153,28 +153,41 @@ export const CadastroConfirm = () => {
   const SearchCep = async () => {
     const cepLimpo = cep.replace(/\D/g, "");
 
-    if (cepLimpo.length !== 8) return;
+    if (cepLimpo.length !== 8) {
+      setCepError("");
+      return;
+    }
+
+    setCepError("Buscando CEP...");
 
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_VIACEP}/${cepLimpo}/json/`
       );
 
-      if (response.data === undefined || response.data === null) {
-        setCepError("CEP não encontrado!");
-        setAddress("");
-      }
-
       if (response.data.erro) {
         setCepError("CEP não encontrado!");
         setAddress("");
+        return;
+      }
+      setCepError("");
+      const logradouro = response.data.logradouro || "";
+      const bairro = response.data.bairro || "";
+      const localidade = response.data.localidade || "";
+      const uf = response.data.uf || "";
+      const addressParts = [logradouro, bairro].filter(Boolean);
+      const cityStateParts = [localidade, uf].filter(Boolean);
+      let finalAddress = addressParts.join(", ");
+      if (finalAddress && cityStateParts.length > 0) {
+        finalAddress += ` - ${cityStateParts.join("/")}`;
+      } else if (cityStateParts.length > 0) {
+        finalAddress = cityStateParts.join("/");
       }
 
-      setCepError("");
-      const address = `${response.data.logradouro}, ${response.data.bairro} - ${response.data.localidade}/${response.data.uf}`;
-      setAddress(address);
+      setAddress(finalAddress);
     } catch (err: any) {
-      setCepError("Erro ao buscar o CEP. Tente novamente");
+      console.error("Erro ao buscar o CEP:", err);
+      setCepError("Erro ao buscar o CEP. Tente novamente.");
       setAddress("");
     }
   };

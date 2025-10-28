@@ -32,7 +32,6 @@
   z-index: -1;
 }
 
-/* Animação da imagem (blur → nítido) */
 @keyframes fadeInImage {
   0% {
     filter: brightness(0.6) blur(15px);

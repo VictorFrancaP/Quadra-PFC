@@ -1,0 +1,203 @@
+/* Overlay (Fundo escuro) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000; /* Garante que fique acima de outros conteúdos */
+  font-family: "Segoe UI", sans-serif;
+  padding: 20px; /* Evita que o modal cole nas bordas */
+}
+
+/* Modal */
+.modal {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px; /* Largura do modal */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Garante que o conteúdo não vaze */
+  max-height: 90vh; /* Limita a altura */
+}
+
+/* Cabeçalho */
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Título à esquerda, botão à direita */
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0; /* Impede que encolha */
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #aaa;
+  transition: color 0.2s ease;
+  padding: 5px; /* Aumenta área de clique */
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+/* Corpo do Formulário */
+.modalForm {
+  padding: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaço entre os grupos (estrelas e comentários) */
+  overflow-y: auto; /* Adiciona scroll se o conteúdo for muito grande */
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+}
+
+.formGroup textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  box-sizing: border-box; /* Garante que o padding não estoure a largura */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  resize: vertical; /* Permite redimensionar altura */
+  min-height: 100px;
+  font-family: "Segoe UI", sans-serif; /* Garante consistência da fonte */
+}
+
+.formGroup textarea:focus {
+  border-color: #04a347; /* Destaque verde no foco */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(4, 163, 71, 0.2);
+}
+
+/* Estrelas */
+.starContainer {
+  display: flex;
+  gap: 5px; /* Espaço entre estrelas */
+  font-size: 32px; /* Tamanho das estrelas */
+  cursor: pointer;
+}
+
+.starEmpty {
+  color: #ccc; /* Cor da estrela vazia */
+  transition: color 0.2s ease;
+}
+
+.starFilled {
+  color: #ffc107; /* Cor da estrela cheia (amarelo) */
+  transition: color 0.2s ease;
+}
+
+/* Container de estrelas desabilitado (opcional) */
+.starContainer.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Mensagem de Erro */
+.errorMessage {
+  color: #d9534f; /* Vermelho */
+  background-color: #fdd;
+  border: 1px solid #f5c6cb;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Ações (Botões) */
+.modalActions {
+  display: flex;
+  justify-content: flex-end; /* Alinha botões à direita */
+  gap: 10px;
+  padding: 15px 25px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+  flex-shrink: 0; /* Impede que encolha */
+}
+
+.modalActions button {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cancelButton {
+  background-color: #f4f7f6;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.cancelButton:hover {
+  background-color: #e5e5e5;
+}
+
+.cancelButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Botão Salvar/Enviar */
+.saveButton {
+  background-color: #04a347; /* Verde */
+  color: white;
+}
+
+.saveButton:hover {
+  background-color: #038b3d; /* Verde escuro */
+}
+
+.saveButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
