@@ -58,8 +58,8 @@ export const Home = () => {
           </div>
 
           <div className={styles.buttons}>
-            <Link to="/encontrar">Encontrar Quadras</Link>
-            <Link to="/reservar">Reservar online</Link>
+            <Link to="/quadras-proximas">Encontrar Quadras</Link>
+            <Link to="/quadras">Reservar online</Link>
           </div>
         </div>
       </section>

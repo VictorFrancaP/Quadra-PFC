@@ -7,9 +7,12 @@ import {
   FaSignOutAlt,
   FaStore,
   FaFileAlt,
-  FaDoorOpen,
+  FaPlusSquare,
+  FaStreetView,
+  FaCalendarCheck,
+  FaClipboardList,
 } from "react-icons/fa";
-import Logo from "../../public/logo.png";
+import Logo from "../../public/logo-header.png";
 import { useAuth } from "../context/AuthContext";
 import { FaUserShield } from "react-icons/fa";
 
@@ -21,6 +24,21 @@ export const Header = () => {
     user &&
     user.role?.toUpperCase() !== "ADMIN" &&
     user.role?.toUpperCase() !== "OWNER";
+
+  const isAdminOrOwner =
+    isAuthenticated &&
+    user &&
+    (user.role?.toUpperCase() === "ADMIN" ||
+      user.role?.toUpperCase() === "OWNER");
+
+  const isUserOrAdmin =
+    isAuthenticated &&
+    user &&
+    (user.role?.toUpperCase() === "USER" ||
+      user.role?.toUpperCase() === "ADMIN");
+
+  const isOwner =
+    isAuthenticated && user && user.role?.toUpperCase() === "OWNER";
 
   const handleLogout = () => {
     signOut();
@@ -47,11 +65,27 @@ export const Header = () => {
               Quadras
             </Link>
           </div>
+          {isAuthenticated && (
+            <div className={styles.container}>
+              <FaStreetView className={styles.icon} />
+              <Link className={styles.link} to="/quadras-proximas">
+                Próximas
+              </Link>
+            </div>
+          )}
           {isAuthenticated && user?.role?.toLowerCase() === "admin" && (
             <div className={styles.container}>
               <FaUserShield className={styles.icon} />
               <Link className={styles.link} to="/admin/dashboard">
                 Admin
+              </Link>
+            </div>
+          )}
+          {isAdminOrOwner && (
+            <div className={styles.container}>
+              <FaPlusSquare className={styles.icon} />
+              <Link className={styles.link} to="/cadastrar-quadra">
+                Cadastrar Quadra
               </Link>
             </div>
           )}
@@ -81,9 +115,19 @@ export const Header = () => {
                   <FaUser className={styles.profileIcon} />
                 )}
               </Link>
-              <span className={styles.userName}>
+              <span className={styles.userName} style={{ marginRight: "0" }}>
                 Olá, {user?.name.split(" ")[0]}
               </span>
+              {isUserOrAdmin && (
+                <Link
+                  to="/minhas-reservas"
+                  className={styles.headerActionLink}
+                  title="Minhas Reservas"
+                  style={{ padding: "6px" }}
+                >
+                  <FaCalendarCheck />
+                </Link>
+              )}
               {isCommonUser && (
                 <Link
                   to="/minha-solicitacao"
@@ -101,6 +145,16 @@ export const Header = () => {
                 >
                   <FaStore />
                   <span>Virar Proprietário</span>
+                </Link>
+              )}
+              {isOwner && (
+                <Link
+                  to="/minha-quadra"
+                  className={styles.headerActionLink}
+                  title="Minha Quadra"
+                  style={{padding: "6px"}}
+                >
+                  <FaClipboardList />
                 </Link>
               )}
               <button onClick={handleLogout} className={styles.logoutButton}>

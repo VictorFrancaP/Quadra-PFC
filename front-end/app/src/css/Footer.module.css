@@ -70,7 +70,6 @@
   margin: 0;
 }
 
-/* ícones sociais */
 .icons {
   display: flex;
   align-items: center;
@@ -91,7 +90,6 @@
   cursor: pointer;
 }
 
-/* ícones de contato */
 .iconContato {
   display: flex;
   align-items: center;
@@ -116,7 +114,6 @@ hr {
   opacity: 0.3;
 }
 
-/* container inferior */
 .containerTwo {
   display: flex;
   justify-content: space-between;

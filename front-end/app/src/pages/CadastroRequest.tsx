@@ -1,21 +1,13 @@
-// Importando Header e Footer e Popup
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Popup } from "../components/Popup";
 import styles from "../css/CadastroRequest.module.css";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
-// Importando navigate para navegação entre as rotas
 import { useNavigate } from "react-router-dom";
-
-// Importando api
 import { api } from "../context/AuthContext";
-
-// Importando useState
 import { useState } from "react";
 
-// exportando pagina
 export const CadastroRequest = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +18,6 @@ export const CadastroRequest = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const navigate = useNavigate();
 
-  // validando dados
   const validate = () => {
     let isValid = true;
 

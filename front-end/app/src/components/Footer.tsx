@@ -1,16 +1,12 @@
-// Importando css
 import styles from "../css/Footer.module.css";
-// Importando icons
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
-// Importando Link
 import { Link } from "react-router-dom";
 import Logo from '../../public/logo.png';
 
 export const Footer = () => {
-  // pegando ano atual
   const ano = new Date().getFullYear();
 
   return (

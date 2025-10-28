@@ -11,6 +11,8 @@ import {
   FaBan,
   FaSpinner,
   FaUserCog,
+  FaTrash,
+  FaExclamationCircle,
 } from "react-icons/fa";
 
 interface DisplayUser {
@@ -30,7 +32,31 @@ interface OrderData {
   userId: string;
 }
 
-type ActiveTab = "users" | "orders";
+interface SoccerData {
+  id: string;
+  name: string;
+  description: string;
+  cep: string;
+  address: string;
+  city: string;
+  state: string;
+  cnpj: string;
+  fone: string;
+  operationDays: string[];
+  openHour: string;
+  closingHour: string;
+  priceHour: number;
+  maxDuration: number;
+  isActive: boolean;
+  userId: string;
+  userName: string;
+  latitude?: number;
+  longitude?: number;
+  ownerPixKey?: string;
+  observations?: string;
+}
+
+type ActiveTab = "users" | "orders" | "soccers";
 
 const maskEmail = (email: string | undefined): string => {
   if (!email) return "N/A";
@@ -80,6 +106,13 @@ export const AdminDashboard = () => {
     message: string;
     isError: boolean;
   }>({ isOpen: false, title: "", message: "", isError: false });
+  const [soccers, setSoccers] = useState<SoccerData[]>([]);
+  const [isLoadingSoccers, setIsLoadingSoccers] = useState(false);
+  const [soccersError, setSoccersError] = useState<string | null>(null);
+  const [deletingSoccerId, setDeletingSoccerId] = useState<string | null>(null);
+  const [isConfirmDeleteSoccerOpen, setIsConfirmDeleteSoccerOpen] =
+    useState(false);
+  const [soccerToDelete, setSoccerToDelete] = useState<SoccerData | null>(null);
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -127,6 +160,33 @@ export const AdminDashboard = () => {
       fetchOrders();
     }
   }, [activeTab, orders.length, ordersError, isLoadingOrders]);
+
+  useEffect(() => {
+    const fetchSoccers = async () => {
+      setIsLoadingSoccers(true);
+      setSoccersError(null);
+      try {
+        const response = await api.get("/auth/soccer/findAll");
+        setSoccers(response.data || []);
+      } catch (err: any) {
+        const errorMessage =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "Erro ao buscar quadras.";
+        setSoccersError(errorMessage);
+      } finally {
+        setIsLoadingSoccers(false);
+      }
+    };
+    if (
+      activeTab === "soccers" &&
+      soccers.length === 0 &&
+      !soccersError &&
+      !isLoadingSoccers
+    ) {
+      fetchSoccers();
+    }
+  }, [activeTab, soccers.length, soccersError, isLoadingSoccers]);
 
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -239,6 +299,52 @@ export const AdminDashboard = () => {
     setPopupInfo({ ...popupInfo, isOpen: false });
   };
 
+  const handleDeleteSoccerClick = (soccer: SoccerData) => {
+    if (soccer.isActive) {
+      showPopup(
+        "Ação Inválida",
+        "Não é possível deletar uma quadra ativa. Desative-a primeiro (funcionalidade futura).",
+        true
+      );
+      return;
+    }
+    setSoccerToDelete(soccer);
+    setIsConfirmDeleteSoccerOpen(true);
+    setSoccersError(null);
+  };
+
+  const handleConfirmDeleteSoccer = async () => {
+    if (!soccerToDelete) return;
+
+    setIsConfirmDeleteSoccerOpen(false);
+    setDeletingSoccerId(soccerToDelete.id);
+    setSoccersError(null);
+    closePopup();
+
+    try {
+      await api.delete(`/auth/soccer/delete/${soccerToDelete.id}`);
+
+      setSoccers((prevSoccers) =>
+        prevSoccers.filter((s) => s.id !== soccerToDelete.id)
+      );
+      showPopup(
+        "Sucesso",
+        `Quadra "${soccerToDelete.name}" deletada com sucesso.`
+      );
+    } catch (err: any) {
+      console.error("Erro ao deletar quadra:", err.response);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Erro ao deletar quadra.";
+      showPopup("Erro", errorMessage, true);
+      setSoccersError(errorMessage);
+    } finally {
+      setDeletingSoccerId(null);
+      setSoccerToDelete(null);
+    }
+  };
+
   const usersToDisplay =
     searchResult !== undefined
       ? searchResult
@@ -252,12 +358,13 @@ export const AdminDashboard = () => {
       return (
         <>
           <section className={styles.searchSection}>
-            <h2>Buscar Usuário por Email</h2>
+            <h2>Buscar usuário por e-mail</h2>
             <form onSubmit={handleSearch} className={styles.searchForm}>
               <input
                 type="email"
-                placeholder="Digite o email completo"
+                placeholder="Digite o e-mail completo"
                 value={searchTerm}
+                style={{ fontFamily: `"Montserrat", sans-serif` }}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 required
                 className={styles.searchInput}
@@ -319,7 +426,7 @@ export const AdminDashboard = () => {
                     <tr>
                       <th>ID</th>
                       <th>Nome</th>
-                      <th>Email (Mascarado)</th>
+                      <th>E-mail</th>
                       <th>Nível</th>
                       <th>Ações</th>
                     </tr>
@@ -365,8 +472,7 @@ export const AdminDashboard = () => {
           )}
         </>
       );
-    }
-    else if (activeTab === "orders") {
+    } else if (activeTab === "orders") {
       return (
         <>
           {isLoadingOrders && <p>Carregando solicitações...</p>}
@@ -424,7 +530,7 @@ export const AdminDashboard = () => {
                                   <FaSpinner className={styles.spinner} />
                                 ) : (
                                   <FaCheck />
-                                )}{" "}
+                                )}
                                 Aprovar
                               </button>
                               <button
@@ -455,6 +561,86 @@ export const AdminDashboard = () => {
           )}
         </>
       );
+    } else if (activeTab === "soccers") {
+      return (
+        <>
+          {isLoadingSoccers && <p>Carregando quadras...</p>}
+          {soccersError && (
+            <p className={styles.error}>
+              <FaExclamationCircle /> {soccersError}
+            </p>
+          )}
+          {!isLoadingSoccers && !soccersError && (
+            <section className={styles.soccerListSection}>
+              <h2>Gerenciar Quadras</h2>
+              {soccers.length === 0 ? (
+                <p>Nenhuma quadra cadastrada.</p>
+              ) : (
+                <div className={styles.tableWrapper}>
+                  <table className={styles.soccerTable}>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nome Quadra</th>
+                        <th>CEP</th>
+                        <th>Cidade</th>
+                        <th>Status</th>
+                        <th>Proprietário</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {soccers.map((soccer) => (
+                        <tr key={soccer?.id ?? Math.random()}>
+                          <td title={soccer?.id ?? "ID Indefinido"}>
+                            {soccer?.id?.substring(0, 8) ?? "N/A"}...
+                          </td>
+                          <td>{soccer?.name ?? "N/A"}</td>
+                          <td>{soccer?.cep ?? "N/A"}</td>
+                          <td>{soccer?.city ?? "N/A"}</td>
+                          <td>
+                            <span
+                              className={`${styles.status} ${
+                                soccer?.isActive
+                                  ? styles.statusActive
+                                  : styles.statusInactive
+                              }`}
+                            >
+                              {soccer?.isActive ? "Ativa" : "Inativa"}
+                            </span>
+                          </td>
+                          <td>{soccer?.userName ?? "N/A"}</td>
+                          <td className={styles.soccerActions}>
+                            <button
+                              className={styles.deleteSoccerButton}
+                              onClick={() => handleDeleteSoccerClick(soccer)}
+                              disabled={
+                                soccer?.isActive ||
+                                deletingSoccerId === soccer.id
+                              }
+                              title={
+                                soccer?.isActive
+                                  ? "Desative a quadra antes de deletar"
+                                  : "Deletar Quadra"
+                              }
+                            >
+                              {deletingSoccerId === soccer.id ? (
+                                <FaSpinner className={styles.spinner} />
+                              ) : (
+                                <FaTrash />
+                              )}
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+          )}
+        </>
+      );
     }
     return null;
   };
@@ -477,6 +663,12 @@ export const AdminDashboard = () => {
           >
             Gerenciar Solicitações
           </button>
+          <button
+            onClick={() => setActiveTab("soccers")}
+            className={activeTab === "soccers" ? styles.activeTab : ""}
+          >
+            Gerenciar Quadras
+          </button>
         </div>
         {renderActiveTabContent()}
       </div>
@@ -486,6 +678,17 @@ export const AdminDashboard = () => {
         onClose={closePopup}
         title={popupInfo.title}
         message={popupInfo.message}
+      />
+      <Popup
+        isOpen={isConfirmDeleteSoccerOpen}
+        onClose={() => setIsConfirmDeleteSoccerOpen(false)}
+        onConfirm={handleConfirmDeleteSoccer}
+        title="Confirmar Exclusão de Quadra"
+        message={`Tem certeza que deseja deletar a quadra "${
+          soccerToDelete?.name ?? ""
+        }" permanentemente? Quadras inativas são removidas.`}
+        confirmText="Deletar"
+        cancelText="Cancelar"
       />
     </>
   );

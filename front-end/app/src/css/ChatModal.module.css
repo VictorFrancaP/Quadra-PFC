@@ -1,0 +1,193 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 2000;
+  font-family: "Segoe UI", sans-serif;
+  padding: 10px;
+}
+
+.chatModal {
+  background: #ffffff;
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 500px;
+  height: 75vh;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #04a347;
+  color: white;
+  flex-shrink: 0;
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.closeButton,
+.backButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+  padding: 5px;
+  line-height: 1;
+}
+.closeButton:hover,
+.backButton:hover {
+  opacity: 0.8;
+}
+
+.messagesContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background-color: #f4f7f6;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loadingMessages,
+.errorMessage,
+.noMessages {
+  text-align: center;
+  padding: 20px;
+  color: #6c757d;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.errorMessage {
+  color: #dc3545;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.messageBubble {
+  max-width: 75%;
+  padding: 10px 15px;
+  border-radius: 18px;
+  line-height: 1.5;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.messageBubble p {
+  margin: 0 0 5px 0;
+}
+
+.theirMessage {
+  background-color: #e9ecef;
+  color: #333;
+  border-bottom-left-radius: 5px;
+  align-self: flex-start;
+}
+
+.myMessage {
+  background-color: #04a347;
+  color: white;
+  border-bottom-right-radius: 5px;
+  align-self: flex-end;
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #a0a0a0;
+  display: block;
+  text-align: right;
+  margin-top: 3px;
+}
+.myMessage .timestamp {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inputArea {
+  display: flex;
+  padding: 10px 15px;
+  border-top: 1px solid #eee;
+  background-color: #fff;
+  flex-shrink: 0;
+}
+
+.inputArea input[type="text"] {
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 15px;
+  margin-right: 10px;
+  outline: none;
+}
+.inputArea input[type="text"]:focus {
+  border-color: #04a347;
+}
+
+.inputArea button {
+  background-color: #04a347;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+.inputArea button:hover {
+  background-color: #038b3d;
+}
+.inputArea button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorPage {
+  padding: 50px;
+  text-align: center;
+}
+.loadingPage {
+  padding: 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
