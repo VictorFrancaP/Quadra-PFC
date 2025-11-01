@@ -59,7 +59,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     if (!socket || !isConnected) return;
 
     const handleChatHistory = (history: Message[]) => {
-      console.log(`[Socket] Histórico recebido:`, history);
       setMessages(
         history.sort(
           (a, b) =>
@@ -74,13 +73,8 @@ export const ChatModal: React.FC<ChatModalProps> = ({
       setChatId((currentChatId) => {
         if (message.chatId === currentChatId) {
           if (message.senderId === loggedInUser?.id) {
-            console.log(
-              `[Socket] Ignorando broadcast da minha própria mensagem (ID: ${message.id})`
-            );
             return currentChatId;
           }
-
-          console.log(`[Socket] Nova mensagem recebida:`, message);
           setMessages((prevMessages) => [...prevMessages, message]);
         }
         return currentChatId;
@@ -108,9 +102,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({
       setMessages([]);
       setIsLoadingHistory(true);
       setError(null);
-      console.log(
-        `[ChatModal] Abrindo. Buscando/Criando chat com: ${recipientId}`
-      );
       socket.emit(
         "findOrCreateChat",
         { userTwoId: recipientId },
@@ -120,9 +111,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({
             setError(response.error);
             setIsLoadingHistory(false);
           } else if (response.chatId) {
-            console.log(
-              `[ChatModal] Chat ID obtido: ${response.chatId}. Entrando e carregando...`
-            );
             setChatId(response.chatId);
             socket.emit("joinChat", { chatId: response.chatId });
             socket.emit("loadHistory", { chatId: response.chatId });

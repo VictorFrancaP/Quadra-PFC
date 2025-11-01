@@ -6,6 +6,6 @@ export default defineConfig({
   server: {
     port: 3333,
     host: true,
-    allowedHosts: ["thirty-parrots-warn.loca.lt"],
+    allowedHosts: ["molybdic-overtimorously-amara.ngrok-free.dev"],
   },
 });

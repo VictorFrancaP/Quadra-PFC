@@ -116,12 +116,7 @@ export const UploadImagesModal: React.FC<UploadImagesModalProps> = ({
         formData,
         {}
       );
-      showPopup(
-        "Upload Concluído",
-        response.data.message || "Imagens enviadas com sucesso!"
-      );
       onUploadSuccess(response.data.images);
-      onClose();
     } catch (err: any) {
       console.error("Erro no upload das imagens:", err.response);
       const errorMessage =
@@ -183,7 +178,7 @@ export const UploadImagesModal: React.FC<UploadImagesModalProps> = ({
                   disabled={isLoading}
                 />
                 <p className={styles.fileInfo}>
-                  Imagens atuais: {currentImageCount}. Pode adicionar mais{" "}
+                  Imagens atuais: {currentImageCount}. Pode adicionar mais
                   {maxTotalImages - (currentImageCount + selectedFiles.length)}.
                   (Máx: 5 por vez)
                 </p>

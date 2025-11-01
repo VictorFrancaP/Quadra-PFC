@@ -20,6 +20,7 @@ import { MyReservationsPage } from "../pages/MinhaReserva";
 import { SoccerDetailPage } from "../pages/QuadraDetails";
 import { OwnerRoute } from "./OwnerRoute";
 import { MyQuadraPage } from "../pages/MinhaQuadra";
+import { SoccerOwnerReservationsPage } from "../pages/Reservas";
 
 export const AppIndex = () => {
   return (
@@ -45,6 +46,10 @@ export const AppIndex = () => {
           <Route path="/quadras-proximas" element={<NearbyQuadrasPage />} />
           <Route path="/reservar/:soccerId" element={<ReservationPage />} />
           <Route path="/minhas-reservas" element={<MyReservationsPage />} />
+          <Route
+            path="/minha-quadra/reservas"
+            element={<SoccerOwnerReservationsPage />}
+          />
           <Route path="/quadra/:id" element={<SoccerDetailPage />} />
         </Route>
 

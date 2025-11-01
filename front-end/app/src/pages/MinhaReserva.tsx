@@ -318,7 +318,7 @@ export const MyReservationsPage = () => {
                     rel="noopener noreferrer"
                     className={styles.payLink}
                   >
-                    Pagar Agora <FaExternalLinkAlt /> (Expira às
+                    Pagar Agora <FaExternalLinkAlt /> (Expira às {""}
                     {formatTime(res.expiredIn)})
                   </a>
                 )}
@@ -329,8 +329,18 @@ export const MyReservationsPage = () => {
                     </p>
                   )}
               </div>
-              <div style={{marginBottom: "15px", display: "flex", alignItems: "center", gap: "10px", justifyContent: "center"}} className={styles.cardActions}>
-                <Link style={{display: "flex", alignItems: "center", gap: "6px"}}
+              <div
+                style={{
+                  marginBottom: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  justifyContent: "center",
+                }}
+                className={styles.cardActions}
+              >
+                <Link
+                  style={{ display: "flex", alignItems: "center", gap: "6px" }}
                   to={`/quadra/${res.soccerId}`}
                   className={`${styles.actionButton} ${styles.detailsButton}`}
                 >
@@ -338,7 +348,8 @@ export const MyReservationsPage = () => {
                 </Link>
 
                 {canCancel && (
-                  <button style={{margin: "0"}}
+                  <button
+                    style={{ margin: "0" }}
                     className={`${styles.actionButton} ${styles.cancelButton}`}
                     onClick={() => handleCancelClick(res)}
                     disabled={isCancellingId === res.id}
