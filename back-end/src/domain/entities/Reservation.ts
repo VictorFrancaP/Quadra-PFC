@@ -1,6 +1,6 @@
 // exportando variavel com os tipos de status de pagamento
 export const statusPayment = {
-  PENDIND_PAYMENT: "PENDING_PAYMENT",
+  PENDING_PAYMENT: "PENDING_PAYMENT",
   CONFIRMED: "CONFIRMED",
   CANCELLED: "CANCELLED",
   REFUNDED: "REFUNDED",
@@ -11,7 +11,7 @@ export type statusPayment = (typeof statusPayment)[keyof typeof statusPayment];
 
 // exportando variavel com tipos de status de payout
 export const statusPayout = {
-  PENDIND: "PENDING",
+  PENDING: "PENDING",
   SUCCESS: "SUCCESS",
   FAILED: "FAILED",
 } as const;

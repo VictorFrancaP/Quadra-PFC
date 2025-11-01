@@ -5,6 +5,6 @@ import { Queue } from "bullmq";
 import { ioredisConnection } from "../../ioredis/ioRedisConfig";
 
 // criando queue para e-mail
-export const payoutQueue = new Queue("payout-queue", {
+export const emailQueue = new Queue("e-mail-queue", {
   connection: ioredisConnection,
 });

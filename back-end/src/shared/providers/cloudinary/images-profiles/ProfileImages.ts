@@ -5,9 +5,7 @@ import { IProfileImages } from "./IProfileImages";
 export class ProfileImages implements IProfileImages {
   async getImages(): Promise<string[]> {
     // armazenando imagens do cloudinary
-    const profilesImages: string[] = [
-
-    ];
+    const profilesImages: string[] = [];
 
     // retornando imagens
     return profilesImages;

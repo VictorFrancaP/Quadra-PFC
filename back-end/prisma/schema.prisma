@@ -279,3 +279,12 @@ model reservation {
   // nome da tabela
   @@map("_Reservation_")
 }
+
+model support {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  problem String
+  priority Int
+
+  @@map("_Support")
+}
