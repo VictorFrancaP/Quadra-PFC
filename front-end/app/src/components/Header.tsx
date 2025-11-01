@@ -11,6 +11,7 @@ import {
   FaStreetView,
   FaCalendarCheck,
   FaClipboardList,
+  FaBookOpen,
 } from "react-icons/fa";
 import Logo from "../../public/logo-header.png";
 import { useAuth } from "../context/AuthContext";
@@ -152,9 +153,19 @@ export const Header = () => {
                   to="/minha-quadra"
                   className={styles.headerActionLink}
                   title="Minha Quadra"
-                  style={{padding: "6px"}}
+                  style={{ padding: "1px" }}
                 >
                   <FaClipboardList />
+                </Link>
+              )}
+              {isOwner && (
+                <Link
+                  to="/minha-quadra/reservas"
+                  className={styles.headerActionLink}
+                  title="Reservas da Minha Quadra"
+                  style={{ padding: "1px" }}
+                >
+                  <FaBookOpen />
                 </Link>
               )}
               <button onClick={handleLogout} className={styles.logoutButton}>
