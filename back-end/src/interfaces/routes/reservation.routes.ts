@@ -14,6 +14,7 @@ import { CreateReservationValidator } from "../validators/schema/reservation/Cre
 import { CreateReservationController } from "../controllers/reservation/CreateReservationController";
 import { CancelReservationController } from "../controllers/reservation/CancelReservationController";
 import { FindReservationUserController } from "../controllers/reservation/FindReservationUserController";
+import { FindReservationSoccerController } from "../controllers/reservation/FindReservationSoccerController";
 
 // instânciando router
 const routes = Router();
@@ -34,9 +35,16 @@ routes.post(
   createReservationController.handle
 );
 
+// get
 routes.get(
   "/findAll",
   ensureAuthenticated,
+  findReservationUserController.handle
+);
+routes.get(
+  "/find",
+  ensureAuthenticated,
+  ensureRole("OWNER"),
   findReservationUserController.handle
 );
 

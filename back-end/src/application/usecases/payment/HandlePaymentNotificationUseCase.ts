@@ -48,12 +48,12 @@ export class HandlePaymentNotificationUseCase {
     if (!reservation) return;
 
     // caso o status não esteja em PENDING_PAYMENT, retorna
-    if (reservation.statusPayment !== statusPayment.PENDIND_PAYMENT) return;
+    if (reservation.statusPayment !== statusPayment.PENDING_PAYMENT) return;
 
     // se o status do mercadopago webhook for aprovado
     if (status === "approved") {
       // retirando job da fila para expiração da reserva
-      const job = await reservationQueue.getJob(reservationId);
+      const job = await reservationQueue.getJob(`check-${reservationId}`);
 
       // caso exista o job, entra no if
       if (job) {
@@ -73,26 +73,29 @@ export class HandlePaymentNotificationUseCase {
       const delayMilliseconds =
         payoutRefundNotPossible.valueOf() - now.valueOf();
 
-      // valor timestamp absoluto
-      const absoluteTime = payoutRefundNotPossible.valueOf();
-
       // caso o delay seja maior que zero, agenda o job
       if (delayMilliseconds > 0) {
         // criando job
-        await payoutQueue
-          .createJob({
+        await payoutQueue.add(
+          "payout-send",
+          {
             reservationId: reservation.id,
-          })
-          .setId(reservation.id + "-PAYOUT")
-          .delayUntil(absoluteTime)
-          .save();
+          },
+          {
+            delay: delayMilliseconds,
+            jobId: `payout-${reservation.id}`,
+          }
+        );
       } else {
-        await payoutQueue
-          .createJob({
+        await payoutQueue.add(
+          "payout-send",
+          {
             reservationId: reservation.id,
-          })
-          .setId(reservation.id + "-PAYOUT")
-          .save();
+          },
+          {
+            jobId: `payout-${reservation.id}`,
+          }
+        );
       }
 
       // atualizando com metodo estatico
@@ -120,7 +123,7 @@ export class HandlePaymentNotificationUseCase {
       // criando try/catch para capturar erros na execução
       try {
         // pegando job da fila
-        const job = await reservationQueue.getJob(reservationId);
+        const job = await reservationQueue.getJob(`check-${reservationId}`);
 
         if (job) {
           await job.remove();

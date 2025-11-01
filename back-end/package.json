@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "test": "vitest",
-    "worker:dev": "tsx watch src/worker.ts"
+    "worker:email:dev": "tsx src/shared/providers/jobs/workers/email-worker.ts",
+    "worker:reservation:dev": "tsx src/shared/providers/jobs/workers/reservation-worker.ts",
+    "worker:payout:dev": "tsx src/shared/providers/jobs/workers/payout-worker.ts",
+    "dev:process": "tsx src/process.ts"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,7 @@
     "@types/cookie-parser": "^1.4.9",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/ioredis": "^4.28.10",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.1",
@@ -46,7 +50,7 @@
     "@prisma/client": "^6.13.0",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
-    "bee-queue": "^1.7.1",
+    "bullmq": "^5.62.0",
     "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
@@ -54,6 +58,7 @@
     "cron": "^4.3.3",
     "dayjs": "^1.11.13",
     "express": "^5.1.0",
+    "ioredis": "^5.8.2",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mercadopago": "^2.9.0",

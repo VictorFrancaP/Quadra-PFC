@@ -98,7 +98,7 @@ export class CreateReservationUseCase {
     }
 
     // tempo de expiração para efetuar o pagamento
-    const expiredIn = await this.dayJsProvider.add(15, "minute");
+    const expiredIn = await this.dayJsProvider.add(5, "minute");
 
     // instânciando nova entidade Reservation
     const newReservation = new Reservation(
@@ -125,18 +125,24 @@ export class CreateReservationUseCase {
         createReservation.id as string
       );
 
+    // data atual
+    const now = Date.now();
+
     // expiração em milisegundos
     const expiredInMiliseconds = expiredIn.valueOf();
 
+    // delay
+    const delayDuration = expiredInMiliseconds - now;
+
     // adicionando a fila
-    await reservationQueue
-      .createJob({
+    await reservationQueue.add(
+      "check-reservation-status",
+      {
         reservationId: createReservation.id as string,
         expectedStatus: "PENDING_PAYMENT",
-      })
-      .delayUntil(expiredInMiliseconds)
-      .save();
-
+      },
+      { delay: delayDuration, jobId: `check-${createReservation.id}` }
+    );
     // chamando metodo estatico para atualização de informação do usuário
     const updatesReservation = Reservation.updatesReservation(
       createReservation,

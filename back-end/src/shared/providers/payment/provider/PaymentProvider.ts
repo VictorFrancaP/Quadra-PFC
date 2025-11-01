@@ -56,17 +56,10 @@ export class PaymentProvider implements IPaymentProvider {
     description: string,
     reservationId: string
   ): Promise<{ preferenceId: string; initPoint: string }> {
-    if (!value || value <= 0) throw new Error("Valor inválido para pagamento.");
-    if (!description) throw new Error("Descrição inválida para pagamento.");
-    if (!reservationId)
-      throw new Error("ID da reserva inválido para pagamento.");
-    if (!WEBHOOK_HOST || !WEBHOOK_HOST.startsWith("https://")) {
-      console.warn("AVISO: WEBHOOK_HOST não é uma URL HTTPS válida.");
-    }
-    if (!FRONT_HOST_LOST) console.warn("AVISO: FRONT_HOST não definido.");
-
+    // ip para mandar a notificação de retorno
     const notificationUrl = `${WEBHOOK_HOST}/webhook/mercadopago`;
 
+    // preferência de pagamento
     const preferencesBody: PreferenceRequest = {
       items: [
         {
@@ -87,12 +80,8 @@ export class PaymentProvider implements IPaymentProvider {
       auto_return: "approved",
     };
 
-    console.log(
-      "[MercadoPago] Criando preferência com payload:",
-      JSON.stringify(preferencesBody, null, 2)
-    );
-
     try {
+      // criando metodo de pagamento
       const response: PreferenceResponse = await this.preference.create({
         body: preferencesBody,
       });
@@ -102,12 +91,13 @@ export class PaymentProvider implements IPaymentProvider {
         throw new Error("Resposta inválida da API do Mercado Pago.");
       }
 
-      console.log(`[MercadoPago] Preferência criada: ID=${response.id}`);
+      // retornando link do pagamento e id da transação
       return {
         preferenceId: response.id,
         initPoint: response.init_point,
       };
     } catch (mpError: any) {
+      // caso de erro na operação
       const errorMessage = mpError?.message || mpError?.toString();
       const errorCause = mpError?.cause || mpError?.apiResponse?.data;
       console.error("[MercadoPago] ERRO ao criar preferência:", errorMessage);
@@ -120,6 +110,7 @@ export class PaymentProvider implements IPaymentProvider {
     }
   }
 
+  // detalhes da transação realizada
   async fetchTransactionDetails(
     paymentId: string
   ): Promise<ITransactionDetails> {
@@ -127,36 +118,22 @@ export class PaymentProvider implements IPaymentProvider {
       throw new Error("ID do pagamento (mpNotificationId) é inválido.");
     }
 
-    console.log(`[MercadoPago] Buscando detalhes do pagamento: ${paymentId}`);
-
     try {
+      // numero da transação
       const paymentIdAsNumber = Number(paymentId);
-      if (isNaN(paymentIdAsNumber)) {
-        throw new Error("ID do pagamento não é um número válido.");
-      }
 
       const response: PaymentResponse = await this.payment.get({
         id: paymentIdAsNumber,
       });
 
-      if (!response || !response.status || !response.id) {
-        console.error(
-          "[MercadoPago] Resposta inválida ao buscar pagamento:",
-          response
-        );
-        throw new Error("Resposta inválida da API do Mercado Pago.");
-      }
-
-      console.log(
-        `[MercadoPago] Detalhes recebidos: Status=${response.status}, ExternalRef=${response.external_reference}`
-      );
-
+      // retornando dados da transação
       return {
-        status: response.status,
+        status: response.status!,
         external_reference: response.external_reference || null,
-        paymentId: response.id,
+        paymentId: response.id!,
       };
     } catch (mpError: any) {
+      // caso de erro na operação
       const errorMessage = mpError?.message || mpError?.toString();
       const errorCause = mpError?.cause || mpError?.apiResponse?.data;
       console.error(
@@ -173,44 +150,45 @@ export class PaymentProvider implements IPaymentProvider {
         throw new Error("Pagamento não encontrado no Mercado Pago.");
       }
 
-      throw new Error(
-        "Falha na comunicação com a API do Mercado Pago."
-      );
+      throw new Error("Falha na comunicação com a API do Mercado Pago.");
     }
   }
 
   async makePayout(data: IMakePayoutDTO): Promise<IMakePayoutResult> {
+    // simulando payout para o proprietário
     const { amount, destination, description } = data;
 
+    // simulação
     console.log("--- [SIMULAÇÃO DE PAYOUT] ---");
     console.log(`[MercadoPago] Iniciando Payout (Transferência PIX)...`);
     console.log(`[MercadoPago] Valor: R$ ${amount.toFixed(2)}`);
     console.log(`[MercadoPago] Destino (PIX): ${destination}`);
     console.log(`[MercadoPago] Descrição: ${description}`);
-
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
     const fakeTransactionId = `payout_sim_${randomUUID()}`;
-
     console.log(`[MercadoPago] SIMULAÇÃO: Payout realizado com sucesso.`);
     console.log(`[MercadoPago] Transaction ID: ${fakeTransactionId}`);
     console.log("---------------------------------");
 
+    // retornando resultado da simulação do payout
     return {
       transactionId: fakeTransactionId,
     };
   }
 
   async createRefund(paymentTransactionId: string): Promise<void> {
+    // verificando se id da transação foi passado
     if (!paymentTransactionId) {
       throw new Error("ID da transação de pagamento é inválido.");
     }
 
+    // criando metodo de reembolso
     const refundBody: PaymentRefundCreateData = {
-      payment_id: paymentTransactionId, 
+      payment_id: paymentTransactionId,
     };
 
     try {
+      // response do metodo de reembolso
       const response: RefundResponse = await this.refund.create(refundBody);
 
       if (
@@ -223,6 +201,7 @@ export class PaymentProvider implements IPaymentProvider {
       }
       return;
     } catch (mpError: any) {
+      // caso de erro na operação
       const errorMessage = mpError?.message || mpError?.toString();
       const errorCause = mpError?.cause || mpError?.apiResponse?.data;
       console.error("[MercadoPago] ERRO ao processar reembolso:", errorMessage);
