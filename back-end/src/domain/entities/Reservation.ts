@@ -1,6 +1,6 @@
 // exportando variavel com os tipos de status de pagamento
 export const statusPayment = {
-  PENDIND_PAYMENT: "PENDING_PAYMENT",
+  PENDING_PAYMENT: "PENDING_PAYMENT",
   CONFIRMED: "CONFIRMED",
   CANCELLED: "CANCELLED",
   REFUNDED: "REFUNDED",
@@ -11,7 +11,7 @@ export type statusPayment = (typeof statusPayment)[keyof typeof statusPayment];
 
 // exportando variavel com tipos de status de payout
 export const statusPayout = {
-  PENDIND: "PENDING",
+  PENDING: "PENDING",
   SUCCESS: "SUCCESS",
   FAILED: "FAILED",
 } as const;
@@ -32,6 +32,9 @@ export class Reservation {
   public duration: number;
   public soccerId: string;
   public userId: string;
+  public soccerName?: string | null;
+  public userName?: string | null;
+  public userEmail?: string | null;
   public paymentTransactionId?: string | null;
   public paymentReceivedAt?: Date | null;
   public systemFeeAmount?: number | null;
@@ -50,6 +53,9 @@ export class Reservation {
     duration: number,
     soccerId: string,
     userId: string,
+    soccerName?: string | null,
+    userName?: string | null,
+    userEmail?: string | null,
     paymentTransactionId?: string | null,
     paymentReceivedAt?: Date | null,
     systemFeeAmount?: number | null,
@@ -69,6 +75,9 @@ export class Reservation {
     this.soccerId = soccerId;
     this.userId = userId;
 
+    if (soccerName !== undefined) this.soccerName = soccerName;
+    if (userName !== undefined) this.userName = userName;
+    if (userEmail !== undefined) this.userEmail = userEmail;
     if (paymentTransactionId !== undefined)
       this.paymentTransactionId = paymentTransactionId;
     if (paymentReceivedAt !== undefined)
@@ -96,6 +105,9 @@ export class Reservation {
       existing.duration,
       existing.soccerId,
       existing.userId,
+      existing.soccerName,
+      existing.userName,
+      existing.userEmail,
       updates.paymentTransactionId !== undefined
         ? updates.paymentTransactionId
         : existing.paymentTransactionId,

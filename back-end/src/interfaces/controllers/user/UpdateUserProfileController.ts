@@ -20,7 +20,7 @@ export class UpdateUserProfileController {
   async handle(request: Request, response: Response) {
     // dados obrigatórios e opcionais
     const userId = request.user.id;
-    const { name, age, address, cep, cpf } = request.body;
+    const { name, age, address, cep, cpf, profileImage } = request.body;
 
     // instânciando interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
@@ -38,7 +38,15 @@ export class UpdateUserProfileController {
 
     // criando try/catch para capturar erros na execução
     try {
-      await useCase.execute({ userId, name, age, address, cep, cpf });
+      await useCase.execute({
+        userId,
+        name,
+        age,
+        address,
+        cep,
+        cpf,
+        profileImage,
+      });
 
       return response.status(200).json({
         message: "Suas informações foram atualizadas com sucesso!",
@@ -47,17 +55,17 @@ export class UpdateUserProfileController {
       // tratando erros de forma separada
 
       // erro de usuário nao encontrado na base de dados
-      if(err instanceof UserNotFoundError) {
-       return response.status(err.statusCode).json(err.message); 
+      if (err instanceof UserNotFoundError) {
+        return response.status(err.statusCode).json(err.message);
       }
 
       // erro de adicionar informações para o perfil do usuário
-      if(err instanceof AddUserProfileInfoError) {
+      if (err instanceof AddUserProfileInfoError) {
         return response.status(err.statusCode).json(err.message);
       }
 
       // erro de limite de requisição para usuário
-      if(err instanceof LimitRatingUpdateProfileUserError) {
+      if (err instanceof LimitRatingUpdateProfileUserError) {
         return response.status(err.statusCode).json(err.message);
       }
 

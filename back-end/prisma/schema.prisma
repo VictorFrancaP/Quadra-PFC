@@ -267,10 +267,13 @@ model reservation {
   // soccer
   soccer   soccer @relation(fields: [soccerId], references: [id], onDelete: Cascade)
   soccerId String @db.ObjectId
+  soccerName String?
 
   // user
   user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @db.ObjectId
+  userName String?
+  userEmail String?
 
   // criação e update
   created_at DateTime @default(now())
@@ -278,4 +281,13 @@ model reservation {
 
   // nome da tabela
   @@map("_Reservation_")
+}
+
+model support {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  problem String
+  priority Int
+
+  @@map("_Support")
 }

@@ -1,19 +1,15 @@
 // Importando interfaces a serem instânciadas na controller
 import { IFindSoccerOwnerRepositories } from "../../../../domain/repositories/soccer/IFindSoccerOwnerRepositories";
 import { IFindUserOwnersRepositories } from "../../../../domain/repositories/user/IFindUserOwnersRepositories";
-import { IMailProvider } from "../../../../shared/providers/mail/provider/IMailProvider";
-import { IPictureConfig } from "../../../../shared/providers/cloudinary/default-profile/IPictureConfig";
 
 // Importando emailQueue para criar job
-import { emailQueue } from "../../../../shared/providers/jobs/queues/emailQueue";
+import { emailQueue } from "../../../../shared/providers/jobs/queues/email-queue";
 
 // exportando usecase
 export class SendDailyReminderUseCase {
   constructor(
     private readonly findUserOwnersRepository: IFindUserOwnersRepositories,
-    private readonly findSoccerOwnerRepository: IFindSoccerOwnerRepositories,
-    private readonly mailProvider: IMailProvider,
-    private readonly pictureConfig: IPictureConfig
+    private readonly findSoccerOwnerRepository: IFindSoccerOwnerRepositories
   ) {}
 
   async execute(): Promise<void> {
@@ -43,12 +39,10 @@ export class SendDailyReminderUseCase {
       }
 
       // criando job com beequeue - emailqueue
-      await emailQueue
-        .createJob({
-          email: owner.email,
-          name: ownerSoccer.userName,
-        })
-        .save();
+      await emailQueue.add("send-mail", {
+        email: owner.email,
+        name: ownerSoccer.userName,
+      });
     }
   }
 }

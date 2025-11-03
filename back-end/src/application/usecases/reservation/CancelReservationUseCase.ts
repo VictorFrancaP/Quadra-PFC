@@ -75,7 +75,7 @@ export class CancelReservationUseCase {
     // criando try/catch para capturar erros na execução
     try {
       // armazenando o job em uma variavel
-      const job = await reservationQueue.getJob(data.reservationId);
+      const job = await reservationQueue.getJob(`check-${data.reservationId}`);
 
       // caso encontre o job, entra no if
       if (job) {

@@ -38,9 +38,7 @@ interface ReservationDetails {
   soccerId: string;
   userId: string;
   paymentTransactionId?: string | null;
-  soccer?: {
-    name: string;
-  };
+  soccerName: string;
   hasBeenRated?: boolean;
 }
 
@@ -280,7 +278,7 @@ export const MyReservationsPage = () => {
               <div className={styles.cardHeader}>
                 <h4>
                   <FaFutbol />
-                  {res.soccer?.name ??
+                  {res.soccerName ??
                     `Quadra ID: ${res.soccerId.substring(0, 8)}...`}
                 </h4>
                 <span
@@ -318,7 +316,7 @@ export const MyReservationsPage = () => {
                     rel="noopener noreferrer"
                     className={styles.payLink}
                   >
-                    Pagar Agora <FaExternalLinkAlt /> (Expira às
+                    Pagar Agora <FaExternalLinkAlt /> (Expira às {""}
                     {formatTime(res.expiredIn)})
                   </a>
                 )}
@@ -329,8 +327,18 @@ export const MyReservationsPage = () => {
                     </p>
                   )}
               </div>
-              <div style={{marginBottom: "15px", display: "flex", alignItems: "center", gap: "10px", justifyContent: "center"}} className={styles.cardActions}>
-                <Link style={{display: "flex", alignItems: "center", gap: "6px"}}
+              <div
+                style={{
+                  marginBottom: "15px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  justifyContent: "center",
+                }}
+                className={styles.cardActions}
+              >
+                <Link
+                  style={{ display: "flex", alignItems: "center", gap: "6px" }}
                   to={`/quadra/${res.soccerId}`}
                   className={`${styles.actionButton} ${styles.detailsButton}`}
                 >
@@ -338,7 +346,8 @@ export const MyReservationsPage = () => {
                 </Link>
 
                 {canCancel && (
-                  <button style={{margin: "0"}}
+                  <button
+                    style={{ margin: "0" }}
                     className={`${styles.actionButton} ${styles.cancelButton}`}
                     onClick={() => handleCancelClick(res)}
                     disabled={isCancellingId === res.id}
@@ -406,7 +415,7 @@ export const MyReservationsPage = () => {
           onClose={() => setIsRatingModalOpen(false)}
           mode="soccer"
           targetId={reservationToRate.soccerId}
-          targetName={reservationToRate.soccer?.name}
+          targetName={reservationToRate.soccerName}
           onRatingSuccess={handleRatingSuccess}
         />
       )}

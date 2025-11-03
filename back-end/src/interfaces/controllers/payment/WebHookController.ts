@@ -13,6 +13,7 @@ import { HandlePaymentNotificationUseCase } from "../../../application/usecases/
 // exportando controller
 export class WebHookController {
   async handle(request: Request, response: Response) {
+    console.log("Chegou aqui...");
     // dados vindos do mercadopago
     const topic = request.query.topic as string;
     const mpNotificationId = request.query.id as string;

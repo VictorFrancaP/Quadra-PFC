@@ -10,15 +10,12 @@ export function PaymentSuccess() {
       <div className={styles.paymentIcon}>✅</div>
       <h1 className={styles.paymentTitle}>Pagamento Aprovado!</h1>
       <p className={styles.paymentMessage}>
-        Sua reserva foi confirmada com sucesso. Você já pode consultar os
-        detalhes na sua área de reservas.
+        Sua reserva foi confirmada com sucesso. Recomendamos que você feche esta
+        guia!
       </p>
       {reservationId && (
         <p className={styles.reservationId}>ID da Reserva: {reservationId}</p>
       )}
-      <Link to="/minhas-reservas" className={styles.paymentCta}>
-        Ver Minhas Reservas
-      </Link>
     </div>
   );
 }

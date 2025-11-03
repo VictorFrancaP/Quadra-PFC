@@ -11,6 +11,9 @@ dotenv.config();
 // Importando middleware para validar token do usuário
 import { ensureSocketAuth } from "./interfaces/middlewares/ensureSocketAuth";
 
+// Importando cron-job para execução
+import { startEmailCronJob } from "./shared/providers/jobs/scheduler/startEmailCronJob";
+
 // Importando controllers
 import { FindChatController } from "./interfaces/controllers/chat/FindChatController";
 import { SendMessageController } from "./interfaces/controllers/message/SendMessageController";
@@ -51,7 +54,7 @@ io.on("connection", (socket) => {
 // Criando a variável da porta do servidor
 const port = process.env.PORT || 3000;
 
-// Iniciando o servidor
+// função para iniciar o servidor
 const startingServer = () => {
   try {
     console.log("Iniciando servidor...");
@@ -65,4 +68,8 @@ const startingServer = () => {
   }
 };
 
+// iniciando servidor
 startingServer();
+
+// // cron job a ser executado
+// startEmailCronJob();
