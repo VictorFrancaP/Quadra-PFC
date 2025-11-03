@@ -110,7 +110,10 @@ export class CreateReservationUseCase {
       totalPrice,
       data.duration,
       soccer.id as string,
-      user.id as string
+      user.id as string,
+      soccer.name,
+      user.name,
+      user.email
     );
 
     // mandando criação para o banco de dados

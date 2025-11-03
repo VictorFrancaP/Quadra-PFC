@@ -1,12 +1,9 @@
 // Importando ioredis para configuração
 import IORedis from "ioredis";
 
-// exportando configuração do ioredis
-export const ioredisConfig = {
-  host: process.env.REDIS_HOST_LOCAL,
-  port: 6379,
-  maxRetriesPerRequest: null,
-};
+const redisUrl = process.env.REDIS_URL as string;
 
 // exportando conexão com o ioredis
-export const ioredisConnection = new IORedis(ioredisConfig);
+export const ioredisConnection = new IORedis(redisUrl, {
+  maxRetriesPerRequest: null,
+});

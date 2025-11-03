@@ -23,4 +23,5 @@ export const UpdateUserProfileValidator = Joi.object({
     .messages({
       "any.invalid": "CPF inválido!",
     }),
+  profileImage: Joi.string().uri().optional().allow(null, ""),
 });
