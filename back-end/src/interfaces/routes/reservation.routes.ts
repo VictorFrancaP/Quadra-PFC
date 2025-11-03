@@ -23,6 +23,7 @@ const routes = Router();
 const createReservationController = new CreateReservationController();
 const cancelReservationController = new CancelReservationController();
 const findReservationUserController = new FindReservationUserController();
+const findReservationSoccerController = new FindReservationSoccerController();
 
 // criando rotas
 
@@ -45,7 +46,7 @@ routes.get(
   "/find",
   ensureAuthenticated,
   ensureRole("OWNER"),
-  findReservationUserController.handle
+  findReservationSoccerController.handle
 );
 
 // delete

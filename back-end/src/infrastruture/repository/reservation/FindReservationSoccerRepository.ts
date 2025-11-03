@@ -11,6 +11,9 @@ export class FindReservationSoccerRepository
     // procurando reservas efetuadas nesta quadra
     const soccerReservations = await prismaClient.reservation.findMany({
       where: { soccerId },
+      orderBy: {
+        startTime: "asc",
+      },
     });
 
     // caso não encontre nada, retorna nulo
@@ -31,6 +34,9 @@ export class FindReservationSoccerRepository
           reservation.duration,
           reservation.soccerId,
           reservation.userId,
+          reservation.soccerName,
+          reservation.userName,
+          reservation.userEmail,
           reservation.paymentTransactionId,
           reservation.paymentReceivedAt,
           reservation.systemFeeAmount,
