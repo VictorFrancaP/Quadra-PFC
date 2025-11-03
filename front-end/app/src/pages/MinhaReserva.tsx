@@ -38,9 +38,7 @@ interface ReservationDetails {
   soccerId: string;
   userId: string;
   paymentTransactionId?: string | null;
-  soccer?: {
-    name: string;
-  };
+  soccerName: string;
   hasBeenRated?: boolean;
 }
 
@@ -280,7 +278,7 @@ export const MyReservationsPage = () => {
               <div className={styles.cardHeader}>
                 <h4>
                   <FaFutbol />
-                  {res.soccer?.name ??
+                  {res.soccerName ??
                     `Quadra ID: ${res.soccerId.substring(0, 8)}...`}
                 </h4>
                 <span
@@ -417,7 +415,7 @@ export const MyReservationsPage = () => {
           onClose={() => setIsRatingModalOpen(false)}
           mode="soccer"
           targetId={reservationToRate.soccerId}
-          targetName={reservationToRate.soccer?.name}
+          targetName={reservationToRate.soccerName}
           onRatingSuccess={handleRatingSuccess}
         />
       )}

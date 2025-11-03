@@ -1,0 +1,189 @@
+/* Overlay (Fundo escuro) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  font-family: "Segoe UI", sans-serif;
+  padding: 20px;
+}
+
+/* Modal */
+.modal {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 600px; /* Largura para a grade de imagens */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 90vh;
+}
+
+/* Cabeçalho */
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+.modalHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #aaa;
+  transition: color 0.2s ease;
+}
+.closeButton:hover {
+  color: #333;
+}
+
+/* Corpo do Modal */
+.modalBody {
+  padding: 25px 30px;
+  overflow-y: auto; /* Scroll se muitas imagens */
+  flex-grow: 1;
+}
+
+/* Grid de Imagens */
+.imageGrid {
+  display: grid;
+  /* Cria colunas responsivas, min 100px, max 1fr, 5 colunas */
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 15px; /* Espaço entre imagens */
+}
+
+.imageOption {
+  position: relative;
+  aspect-ratio: 1 / 1; /* Força ser um quadrado */
+  border-radius: 50%; /* Deixa circular */
+  overflow: hidden;
+  cursor: pointer;
+  border: 4px solid transparent; /* Espaço para a borda selecionada */
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.imageOption:hover {
+  transform: scale(1.05);
+}
+
+.imageOption img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cobre a área circular */
+  display: block;
+}
+
+/* Estilo da Imagem Selecionada */
+.selected {
+  border-color: #04a347; /* Borda verde */
+  transform: scale(1.05);
+}
+.checkIcon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #04a347; /* Fundo verde */
+  color: white;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  border: 2px solid white;
+}
+
+/* Mensagens de Feedback */
+.feedbackMessage,
+.errorMessage {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.errorMessage {
+  color: #d9534f;
+  font-weight: 500;
+}
+.spinner {
+  font-size: 24px;
+  color: #04a347;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Rodapé (Ações) */
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 15px 25px;
+  border-top: 1px solid #eee;
+  background-color: #f9f9f9;
+  flex-shrink: 0;
+}
+.modalActions button {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.cancelButton {
+  background-color: #f4f7f6;
+  color: #333;
+  border: 1px solid #ddd;
+}
+.cancelButton:hover {
+  background-color: #e5e5e5;
+}
+.cancelButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.saveButton {
+  background-color: #04a347;
+  color: white;
+}
+.saveButton:hover {
+  background-color: #038b3d;
+}
+.saveButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}

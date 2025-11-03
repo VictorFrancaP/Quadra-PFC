@@ -5,8 +5,9 @@ import { Popup } from "../components/Popup";
 import { EditProfileModal } from "../components/EditProfile";
 import { api, useAuth } from "../context/AuthContext";
 import type { User } from "../context/AuthContext";
-import { FaUser } from "react-icons/fa";
+import { FaEdit, FaUser } from "react-icons/fa";
 import styles from "../css/Profile.module.css";
+import { ChangePictureModal } from "../components/AlterPicture";
 
 const formatCPF = (cpf: string | undefined | null): string => {
   if (!cpf) return "Não informado";
@@ -31,6 +32,8 @@ export const ProfilePage = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isPictureModalOpen, setIsPictureModalOpen] = useState(false);
+
   const fetchProfile = async () => {
     setIsLoading(true);
     try {
@@ -88,6 +91,14 @@ export const ProfilePage = () => {
     setIsEditModalOpen(false);
   };
 
+  const handlePictureSaveSuccess = (newImageUrl: string) => {
+    setProfile((prev) =>
+      prev ? { ...prev, profileImage: newImageUrl } : null
+    );
+
+    setIsPictureModalOpen(false);
+  };
+
   const renderContent = () => {
     if (isLoading && !profile) {
       return (
@@ -114,17 +125,26 @@ export const ProfilePage = () => {
     return (
       <div className={styles.profileCard}>
         <div className={styles.profileHeader}>
-          {profile.profileImage ? (
-            <img
-              src={profile.profileImage}
-              alt="Foto de perfil"
-              className={styles.profileImage}
-            />
-          ) : (
-            <div className={styles.profileIconFallback}>
-              <FaUser />
-            </div>
-          )}
+          <div className={styles.profileImageContainer}>
+            {profile.profileImage ? (
+              <img
+                src={profile.profileImage}
+                alt="Foto de perfil"
+                className={styles.profileImage}
+              />
+            ) : (
+              <div className={styles.profileIconFallback}>
+                <FaUser />
+              </div>
+            )}
+            <button
+              className={styles.editImageButton}
+              title="Alterar foto de perfil"
+              onClick={() => setIsPictureModalOpen(true)}
+            >
+              <FaEdit />
+            </button>
+          </div>
           <h2>{profile.name}</h2>
           {profile.role &&
             (profile.role.toUpperCase() === "ADMIN" ||
@@ -210,6 +230,13 @@ export const ProfilePage = () => {
           onUpdateSuccess={handleUpdateSuccess}
         />
       )}
+
+      <ChangePictureModal
+        isOpen={isPictureModalOpen}
+        onClose={() => setIsPictureModalOpen(false)}
+        onSaveSuccess={handlePictureSaveSuccess}
+        currentImageUrl={profile?.profileImage}
+      />
     </>
   );
 };
