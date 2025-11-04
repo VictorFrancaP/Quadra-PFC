@@ -96,7 +96,8 @@ export const SoccerOwnerReservationsPage = () => {
     if (isLoading) {
       return (
         <div className={styles.loadingMessage}>
-          <FaSpinner className={styles.spinner} /> Carregando reservas...
+          {" "}
+          <FaSpinner className={styles.spinner} /> Carregando reservas...{" "}
         </div>
       );
     }
@@ -110,7 +111,25 @@ export const SoccerOwnerReservationsPage = () => {
     if (reservations.length === 0) {
       return (
         <div className={styles.centeredMessage}>
-          <p>Sua quadra ainda não possui reservas.</p>
+          {" "}
+          <p>Sua quadra ainda não possui reservas.</p>{" "}
+        </div>
+      );
+    }
+
+    const filteredReservations = reservations.filter((res) => {
+      if (filter === "ALL") return true; // Mostra todas
+      if (filter === "CONFIRMED") return res.statusPayment === "CONFIRMED";
+      if (filter === "PENDING_PAYMENT")
+        return res.statusPayment === "PENDING_PAYMENT";
+      if (filter === "CANCELLED") return res.statusPayment === "CANCELLED";
+      return true;
+    });
+
+    if (filteredReservations.length === 0) {
+      return (
+        <div className={styles.centeredMessage}>
+          <p>Nenhuma reserva encontrada para o filtro selecionado.</p>
         </div>
       );
     }

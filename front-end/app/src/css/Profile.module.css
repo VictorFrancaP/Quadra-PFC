@@ -84,6 +84,39 @@
   border-color: #04a347;
 }
 
+.profileImageContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+}
+
+.editImageButton {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.editImageButton:hover {
+  background-color: #04a347;
+  color: #fff;
+  border-color: #04a347;
+}
+
+
 .profileHeader h2 {
   margin: 0;
   font-size: 24px;
