@@ -134,6 +134,23 @@ export const SoccerOwnerReservationsPage = () => {
       );
     }
 
+    const filteredReservations = reservations.filter((res) => {
+      if (filter === "ALL") return true;
+      if (filter === "CONFIRMED") return res.statusPayment === "CONFIRMED";
+      if (filter === "PENDING_PAYMENT")
+        return res.statusPayment === "PENDING_PAYMENT";
+      if (filter === "CANCELLED") return res.statusPayment === "CANCELLED";
+      return true;
+    });
+
+    if (filteredReservations.length === 0) {
+      return (
+        <div className={styles.centeredMessage}>
+          <p>Nenhuma reserva encontrada para o filtro selecionado.</p>
+        </div>
+      );
+    }
+
     return (
       <div className={styles.reservationsList}>
         {filteredReservations.map((res) => {
@@ -144,7 +161,7 @@ export const SoccerOwnerReservationsPage = () => {
               <div className={styles.reservationDetails}>
                 <p>
                   <FaUser /> Cliente:
-                  <strong>{res.userName || "Cliente Não Encontrado"}</strong>
+                  <strong>{res.userName || "Cliente Não Encontrado"}</strong>   
                 </p>
                 <p>
                   <FaCalendarAlt /> Data:
@@ -174,7 +191,7 @@ export const SoccerOwnerReservationsPage = () => {
                 <span
                   className={`${styles.statusBadge} ${statusInfo.className}`}
                 >
-                  {statusInfo.text}
+                  {statusInfo.text}             
                 </span>
                 {isPending && (
                   <button className={styles.confirmButton}>
@@ -194,7 +211,7 @@ export const SoccerOwnerReservationsPage = () => {
       <Header />
       <div className={styles.pageContainer}>
         <h1>
-          <FaClipboardList /> Reservas Recebidas
+          <FaClipboardList /> Reservas Recebidas      
         </h1>
         <div className={styles.filterContainer}>
           <button
@@ -230,9 +247,9 @@ export const SoccerOwnerReservationsPage = () => {
             Canceladas
           </button>
         </div>
-        {renderContent()}
+        {renderContent()}   
       </div>
-      <Footer />
+      <Footer /> 
     </>
   );
 };

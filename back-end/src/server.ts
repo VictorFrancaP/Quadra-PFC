@@ -46,9 +46,9 @@ io.on("connection", (socket) => {
     loadHistoryMessagesController.handle(socket, data)
   );
 
-  socket.on("disconnect", (reason) => {
-    console.log(`Cliente desconectado: ${socket.id} | Razão: ${reason}`);
-  });
+  // socket.on("disconnect", (reason) => {
+  //   console.log(`Cliente desconectado: ${socket.id} | Razão: ${reason}`);
+  // });
 });
 
 // Criando a variável da porta do servidor
@@ -71,5 +71,3 @@ const startingServer = () => {
 // iniciando servidor
 startingServer();
 
-// // cron job a ser executado
-// startEmailCronJob();

@@ -7,7 +7,7 @@ import { api, useAuth } from "../context/AuthContext";
 import type { User } from "../context/AuthContext";
 import { FaEdit, FaUser } from "react-icons/fa";
 import styles from "../css/Profile.module.css";
-import { ChangePictureModal } from "../components/AlterPicture";
+import { ChangePictureModal } from "../components/ChangePictureModal";
 
 const formatCPF = (cpf: string | undefined | null): string => {
   if (!cpf) return "Não informado";
@@ -33,7 +33,6 @@ export const ProfilePage = () => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isPictureModalOpen, setIsPictureModalOpen] = useState(false);
-
   const fetchProfile = async () => {
     setIsLoading(true);
     try {
@@ -95,6 +94,8 @@ export const ProfilePage = () => {
     setProfile((prev) =>
       prev ? { ...prev, profileImage: newImageUrl } : null
     );
+
+    fetchProfile();
 
     setIsPictureModalOpen(false);
   };

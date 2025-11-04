@@ -9,7 +9,7 @@ export const AdminRoute = () => {
   }
 
   if (!isAuthenticated || !user || user.role?.toUpperCase() !== "ADMIN") {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;
