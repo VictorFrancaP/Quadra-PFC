@@ -12,6 +12,7 @@ import {
   FaCalendarCheck,
   FaClipboardList,
   FaBookOpen,
+  FaChartLine,
 } from "react-icons/fa";
 import Logo from "../../public/logo-header.png";
 import { useAuth } from "../context/AuthContext";
@@ -79,6 +80,14 @@ export const Header = () => {
               <FaUserShield className={styles.icon} />
               <Link className={styles.link} to="/admin/dashboard">
                 Admin
+              </Link>
+            </div>
+          )}
+          {isOwner && (
+            <div className={styles.container}>
+              <FaChartLine className={styles.icon} />
+              <Link to="/owner/report" className={styles.link}>
+                Relatório - Reservas
               </Link>
             </div>
           )}

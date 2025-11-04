@@ -7,10 +7,10 @@ import Fundo from "../assets/fundo-home.jpg";
 import {
   FaMapMarkerAlt,
   FaCalendarAlt,
-  FaUsers,
   FaCommentDots,
   FaShieldAlt,
   FaClock,
+  FaBook,
 } from "react-icons/fa";
 
 export const Home = () => {
@@ -98,12 +98,11 @@ export const Home = () => {
 
           <div className={styles.grid}>
             <div className={styles.iconCircle}>
-              <FaUsers size={32} />
+              <FaBook size={32} />
             </div>
-            <h3>Escalação de Times</h3>
+            <h3>Validação de Quadras</h3>
             <p>
-              Monte o seu time diretamente no app. Convide amigos e organize as
-              escalações para as suas partidas.
+              O processo de validação da sua quadra será concluído em até 48 horas a partir do momento do envio dos dados.
             </p>
           </div>
 
@@ -113,7 +112,7 @@ export const Home = () => {
             </div>
             <h3>Chat Integrado</h3>
             <p>
-              Converse com outros jogadores e donos de quadra. Coordene partidas
+              Converse com os donos de quadra. Coordene partidas
               e tire suas duvidas.
             </p>
           </div>
