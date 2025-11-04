@@ -202,14 +202,11 @@ export const MyReservationsPage = () => {
     setIsRatingModalOpen(false);
     setReservationToRate(null);
     showGeneralPopup("Avaliação Enviada", "Obrigado pelo seu feedback!");
-    // Atualiza a lista localmente para desabilitar o botão
     setReservations((prev) =>
       prev.map((res) =>
         res.id === reservationToRate?.id ? { ...res, hasBeenRated: true } : res
       )
     );
-    // Nota: Se o back-end não enviar 'hasBeenRated', você pode querer re-buscar:
-    // fetchReservations();
   };
 
   const showGeneralPopup = (
