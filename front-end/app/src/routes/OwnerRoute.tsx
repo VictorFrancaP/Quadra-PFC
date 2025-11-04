@@ -12,7 +12,7 @@ export const OwnerRoute = () => {
   const isOwner = isAuthenticated && user && user.role?.toUpperCase() === 'OWNER';
 
   if (!isOwner) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return <Outlet />;

@@ -21,6 +21,9 @@ import { SoccerDetailPage } from "../pages/QuadraDetails";
 import { OwnerRoute } from "./OwnerRoute";
 import { MyQuadraPage } from "../pages/MinhaQuadra";
 import { SoccerOwnerReservationsPage } from "../pages/Reservas";
+import { OwnerReportPage } from "../pages/Report";
+import { ForgotPasswordPage } from "../pages/ForgotPassword";
+import { ResetPasswordPage } from "../pages/ResetPassword";
 
 export const AppIndex = () => {
   return (
@@ -31,6 +34,11 @@ export const AppIndex = () => {
         <Route
           path="/auth/user/cadastrar/:token"
           element={<CadastroConfirm />}
+        />
+        <Route path="/user/esqueceu-a-senha" element={<ForgotPasswordPage />} />
+        <Route
+          path="/user/reset-password/:token"
+          element={<ResetPasswordPage />}
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/payment/success" element={<PaymentSuccess />} />
@@ -59,6 +67,7 @@ export const AppIndex = () => {
 
         <Route element={<OwnerRoute />}>
           <Route path="/minha-quadra" element={<MyQuadraPage />} />
+          <Route path="/owner/report" element={<OwnerReportPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

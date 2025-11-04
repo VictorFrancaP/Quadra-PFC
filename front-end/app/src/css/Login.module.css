@@ -180,6 +180,27 @@
   transform: scale(0.98);
 }
 
+.googleButton {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #eb2d46;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  transition: 0.3s;
+}
+
+.googleButton:hover {
+  background: #db4848;
+}
+
 .containerForm p:last-child {
   font-size: 0.9rem;
 }
@@ -193,7 +214,7 @@
 .link {
   display: flex;
   justify-content: space-between;
-  
+
   div p {
     display: flex;
     align-items: center;

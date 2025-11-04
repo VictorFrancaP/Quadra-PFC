@@ -178,7 +178,7 @@ export const UploadImagesModal: React.FC<UploadImagesModalProps> = ({
                   disabled={isLoading}
                 />
                 <p className={styles.fileInfo}>
-                  Imagens atuais: {currentImageCount}. Pode adicionar mais
+                Imagens atuais: {currentImageCount}. Pode adicionar mais {" "}
                   {maxTotalImages - (currentImageCount + selectedFiles.length)}.
                   (Máx: 5 por vez)
                 </p>

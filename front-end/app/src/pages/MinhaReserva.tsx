@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Popup } from "../components/Popup";
-import { RatingModal } from "../components/RatingModal";
 import { api, useAuth } from "../context/AuthContext";
 import styles from "../css/MinhaReserva.module.css";
 import {
@@ -411,16 +410,6 @@ export const MyReservationsPage = () => {
         confirmText="Cancelar"
         cancelText="Não"
       />
-      {isRatingModalOpen && reservationToRate && (
-        <RatingModal
-          isOpen={isRatingModalOpen}
-          onClose={() => setIsRatingModalOpen(false)}
-          mode="soccer"
-          targetId={reservationToRate.soccerId}
-          targetName={reservationToRate.soccer?.name}
-          onRatingSuccess={handleRatingSuccess}
-        />
-      )}
     </>
   );
 };
