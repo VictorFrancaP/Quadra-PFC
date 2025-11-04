@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import styles from "../css/Payment.module.css";
 
 export function PaymentSuccess() {
