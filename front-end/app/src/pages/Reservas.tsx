@@ -118,23 +118,6 @@ export const SoccerOwnerReservationsPage = () => {
     }
 
     const filteredReservations = reservations.filter((res) => {
-      if (filter === "ALL") return true; // Mostra todas
-      if (filter === "CONFIRMED") return res.statusPayment === "CONFIRMED";
-      if (filter === "PENDING_PAYMENT")
-        return res.statusPayment === "PENDING_PAYMENT";
-      if (filter === "CANCELLED") return res.statusPayment === "CANCELLED";
-      return true;
-    });
-
-    if (filteredReservations.length === 0) {
-      return (
-        <div className={styles.centeredMessage}>
-          <p>Nenhuma reserva encontrada para o filtro selecionado.</p>
-        </div>
-      );
-    }
-
-    const filteredReservations = reservations.filter((res) => {
       if (filter === "ALL") return true;
       if (filter === "CONFIRMED") return res.statusPayment === "CONFIRMED";
       if (filter === "PENDING_PAYMENT")
