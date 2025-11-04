@@ -8,4 +8,11 @@ export interface IDayJsProvider {
   now(): Promise<dayjs.Dayjs>;
   parse(date: string | Date): Promise<dayjs.Dayjs>;
   diffInHours(date1: dayjs.Dayjs, date2: dayjs.Dayjs): Promise<number>;
+  startOf(unit: dayjs.OpUnitType): Promise<dayjs.Dayjs>;
+  endOf(unit: dayjs.OpUnitType): Promise<dayjs.Dayjs>;
+  isBetween(
+    date: string | Date | dayjs.Dayjs,
+    startDate: dayjs.Dayjs,
+    endDate: dayjs.Dayjs
+  ): boolean
 }

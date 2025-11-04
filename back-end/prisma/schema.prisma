@@ -45,6 +45,13 @@ enum payoutStatus {
   FAILED
 }
 
+// Tipos de status para suporte
+enum supportStatus {
+  PENDING
+  NOTRESOLVED
+  RESOLVED
+}
+
 // Tabela usuário (e seus atributos)
 model user {
   // identificador do usuário
@@ -265,14 +272,14 @@ model reservation {
   payoutTransactionId  String?
 
   // soccer
-  soccer   soccer @relation(fields: [soccerId], references: [id], onDelete: Cascade)
-  soccerId String @db.ObjectId
+  soccer     soccer  @relation(fields: [soccerId], references: [id], onDelete: Cascade)
+  soccerId   String  @db.ObjectId
   soccerName String?
 
   // user
-  user   user   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId
-  userName String?
+  user      user    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String  @db.ObjectId
+  userName  String?
   userEmail String?
 
   // criação e update
@@ -283,11 +290,16 @@ model reservation {
   @@map("_Reservation_")
 }
 
-model support {
+model Support {
+  // identificador 
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  problem String
-  priority Int
+  // atributos
+  description   String
+  priority      Int
+  email         String
+  statusSupport supportStatus @default(PENDING)
 
-  @@map("_Support")
+  // nome da tabela
+  @@map("_Support_")
 }

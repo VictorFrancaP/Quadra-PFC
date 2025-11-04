@@ -15,6 +15,7 @@ import { CreateReservationController } from "../controllers/reservation/CreateRe
 import { CancelReservationController } from "../controllers/reservation/CancelReservationController";
 import { FindReservationUserController } from "../controllers/reservation/FindReservationUserController";
 import { FindReservationSoccerController } from "../controllers/reservation/FindReservationSoccerController";
+import { ReportReservationController } from "../controllers/reservation/ReportReservationController";
 
 // instânciando router
 const routes = Router();
@@ -24,6 +25,7 @@ const createReservationController = new CreateReservationController();
 const cancelReservationController = new CancelReservationController();
 const findReservationUserController = new FindReservationUserController();
 const findReservationSoccerController = new FindReservationSoccerController();
+const reportReservationController = new ReportReservationController();
 
 // criando rotas
 
@@ -47,6 +49,12 @@ routes.get(
   ensureAuthenticated,
   ensureRole("OWNER"),
   findReservationSoccerController.handle
+);
+routes.get(
+  "/report",
+  ensureAuthenticated,
+  ensureRole("OWNER"),
+  reportReservationController.handle
 );
 
 // delete
