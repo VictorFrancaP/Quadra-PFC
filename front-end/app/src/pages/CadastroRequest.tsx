@@ -2,7 +2,6 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { Popup } from "../components/Popup";
 import styles from "../css/CadastroRequest.module.css";
-import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { api } from "../context/AuthContext";
@@ -68,12 +67,6 @@ export const CadastroRequest = () => {
     }
   };
 
-  const handleGoogleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    window.location.href = `${import.meta.env.VITE_GOOGLESOCIAL}`;
-  };
-
   return (
     <>
       <Header />
@@ -118,14 +111,6 @@ export const CadastroRequest = () => {
 
             <button type="submit" className={styles.button}>
               Solicitar Cadastro
-            </button>
-
-            <button
-              type="button"
-              onClick={handleGoogleSubmit}
-              className={styles.googleButton}
-            >
-              <FaGoogle className={styles.icon} /> Google
             </button>
 
             <p>

@@ -52,7 +52,7 @@ interface SoccerDetails {
 }
 
 const DEFAULT_IMAGE_URL =
-  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1761429900/soccer-default_weihtp.png";
+  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1762130308/imagem-quadra-padrao_ly9lpz.jpg";
 
 export const MyQuadraPage = () => {
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ export const MyQuadraPage = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); 
+  const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
 
   const fetchMyQuadra = async () => {
     setIsLoading(true);
@@ -265,7 +265,7 @@ export const MyQuadraPage = () => {
             )}
           </div>
 
-          <div style={{marginTop: "60px"}} className={styles.mainInfoSection}>
+          <div style={{ marginTop: "60px" }} className={styles.mainInfoSection}>
             <h1>{soccer.name}</h1>
             <p className={styles.address}>
               <FaMapMarkerAlt /> {soccer.address}, {soccer.city} -{" "}

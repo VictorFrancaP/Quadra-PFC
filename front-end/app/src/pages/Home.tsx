@@ -102,7 +102,8 @@ export const Home = () => {
             </div>
             <h3>Validação de Quadras</h3>
             <p>
-              O processo de validação da sua quadra será concluído em até 48 horas a partir do momento do envio dos dados.
+              O processo de validação da sua quadra será concluído em até 48
+              horas a partir do momento do envio dos dados.
             </p>
           </div>
 
@@ -112,8 +113,8 @@ export const Home = () => {
             </div>
             <h3>Chat Integrado</h3>
             <p>
-              Converse com os donos de quadra. Coordene partidas
-              e tire suas duvidas.
+              Converse com os donos de quadra. Coordene partidas e tire suas
+              duvidas.
             </p>
           </div>
 

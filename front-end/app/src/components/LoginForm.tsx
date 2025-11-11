@@ -7,7 +7,6 @@ import { Footer } from "./Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { FaGoogle } from "react-icons/fa";
 
 interface LoginFormProps {
   onLoginSuccess: (data: any) => void;
@@ -40,12 +39,6 @@ export const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
       setError(errorMessage);
       setLoading(false);
     }
-  };
-
-  const handleGoogleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    window.location.href = `${import.meta.env.VITE_GOOGLESOCIAL}`;
   };
 
   return (
@@ -90,13 +83,6 @@ export const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
             {error && <span className={styles.error}>{error}</span>}
             <button type="submit" disabled={loading} className={styles.button}>
               {loading ? "Entrando..." : "Entrar"}
-            </button>
-            <button
-              type="button"
-              onClick={handleGoogleSubmit}
-              className={styles.googleButton}
-            >
-              <FaGoogle className={styles.icon} /> Google
             </button>
             <div className={styles.link}>
               <div>

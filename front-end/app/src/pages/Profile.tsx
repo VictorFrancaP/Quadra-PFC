@@ -33,6 +33,12 @@ export const ProfilePage = () => {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isPictureModalOpen, setIsPictureModalOpen] = useState(false);
+  const [isForgotPasswordLoading, setIsForgotPasswordLoading] = useState(false);
+  const [isForgotPasswordConfirmOpen, setIsForgotPasswordConfirmOpen] =
+    useState(false);
+  const [isForgotPasswordSuccessOpen, setIsForgotPasswordSuccessOpen] =
+    useState(false);
+
   const fetchProfile = async () => {
     setIsLoading(true);
     try {
@@ -80,6 +86,7 @@ export const ProfilePage = () => {
     setIsSuccessOpen(false);
     signOut();
   };
+
   const handleEditClick = () => {
     setError(null);
     setIsEditModalOpen(true);
@@ -94,10 +101,35 @@ export const ProfilePage = () => {
     setProfile((prev) =>
       prev ? { ...prev, profileImage: newImageUrl } : null
     );
-
     fetchProfile();
-
     setIsPictureModalOpen(false);
+  };
+
+  const handleForgotPasswordClick = () => {
+    setError(null);
+    setIsForgotPasswordConfirmOpen(true);
+  };
+
+  const handleConfirmForgotPassword = async () => {
+    setIsForgotPasswordConfirmOpen(false);
+    setIsForgotPasswordLoading(true);
+    setError(null);
+
+    try {
+      await api.post("/auth/user/forgot-password", {
+        email: profile?.email,
+      });
+
+      setIsForgotPasswordSuccessOpen(true);
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Erro ao solicitar alteração de senha. Tente novamente.";
+      setError(errorMessage);
+    } finally {
+      setIsForgotPasswordLoading(false);
+    }
   };
 
   const renderContent = () => {
@@ -190,7 +222,14 @@ export const ProfilePage = () => {
           <button className={styles.actionButton} onClick={handleEditClick}>
             Editar Perfil
           </button>
-          <button className={styles.actionButton}>Alterar Senha</button>
+          <button
+            className={styles.actionButton}
+            onClick={handleForgotPasswordClick}
+            disabled={isForgotPasswordLoading}
+          >
+            {isForgotPasswordLoading ? "Enviando..." : "Alterar Senha"}
+          </button>
+
           <button
             className={`${styles.actionButton} ${styles.deleteButton}`}
             onClick={handleDeleteClick}
@@ -223,6 +262,21 @@ export const ProfilePage = () => {
         confirmText="Deletar"
         cancelText="Cancelar"
       />
+      <Popup
+        isOpen={isForgotPasswordConfirmOpen}
+        onClose={() => setIsForgotPasswordConfirmOpen(false)}
+        onConfirm={handleConfirmForgotPassword}
+        title="Alterar Senha"
+        message="Você receberá um e-mail com instruções para redefinir sua senha. Deseja continuar?"
+        confirmText="Continuar"
+        cancelText="Cancelar"
+      />
+      <Popup
+        isOpen={isForgotPasswordSuccessOpen}
+        onClose={() => setIsForgotPasswordSuccessOpen(false)}
+        title="Sucesso!"
+        message="Enviamos um e-mail para você com as instruções para alterar sua senha."
+      />
       {profile && (
         <EditProfileModal
           isOpen={isEditModalOpen}
@@ -231,7 +285,6 @@ export const ProfilePage = () => {
           onUpdateSuccess={handleUpdateSuccess}
         />
       )}
-
       <ChangePictureModal
         isOpen={isPictureModalOpen}
         onClose={() => setIsPictureModalOpen(false)}

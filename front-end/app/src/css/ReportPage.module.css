@@ -169,6 +169,11 @@
   border: 1px solid #f5c6cb;
   border-radius: 8px;
   padding: 20px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
   max-width: 600px;
 }
 

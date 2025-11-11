@@ -32,7 +32,7 @@ interface ReservationResponse {
 }
 
 const DEFAULT_IMAGE_URL =
-  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1761429900/soccer-default_weihtp.png";
+  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1762130308/imagem-quadra-padrao_ly9lpz.jpg";
 
 export const ReservationPage = () => {
   const { soccerId } = useParams<{ soccerId: string }>();
@@ -245,6 +245,7 @@ export const ReservationPage = () => {
                           <FaCalendarAlt /> Data
                         </label>
                         <input
+                        style={{ fontFamily: `"Segoi-UI", sans-serif`}}
                           type="date"
                           id="reserva-data"
                           value={selectedDate}

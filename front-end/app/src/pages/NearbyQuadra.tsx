@@ -33,7 +33,7 @@ interface UserLocation {
 }
 
 const DEFAULT_IMAGE_URL =
-  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1761429900/soccer-default_weihtp.png";
+  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1762130308/imagem-quadra-padrao_ly9lpz.jpg";
 const DEFAULT_MAX_DISTANCE_KM = 10;
 const DEBOUNCE_DELAY = 350;
 
