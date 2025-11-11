@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { FindSoccerByIdRepository } from "../../../infrastruture/repository/soccer/FindSoccerByIdRepository";
-import { FindSoccerRatingsRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingsRepository";
+import { FindSoccerRatingRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingRepository";
 import { FindUserRatingRepository } from "../../../infrastruture/repository/rating/FindUserRatingRepository";
 import { FindReservationConfirmedRepository } from "../../../infrastruture/repository/reservation/FindReservationConfirmedRepository";
 import { CreateRatingRepository } from "../../../infrastruture/repository/rating/CreateRatingRepository";
@@ -32,7 +32,7 @@ export class CreateRatingController {
     // instâncias das interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
     const findSoccerByIdRepository = new FindSoccerByIdRepository();
-    const findSoccerRatingRepository = new FindSoccerRatingsRepository();
+    const findSoccerRatingRepository = new FindSoccerRatingRepository();
     const findUserRatingRepository = new FindUserRatingRepository();
     const findReservationConfirmedRepository =
       new FindReservationConfirmedRepository();

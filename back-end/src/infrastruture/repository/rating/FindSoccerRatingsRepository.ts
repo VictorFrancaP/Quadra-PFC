@@ -1,27 +1,34 @@
 // Importando interface a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
-import { IFindSoccerRatingRepositories } from "../../../domain/repositories/rating/IFindSoccerRatingRepositories";
+import { IFindSoccerRatingsRepositories } from "../../../domain/repositories/rating/IFindSoccerRatingsRepositories";
 import { Rating } from "../../../domain/entities/Rating";
 import { prismaClient } from "../../database/db";
 
 // exportando classe de implementação de interface
 export class FindSoccerRatingsRepository
-  implements IFindSoccerRatingRepositories
+  implements IFindSoccerRatingsRepositories
 {
-  async findSoccerRating(
-    userId: string,
-    soccerId: string
-  ): Promise<Rating | null> {
-    // verificando se usuário já realizou uma avaliação para a quadra
-    const ratingUserSoccer = await prismaClient.rating.findFirst({
-      where: { userId, soccerId },
+  async findSoccerRatings(soccerId: string): Promise<Rating[] | null> {
+    // procurando ratings das quadras
+    const ratings = await prismaClient.rating.findMany({
+      where: { soccerId: soccerId },
     });
 
-    // caso não encontre nada, retorna nulo
-    if (!ratingUserSoccer) {
+    // caso não encontre, retorna nulo
+    if (!ratings) {
       return null;
     }
 
     // retornando dados encontrados
-    return ratingUserSoccer as Rating;
+    return ratings.map(
+      (r) =>
+        new Rating(
+          r.rating,
+          r.userId,
+          r.comments ?? undefined,
+          r.soccerId ?? undefined,
+          r.ratedUserId ?? undefined,
+          r.id
+        )
+    );
   }
 }

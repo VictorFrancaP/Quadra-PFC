@@ -61,11 +61,6 @@ export class CreateRatingUseCase {
           throw new SoccerNotFoundError();
         }
 
-        // verifica se não é o proprietário que está efetuando a avaliação
-        if (soccer.userId === user.id) {
-          throw new OwnerRatingError();
-        }
-
         // procurando reserva do usuário
         const reservationUser =
           await this.findReservationConfirmedRepository.findReservationConfirmed(
@@ -75,6 +70,11 @@ export class CreateRatingUseCase {
 
         if (!reservationUser) {
           throw new ReservationNotFoundError();
+        }
+
+        // verifica se não é o proprietário que está efetuando a avaliação
+        if (soccer.userId === user.id) {
+          throw new OwnerRatingError();
         }
 
         // verificando se usuário já fez uma avaliação para a quadra

@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
 import { FindSoccerByIdRepository } from "../../../infrastruture/repository/soccer/FindSoccerByIdRepository";
+import { FindSoccerRatingRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingRepository";
 import { DecryptData } from "../../../shared/providers/aes/decrypt/DecryptData";
 
 // Importando usecase
@@ -12,7 +13,7 @@ import { FindSoccerUseCase } from "../../../application/usecases/soccer/list/Fin
 // Importando error personalizado
 import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
 import { SoccerNotFoundError } from "../../../shared/errors/soccer-error/SoccerNotFoundError";
-import { FindSoccerRatingRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingRepository";
+import { FindSoccerRatingsRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingsRepository";
 import { FindSoccerAverageUseCase } from "../../../application/usecases/rating/list/FindSoccerAverageUseCase";
 
 // exportando controller
@@ -28,8 +29,10 @@ export class FindSoccerController {
     const findUserByIdRepository = new FindUserByIdRepository();
     const findSoccerByIdRepository = new FindSoccerByIdRepository();
     const decryptData = new DecryptData();
+    const findSoccerRatingsRepository = new FindSoccerRatingsRepository();
     const findSoccerRatingRepository = new FindSoccerRatingRepository();
     const findSoccerAverageUseCase = new FindSoccerAverageUseCase(
+      findSoccerRatingsRepository,
       findSoccerRatingRepository
     );
 
@@ -39,7 +42,7 @@ export class FindSoccerController {
       findSoccerByIdRepository,
       decryptData,
       findSoccerAverageUseCase,
-      findSoccerRatingRepository
+      findSoccerRatingsRepository
     );
 
     // criando try/catch para capturar

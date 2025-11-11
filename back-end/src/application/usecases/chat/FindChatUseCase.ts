@@ -48,28 +48,47 @@ export class FindChatUseCase {
       throw new UserNotFoundError();
     }
 
-    // verificando se os dois usuários contém a role USER
+    // verificando se os dois usuários contém a role OWNER
     if (userOne.role !== "OWNER" && userTwo.role !== "OWNER") {
       throw new OwnerRequiredChatError();
     }
 
-    // procurando chat dos participantes
+    // normalizando ordem da criação do chat
+    const normalizedParticipantIds = [userOne.id!, userTwo.id!].sort();
+
     let chat =
       await this.findChatByParticipantsRepository.findChatByParticipants(
-        userOne.id!,
-        userTwo.id!
+        normalizedParticipantIds[0]!,
+        normalizedParticipantIds[1]!
       );
 
-    // caso não exista chat, um novo chat é criado
     if (!chat) {
-      // variavel de participantes
-      const participantIds = [userOne.id!, userTwo.id!].sort();
+      try {
+        // variavel de participantes
+        const participantIds = normalizedParticipantIds;
 
-      // criando nova instância da entidade Chat
-      const newChat = new Chat(participantIds);
+        // criando nova instância da entidade Chat
+        const newChat = new Chat(participantIds);
 
-      // criando novo chat no banco de dados
-      chat = await this.createChatRepository.createChat(newChat);
+        // criando novo chat no banco de dados
+        chat = await this.createChatRepository.createChat(newChat);
+      } catch (error: any) {
+        if (error.code === "P2002") {
+          await new Promise((resolve) => setTimeout(resolve, 200));
+
+          chat =
+            await this.findChatByParticipantsRepository.findChatByParticipants(
+              normalizedParticipantIds[0]!,
+              normalizedParticipantIds[1]!
+            );
+
+          if (!chat) {
+            throw new Error("Falha crítica de concorrência. Tente novamente.");
+          }
+        } else {
+          throw error;
+        }
+      }
     }
 
     // retornando chat

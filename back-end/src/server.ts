@@ -11,20 +11,19 @@ dotenv.config();
 // Importando middleware para validar token do usuário
 import { ensureSocketAuth } from "./interfaces/middlewares/ensureSocketAuth";
 
-// Importando cron-job para execução
-import { startEmailCronJob } from "./shared/providers/jobs/scheduler/startEmailCronJob";
-
 // Importando controllers
 import { FindChatController } from "./interfaces/controllers/chat/FindChatController";
 import { SendMessageController } from "./interfaces/controllers/message/SendMessageController";
 import { JoinChatController } from "./interfaces/controllers/chat/JoinChatController";
 import { LoadHistoryMessagesController } from "./interfaces/controllers/message/LoadHistoryMessagesController";
+import { FindUserChatsController } from "./interfaces/controllers/chat/FindChatsController";
 
 // instânciando controllers
 const sendMessageController = new SendMessageController(io);
 const joinChatController = new JoinChatController();
 const loadHistoryMessagesController = new LoadHistoryMessagesController();
 const findChatController = new FindChatController();
+const findChatsController = new FindUserChatsController();
 
 // usando o middleware de autenticação para todas as novas conexões
 io.use(ensureSocketAuth);
@@ -32,6 +31,9 @@ io.use(ensureSocketAuth);
 // registando os handlers de eventos do Socket.IO
 io.on("connection", (socket) => {
   // eventos do socket.io
+  socket.on("findChats", (data, callback) =>
+    findChatsController.handle(socket, data, callback)
+  );
   socket.on("sendMessage", (data) =>
     sendMessageController.handle(socket, data)
   );
@@ -45,10 +47,6 @@ io.on("connection", (socket) => {
   socket.on("loadHistory", (data) =>
     loadHistoryMessagesController.handle(socket, data)
   );
-
-  // socket.on("disconnect", (reason) => {
-  //   console.log(`Cliente desconectado: ${socket.id} | Razão: ${reason}`);
-  // });
 });
 
 // Criando a variável da porta do servidor
@@ -70,4 +68,3 @@ const startingServer = () => {
 
 // iniciando servidor
 startingServer();
-

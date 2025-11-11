@@ -21,7 +21,6 @@ import { Verify2FAUserValidator } from "../validators/schema/user/Verify2FAUserV
 // Importando controllers dos usuários
 import { CreateUserRequestController } from "../controllers/user/CreateUserRequestController";
 import { CreateUserController } from "../controllers/user/CreateUserController";
-import { SocialUserLoginController } from "../controllers/user/SocialUserLoginController";
 import { AuthUserController } from "../controllers/user/AuthUserController";
 import { ProfileUserController } from "../controllers/user/ProfileUserController";
 import { RequestUserResetPasswordController } from "../controllers/user/RequestUserResetPasswordController";
@@ -45,7 +44,6 @@ const routes = Router();
 // Instânciando controllers de usuários
 const createUserRequestController = new CreateUserRequestController();
 const createUserController = new CreateUserController();
-const socialUserLoginController = new SocialUserLoginController();
 const authUserController = new AuthUserController();
 const profileUserController = new ProfileUserController();
 const requestUserResetPasswordController =
@@ -99,11 +97,6 @@ routes.post(
 routes.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
-);
-routes.get(
-  "/google/callback",
-  passport.authenticate("google", { session: false }),
-  socialUserLoginController.handle
 );
 routes.get("/profile", ensureAuthenticated, profileUserController.handle);
 routes.get(

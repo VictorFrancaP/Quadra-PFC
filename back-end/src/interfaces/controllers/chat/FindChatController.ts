@@ -38,7 +38,6 @@ export class FindChatController {
         throw new Error("ID do destinatário não fornecido.");
       }
 
-      // Executa o Use Case que você já criou (encontra ou cria o chat)
       const chat = await this.findChatUseCase.execute({
         userOneId: userId,
         userTwoId: data.userTwoId,

@@ -11,7 +11,7 @@ import { FindReservationUserUseCase } from "../../../application/usecases/reserv
 // Importando error personalizado
 import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoundError";
 import { ReservationNotFoundError } from "../../../shared/errors/reservation-error/ReservationNotFoundError";
-import { FindSoccerRatingsRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingsRepository";
+import { FindSoccerRatingRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingRepository";
 
 // exportando controller
 export class FindReservationUserController {
@@ -22,7 +22,7 @@ export class FindReservationUserController {
     // instâncias das interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
     const findReservationUserRepository = new FindReservationUserRepository();
-    const findSoccerRatingRepository = new FindSoccerRatingsRepository();
+    const findSoccerRatingRepository = new FindSoccerRatingRepository();
 
     // instância da usecase
     const useCase = new FindReservationUserUseCase(

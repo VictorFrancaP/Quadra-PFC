@@ -2,5 +2,5 @@
 export interface IUploadSoccerImagesDTO {
   userId: string;
   soccerId: string;
-  images: string[];
+  images: string[] | null;
 }
