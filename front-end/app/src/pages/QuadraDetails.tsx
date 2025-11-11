@@ -22,7 +22,21 @@ import {
   FaHourglassHalf,
   FaComments,
   FaUser,
+  FaStar,
+  FaRegStar,
 } from "react-icons/fa";
+import { RatingModal } from "../components/RatingModal";
+
+interface RatingWithUser {
+  id: string;
+  rating: number;
+  comments: string | null;
+  created_at: string;
+  user: {
+    name: string;
+    profileImage: string;
+  };
+}
 
 interface SoccerDetails {
   id: string;
@@ -55,7 +69,7 @@ interface ChatRecipient {
 }
 
 const DEFAULT_IMAGE_URL =
-  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1761429900/soccer-default_weihtp.png";
+  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1762130308/imagem-quadra-padrao_ly9lpz.jpg";
 
 export const SoccerDetailPage = () => {
   const { id: soccerId } = useParams<{ id: string }>();
@@ -76,6 +90,12 @@ export const SoccerDetailPage = () => {
   const [chatRecipient, setChatRecipient] = useState<ChatRecipient | null>(
     null
   );
+  const [average, setAverage] = useState<number | null>(null);
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
+  const [hasRated, setHasRated] = useState(false);
+  const [ratings, setRatings] = useState<RatingWithUser[]>([]);
+  const [isRatingsLoading, setIsRatingsLoading] = useState(true);
+  const [ratingsError, setRatingsError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!soccerId) {
@@ -105,6 +125,36 @@ export const SoccerDetailPage = () => {
       }
     };
     fetchSoccerDetails();
+  }, [soccerId]);
+
+  useEffect(() => {
+    if (!soccerId) return;
+
+    const fetchRatings = async () => {
+      setIsRatingsLoading(true);
+      setRatingsError(null);
+      try {
+        const response = await api.get<RatingWithUser[]>(
+          `/auth/rating/findAll/${soccerId}`
+        );
+        setRatings(response.data);
+      } catch (err: any) {
+        const errorMessage =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "Erro ao carregar avaliações.";
+
+        if (errorMessage.includes("Avaliação não encontrada")) {
+          setRatings([]);
+        } else {
+          setRatingsError(errorMessage);
+        }
+      } finally {
+        setIsRatingsLoading(false);
+      }
+    };
+
+    fetchRatings();
   }, [soccerId]);
 
   const getDisplayImage = (): string => {
@@ -163,6 +213,102 @@ export const SoccerDetailPage = () => {
     }
     setChatRecipient({ id: soccer.userId, name: soccer.userName });
     setIsChatModalOpen(true);
+  };
+
+  const handleRatingAverage = async () => {
+    if (!soccer) return;
+
+    try {
+      const response = await api.get(`/auth/rating/find/soccer/${soccer.id}`);
+      setAverage(response.data.average.average);
+      setHasRated(response.data.average.hasRated);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    handleRatingAverage();
+  }, [soccer]);
+
+  const renderStars = (rating: number) => {
+    return Array.from({ length: 5 }, (_, i) => (
+      <span key={i}>
+        {i < Math.round(rating) ? (
+          <FaStar color="#ffc107" />
+        ) : (
+          <FaRegStar color="#e4e5e9" />
+        )}
+      </span>
+    ));
+  };
+
+  const renderRatingsList = () => {
+    if (isRatingsLoading) {
+      return (
+        <div className={styles.centeredMessage}>
+          <FaSpinner className={styles.spinner} /> Carregando avaliações...
+        </div>
+      );
+    }
+
+    if (ratingsError) {
+      return (
+        <div className={styles.centeredMessage}>
+          <p className={styles.errorMessage}>
+            <FaExclamationCircle /> {ratingsError}
+          </p>
+        </div>
+      );
+    }
+
+    if (ratings.length === 0) {
+      return (
+        <div className={styles.centeredMessage}>
+          <p>
+            Esta quadra ainda não possui avaliações. Seja o primeiro a avaliar!
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className={styles.ratingsList}>
+        {ratings.map((rating) => (
+          <div key={rating.id} className={styles.ratingItem}>
+            <div className={styles.ratingHeader}>
+              <div className={styles.ratingUser}>
+                {rating.user?.profileImage ? (
+                  <img
+                    src={rating.user.profileImage}
+                    alt={rating.user?.name || "Usuário"}
+                    className={styles.ratingUserImage}
+                  />
+                ) : (
+                  <div className={styles.ratingUserIcon}>
+                    <FaUser />
+                  </div>
+                )}
+                <strong>{rating.user?.name || "Usuário"}</strong>
+              </div>
+              <div className={styles.ratingStars}>
+                {renderStars(rating.rating)}
+              </div>
+            </div>
+            {rating.comments && (
+              <p className={styles.ratingComment}>"{rating.comments}"</p>
+            )}
+            <span className={styles.ratingDate}>
+              {new Date().toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
   };
 
   const renderContent = () => {
@@ -329,11 +475,40 @@ export const SoccerDetailPage = () => {
             </strong>
             <span>{soccer.userName}</span>
           </div>
+          <div
+            style={{
+              display: "flex",
+              flexFlow: "column",
+              alignItems: "center",
+              gap: "10px",
+              marginTop: "50px",
+            }}
+          >
+            <div>
+              {average !== null && (
+                <div>
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <span key={i}>
+                      {i < Math.round(average) ? <FaStar /> : <FaRegStar />}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+            {!hasRated && (
+              <button
+                onClick={() => setIsRatingModalOpen(true)}
+                className={styles.button}
+              >
+                Avaliar Quadra
+              </button>
+            )}
+          </div>
           {soccer.observations && (
             <div className={`${styles.detailItem} ${styles.fullWidth}`}>
               <strong>
                 <FaInfoCircle /> Observações:
-              </strong>{" "}
+              </strong>
               <span>{soccer.observations}</span>
             </div>
           )}
@@ -357,6 +532,11 @@ export const SoccerDetailPage = () => {
             </div>
           </div>
         )}
+
+        <div className={styles.ratingsSection}>
+          <h2>Avaliações da Quadra ({ratings.length})</h2>
+          {renderRatingsList()}
+        </div>
       </div>
     );
   };
@@ -380,6 +560,32 @@ export const SoccerDetailPage = () => {
           recipientName={chatRecipient.name}
         />
       )}
+      <RatingModal
+        isOpen={isRatingModalOpen}
+        onClose={() => setIsRatingModalOpen(false)}
+        soccerId={soccer?.id || ""}
+        onRated={() => {
+          setHasRated(true);
+          handleRatingAverage();
+          if (soccerId) {
+            const fetchRatings = async () => {
+              setIsRatingsLoading(true);
+              setRatingsError(null);
+              try {
+                const response = await api.get<RatingWithUser[]>(
+                  `/auth/rating/findAll/${soccerId}`
+                );
+                setRatings(response.data);
+              } catch (err: any) {
+                setError(err.message);
+              } finally {
+                setIsRatingsLoading(false);
+              }
+            };
+            fetchRatings();
+          }
+        }}
+      />
     </>
   );
 };

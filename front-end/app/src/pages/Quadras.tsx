@@ -25,7 +25,7 @@ interface QuadraInfo {
 }
 
 const DEFAULT_IMAGE_URL =
-  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1761429900/soccer-default_weihtp.png";
+  "https://res.cloudinary.com/dxnsn1joz/image/upload/v1762130308/imagem-quadra-padrao_ly9lpz.jpg";
 
 export const QuadrasPage = () => {
   const [quadras, setQuadras] = useState<QuadraInfo[]>([]);

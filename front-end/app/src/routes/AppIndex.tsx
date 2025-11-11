@@ -24,6 +24,7 @@ import { SoccerOwnerReservationsPage } from "../pages/Reservas";
 import { OwnerReportPage } from "../pages/Report";
 import { ForgotPasswordPage } from "../pages/ForgotPassword";
 import { ResetPasswordPage } from "../pages/ResetPassword";
+import { ChatsDoProprietario } from "../pages/ChatsOwner";
 
 export const AppIndex = () => {
   return (
@@ -67,6 +68,7 @@ export const AppIndex = () => {
 
         <Route element={<OwnerRoute />}>
           <Route path="/minha-quadra" element={<MyQuadraPage />} />
+          <Route path="/chats" element={<ChatsDoProprietario />} />
           <Route path="/owner/report" element={<OwnerReportPage />} />
         </Route>
 

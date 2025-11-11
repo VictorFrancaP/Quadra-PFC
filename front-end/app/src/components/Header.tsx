@@ -13,6 +13,7 @@ import {
   FaClipboardList,
   FaBookOpen,
   FaChartLine,
+  FaRocketchat,
 } from "react-icons/fa";
 import Logo from "../../public/logo-header.png";
 import { useAuth } from "../context/AuthContext";
@@ -91,6 +92,14 @@ export const Header = () => {
               </Link>
             </div>
           )}
+          {isOwner && (
+            <div className={styles.container}>
+              <FaRocketchat className={styles.icon} />
+              <Link to="/chats" className={styles.link}>
+                Minhas conversas
+              </Link>
+            </div>
+          )}
           {isAdminOrOwner && (
             <div className={styles.container}>
               <FaPlusSquare className={styles.icon} />
@@ -139,7 +148,7 @@ export const Header = () => {
                 </Link>
               )}
               {isCommonUser && (
-                <Link
+                <Link style={{ padding: "4px"}}
                   to="/minha-solicitacao"
                   className={styles.headerActionLink}
                   title="Minha Solicitação"
