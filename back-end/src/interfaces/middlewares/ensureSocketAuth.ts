@@ -28,17 +28,21 @@ export const ensureSocketAuth = (
       return next(new TokenNotFoundError());
     }
 
-    // verificando token e pegando dados do usuário
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
+    // payload para dados do usuário
+    interface JwtPayload {
+      sub: string;
+      role: "OWNER" | "USER" | "ADMIN";
+    }
 
-      // mudar isto depois
-      { ignoreExpiration: true }
-    ) as { sub: string };
+    // verificando token e pegando dados do usuário
+    const payload = jwt.verify(token, process.env.JWT_SECRET as string, {
+      ignoreExpiration: true,
+    }) as JwtPayload;
 
     // pegando id do usuário
     socket.data.userId = payload.sub;
+    // pegando a role do usuário
+    socket.data.userRole = payload.role;
     next();
   } catch (error: any) {
     next(new Error("Autenticação falhou."));

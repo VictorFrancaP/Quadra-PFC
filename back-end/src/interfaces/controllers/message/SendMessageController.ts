@@ -61,6 +61,9 @@ export class SendMessageController {
         receiverId: data.receiverId,
       });
 
+      // validando entrada no chat
+      socket.join(chatId);
+
       // emitindo mensagem apenas para os usuários do chat
       this.io.to(chatId).emit("newMessage", message);
     } catch (err: any) {

@@ -14,6 +14,7 @@ import { RequestParamsRatingValidator } from "../validators/schema/rating/Reques
 import { CreateRatingController } from "../controllers/rating/CreateRatingController";
 import { FindSoccerAverageController } from "../controllers/rating/FindSoccerAverageController";
 import { FindUserAverageController } from "../controllers/rating/FindUserAverageController";
+import { FindRatingsSoccerController } from "../controllers/rating/FindRatingsSoccerController";
 
 // criando variavel para instânciar o Router do express
 const routes = Router();
@@ -22,6 +23,7 @@ const routes = Router();
 const createRatingController = new CreateRatingController();
 const findSoccerAverageController = new FindSoccerAverageController();
 const findUserAverageController = new FindUserAverageController();
+const findRatingsSoccerController = new FindRatingsSoccerController();
 
 // criando rotas
 
@@ -54,6 +56,12 @@ routes.get(
   ensureAuthenticated,
   ensureJoi(RequestParamsRatingValidator, "params"),
   findUserAverageController.handle
+);
+routes.get(
+  "/findAll/:soccerId",
+  ensureAuthenticated,
+  ensureJoi(RequestParamsRatingValidator, "params"),
+  findRatingsSoccerController.handle
 );
 
 // exportando rotas

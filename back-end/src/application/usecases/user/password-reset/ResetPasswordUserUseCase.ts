@@ -67,13 +67,13 @@ export class ResetPasswordUserUseCase {
       userTokenIsValid.password
     );
 
-    // criptogrando nova senha do usuário
-    const newPasswordHash = await this.hashProvider.hashPassword(data.password);
-
     // se entrar no if quer dizer que a senha é a mesma que a anterior
     if (matchPassword) {
       throw new PasswordUserSameError();
     }
+
+    // criptogrando nova senha do usuário
+    const newPasswordHash = await this.hashProvider.hashPassword(data.password);
 
     // atualizando informações do usuário
     const updates = User.updateUserInfos(userTokenIsValid, {

@@ -60,7 +60,7 @@ export class UploadSoccerImagesUseCase {
     }
 
     // verificando se vieram imagens para salvar
-    if (!data.images || data.images.push?.length === 0) {
+    if (!data.images || data.images.length === 0) {
       throw new SoccerImagesError();
     }
 
