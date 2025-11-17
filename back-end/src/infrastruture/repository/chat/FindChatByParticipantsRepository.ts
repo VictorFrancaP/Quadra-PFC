@@ -1,9 +1,8 @@
-// Importando interface a ser implementada e prismaClient para a manipulação do banco de dados
+// Importando interfaces a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
 import { IFindChatByParticipantsRepositories } from "../../../domain/repositories/chat/IFindChatByParticipantsRepositories";
 import { Chat } from "../../../domain/entities/Chat";
 import { prismaClient } from "../../database/db";
 
-// exportando classe de implementação de interface
 export class FindChatByParticipantsRepository
   implements IFindChatByParticipantsRepositories
 {
@@ -11,13 +10,13 @@ export class FindChatByParticipantsRepository
     participantOneId: string,
     participantTwoId: string
   ): Promise<Chat | null> {
-    // procurando chat por participantes
-    const findChat = await prismaClient.chat.findFirst({
+    // procurando chat na base de dados
+    const findChat = await prismaClient.chat.findUnique({
       where: {
-        AND: [
-          { participantIds: { has: participantOneId } },
-          { participantIds: { has: participantTwoId } },
-        ],
+        userOneId_userTwoId: {
+          userOneId: participantOneId,
+          userTwoId: participantTwoId,
+        },
       },
     });
 
@@ -26,7 +25,12 @@ export class FindChatByParticipantsRepository
       return null;
     }
 
-    // retornando dados encontrados em uma nova entidade
-    return new Chat(findChat.participantIds, findChat.id);
+    // retornando dados encontrados
+    return new Chat(
+      findChat.userOneId,
+      findChat.userTwoId,
+      findChat.participantIds,
+      findChat.id
+    );
   }
 }

@@ -13,16 +13,19 @@ export class CreateSupportRepository implements ICreateSupportRepositories {
         message: support.message,
         status: support.status,
         userId: support.userId,
+        userEmail: support.userEmail,
       },
     });
 
     // retornando dados criados
     return new Support(
       createSupport.userId,
+      createSupport.userEmail,
       createSupport.subject,
       createSupport.message,
       createSupport.status,
-      createSupport.id
+      createSupport.id,
+      createSupport.created_at
     );
   }
 }

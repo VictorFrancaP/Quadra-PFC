@@ -49,7 +49,6 @@ export class FindChatController {
 
       callback({ chatId: chat.id as string });
     } catch (err: any) {
-      console.error(`[FindChatController] Erro: ${err.message}`);
       callback({
         error: err.message || "Erro ao processar busca/criação de chat.",
       });
