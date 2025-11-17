@@ -17,6 +17,11 @@ export class FindChatByIdRepository implements IFindChatByIdRepositories {
     }
 
     // retornando dados encontrados em uma nova entidade
-    return new Chat(findChat.participantIds, findChat.id);
+    return new Chat(
+      findChat.userOneId,
+      findChat.userTwoId,
+      findChat.participantIds,
+      findChat.id
+    );
   }
 }

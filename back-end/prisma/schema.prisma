@@ -89,6 +89,8 @@ model user {
   support           support[]      @relation("user-support")
   sender            message[]
   reservation       reservation[]
+  chatsAsUserOne    chat[]         @relation("UserOneChats")
+  chatsAsUserTwo    chat[]         @relation("UserTwoChats")
 
   // criação e updated
   created_at DateTime @default(now())
@@ -211,18 +213,24 @@ model chat {
   // identificador
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  // atributos
+  // participantes
+  userOneId String @db.ObjectId
+  userTwoId String @db.ObjectId
+
+  // participantes array
   participantIds String[] @db.ObjectId
 
-  // relação com a tabela mensagens
+  // relacionamentos
+  userOne  user      @relation("UserOneChats", fields: [userOneId], references: [id])
+  userTwo  user      @relation("UserTwoChats", fields: [userTwoId], references: [id])
   messages message[]
 
-  // criação de atualização
+  // criação e update
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  // definindo indice por id dos participantes, assim tendo melhor performance do banco de dados
-  @@unique([participantIds])
+  // unique
+  @@unique([userOneId, userTwoId])
   // nome da tabela no banco de dados
   @@map("_Chat_")
 }
@@ -299,6 +307,7 @@ model support {
   subject String
   message String
   status  supportStatus @default(OPEN)
+  userEmail String
 
   // relacionamento
   user   user   @relation("user-support", fields: [userId], references: [id])

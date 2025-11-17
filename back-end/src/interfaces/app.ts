@@ -21,6 +21,7 @@ import { soccerRoutes } from "./routes/soccer.routes";
 import { ratingRoutes } from "./routes/rating.routes";
 import { reservationRoutes } from "./routes/reservation.routes";
 import { webHookRoutes } from "./routes/payment.routes";
+import { supportRoutes } from "./routes/support.routes";
 
 // Importando middleware de error
 import { errorHandler } from "./middlewares/errorHandler";
@@ -53,7 +54,7 @@ const httpServer = http.createServer(app);
 // instãnciando novo server do socket.io
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: `${process.env.FRONT_HOST}`,
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -83,6 +84,7 @@ app.use("/auth/order", orderRoutes);
 app.use("/auth/soccer", soccerRoutes);
 app.use("/auth/rating", ratingRoutes);
 app.use("/auth/reservation", reservationRoutes);
+app.use("/auth/support", supportRoutes);
 app.use("/", rawRouter);
 
 // utilizando middleware de error (ultimo a ser executado)

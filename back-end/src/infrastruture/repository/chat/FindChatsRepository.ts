@@ -13,6 +13,8 @@ export class FindChatsRepository implements IFindChatsByUserRepositories {
     });
 
     // retornando chats
-    return chats.map((c) => new Chat(c.participantIds, c.id));
+    return chats.map(
+      (c) => new Chat(c.userOneId, c.userTwoId, c.participantIds, c.id)
+    );
   }
 }

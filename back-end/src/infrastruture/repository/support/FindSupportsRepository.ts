@@ -16,10 +16,12 @@ export class FindSupportsRepository implements IFindSupportsRepositories {
       (support) =>
         new Support(
           support.userId,
+          support.userEmail,
           support.subject,
           support.message,
           support.status,
-          support.id
+          support.id,
+          support.created_at
         )
     );
   }

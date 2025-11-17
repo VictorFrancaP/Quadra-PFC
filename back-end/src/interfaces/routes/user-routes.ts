@@ -16,7 +16,6 @@ import { ResetPasswordUserValidatorParams } from "../validators/schema/user/Rese
 import { UpdateUserProfileValidator } from "../validators/schema/user/UpdateUserProfileValidator";
 import { RequestParamsValidator } from "../validators/schema/RequestParamsValidator";
 import { UpdateUserRoleValidator } from "../validators/schema/user/UpdateUserRoleValidator";
-import { Verify2FAUserValidator } from "../validators/schema/user/Verify2FAUserValidator";
 
 // Importando controllers dos usuários
 import { CreateUserRequestController } from "../controllers/user/CreateUserRequestController";

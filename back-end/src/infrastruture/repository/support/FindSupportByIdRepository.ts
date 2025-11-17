@@ -1,14 +1,14 @@
-// Importando interface a ser implementada nesta classe e prismaClient para manipulação do banco de dados
-import { IFindUserSupportRepositories } from "../../../domain/repositories/support/IFindUserSupportRepositories";
+// Importando interface a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
+import { IFindSupportByIdRepositories } from "../../../domain/repositories/support/IFindSupportByIdRepositories";
 import { Support } from "../../../domain/entities/Support";
 import { prismaClient } from "../../database/db";
 
 // exportando classe de implementação de interface
-export class FindUserSupportRepository implements IFindUserSupportRepositories {
-  async findUserSupport(userEmail: string): Promise<Support | null> {
-    // procurando suporte do usuário
+export class FindSupportByIdRepository implements IFindSupportByIdRepositories {
+  async findSupport(id: string): Promise<Support | null> {
+    // procurando suporte na base dados
     const support = await prismaClient.support.findFirst({
-      where: { userEmail },
+      where: { id },
     });
 
     // caso não encontre, retorna nulo
