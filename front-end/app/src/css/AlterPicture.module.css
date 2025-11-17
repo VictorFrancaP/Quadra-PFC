@@ -1,4 +1,3 @@
-/* Overlay (Fundo escuro) */
 .overlay {
   position: fixed;
   top: 0;
@@ -14,20 +13,18 @@
   padding: 20px;
 }
 
-/* Modal */
 .modal {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   width: 100%;
-  max-width: 600px; /* Largura para a grade de imagens */
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   max-height: 90vh;
 }
 
-/* Cabeçalho */
 .modalHeader {
   display: flex;
   align-items: center;
@@ -54,28 +51,25 @@
   color: #333;
 }
 
-/* Corpo do Modal */
 .modalBody {
   padding: 25px 30px;
-  overflow-y: auto; /* Scroll se muitas imagens */
+  overflow-y: auto;
   flex-grow: 1;
 }
 
-/* Grid de Imagens */
 .imageGrid {
   display: grid;
-  /* Cria colunas responsivas, min 100px, max 1fr, 5 colunas */
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 15px; /* Espaço entre imagens */
+  gap: 15px;
 }
 
 .imageOption {
   position: relative;
-  aspect-ratio: 1 / 1; /* Força ser um quadrado */
-  border-radius: 50%; /* Deixa circular */
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
-  border: 4px solid transparent; /* Espaço para a borda selecionada */
+  border: 4px solid transparent;
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .imageOption:hover {
@@ -85,20 +79,19 @@
 .imageOption img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Cobre a área circular */
+  object-fit: cover;
   display: block;
 }
 
-/* Estilo da Imagem Selecionada */
 .selected {
-  border-color: #04a347; /* Borda verde */
+  border-color: #04a347;
   transform: scale(1.05);
 }
 .checkIcon {
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #04a347; /* Fundo verde */
+  background-color: #04a347;
   color: white;
   border-radius: 50%;
   width: 25px;
@@ -110,7 +103,6 @@
   border: 2px solid white;
 }
 
-/* Mensagens de Feedback */
 .feedbackMessage,
 .errorMessage {
   text-align: center;
@@ -122,15 +114,18 @@
   justify-content: center;
   gap: 10px;
 }
+
 .errorMessage {
   color: #d9534f;
   font-weight: 500;
 }
+
 .spinner {
   font-size: 24px;
   color: #04a347;
   animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -140,7 +135,6 @@
   }
 }
 
-/* Rodapé (Ações) */
 .modalActions {
   display: flex;
   justify-content: flex-end;
@@ -150,6 +144,7 @@
   background-color: #f9f9f9;
   flex-shrink: 0;
 }
+
 .modalActions button {
   padding: 10px 20px;
   font-size: 15px;
@@ -162,14 +157,17 @@
   align-items: center;
   gap: 6px;
 }
+
 .cancelButton {
   background-color: #f4f7f6;
   color: #333;
   border: 1px solid #ddd;
 }
+
 .cancelButton:hover {
   background-color: #e5e5e5;
 }
+
 .cancelButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
@@ -179,9 +177,11 @@
   background-color: #04a347;
   color: white;
 }
+
 .saveButton:hover {
   background-color: #038b3d;
 }
+
 .saveButton:disabled {
   background-color: #aaa;
   cursor: not-allowed;

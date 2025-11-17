@@ -148,6 +148,7 @@ export const CadastroConfirm = () => {
       setPopupIsVisible(true);
       setAge(null);
       setCep("");
+      setCpf("");
       setAddress("");
       setGender("");
       setPassword("");

@@ -46,12 +46,11 @@ export const ChatModal: React.FC<ChatModalProps> = ({
 }) => {
   const { user: loggedInUser } = useAuth();
   const { socket, isConnected } = useSocket();
-
   const [chatId, setChatId] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
-  const [isSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -70,15 +69,9 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     };
 
     const handleNewMessage = (message: Message) => {
-      setChatId((currentChatId) => {
-        if (message.chatId === currentChatId) {
-          if (message.senderId === loggedInUser?.id) {
-            return currentChatId;
-          }
-          setMessages((prevMessages) => [...prevMessages, message]);
-        }
-        return currentChatId;
-      });
+      if (message.chatId === chatId) {
+        setMessages((prevMessages) => [...prevMessages, message]);
+      }
     };
 
     const handleJoinedChat = (data: { message: string }) => {
@@ -94,7 +87,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
       socket.off("newMessage", handleNewMessage);
       socket.off("joinedChat", handleJoinedChat);
     };
-  }, [socket, isConnected, chatId, loggedInUser?.id]);
+  }, [socket, isConnected, chatId]);
 
   useEffect(() => {
     if (isOpen && isConnected && socket && recipientId && loggedInUser?.id) {
@@ -107,10 +100,10 @@ export const ChatModal: React.FC<ChatModalProps> = ({
         { userTwoId: recipientId },
         (response: { chatId?: string; error?: string }) => {
           if (response.error) {
-            console.error("[ChatModal] Erro ao obter Chat ID:", response.error);
             setError(response.error);
             setIsLoadingHistory(false);
           } else if (response.chatId) {
+            console.log(`[ChatModal] Chat ID obtido: ${response.chatId}`);
             setChatId(response.chatId);
             socket.emit("joinChat", { chatId: response.chatId });
             socket.emit("loadHistory", { chatId: response.chatId });
@@ -136,17 +129,8 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     )
       return;
 
-    const tempId = `temp-${Date.now()}`;
+    setIsSending(true);
     const content = newMessage.trim();
-
-    const optimisticMessage: Message = {
-      id: tempId,
-      content: content,
-      senderId: loggedInUser.id,
-      chatId: chatId,
-      created_at: new Date().toISOString(),
-    };
-    setMessages((prevMessages) => [...prevMessages, optimisticMessage]);
 
     socket.emit("sendMessage", {
       receiverId: recipientId,
@@ -154,6 +138,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     });
 
     setNewMessage("");
+    setIsSending(false);
   };
 
   return (
@@ -175,32 +160,32 @@ export const ChatModal: React.FC<ChatModalProps> = ({
             transition={{ type: "spring", stiffness: 400, damping: 30 }}
           >
             <div className={styles.modalHeader}>
-              <h3>Chat com {recipientName || "Desconhecido"}</h3>
+                            <h3>Chat com {recipientName || "Desconhecido"}</h3> 
               <button
                 onClick={onClose}
                 className={styles.closeButton}
                 title="Fechar Chat"
               >
-                <FaTimes />
+                                <FaTimes />
               </button>
             </div>
             <div className={styles.messagesContainer}>
               {isLoadingHistory && (
                 <div className={styles.loadingMessages}>
-                  <FaSpinner className={styles.spinner} /> Carregando...
+                                    <FaSpinner className={styles.spinner} />
+                  Carregando...    
                 </div>
               )}
               {error && (
                 <div className={styles.errorMessage}>
-                  <FaExclamationCircle /> {error}
+                                    <FaExclamationCircle /> {error}             
                 </div>
               )}
               {!isLoadingHistory && messages.length === 0 && !error && (
                 <div className={styles.noMessages}>
-                  Sem mensagens. Envie a primeira!
+                                    Sem mensagens. Envie a primeira!            
                 </div>
               )}
-
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -210,27 +195,30 @@ export const ChatModal: React.FC<ChatModalProps> = ({
                       : styles.theirMessage
                   }`}
                 >
-                  <p>{msg.content}</p>
+                                    <p>{msg.content}</p> 
                   <span className={styles.timestamp}>
-                    {formatTime(msg.created_at)}
+                                        {formatTime(msg.created_at)}           
                   </span>
                 </div>
               ))}
-              <div ref={messagesEndRef} />
+                            <div ref={messagesEndRef} /> 
             </div>
-
             <form onSubmit={handleSendMessage} className={styles.inputArea}>
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Digite sua mensagem..."
-                disabled={isSending || isLoadingHistory || !chatId}
+                disabled={isSending || isLoadingHistory || !chatId || !!error}
               />
               <button
                 type="submit"
                 disabled={
-                  isSending || isLoadingHistory || !chatId || !newMessage.trim()
+                  isSending ||
+                  isLoadingHistory ||
+                  !chatId ||
+                  !newMessage.trim() ||
+                  !!error
                 }
               >
                 {isSending ? (
