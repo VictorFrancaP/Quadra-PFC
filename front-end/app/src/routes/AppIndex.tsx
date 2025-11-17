@@ -25,6 +25,8 @@ import { OwnerReportPage } from "../pages/Report";
 import { ForgotPasswordPage } from "../pages/ForgotPassword";
 import { ResetPasswordPage } from "../pages/ResetPassword";
 import { ChatsDoProprietario } from "../pages/ChatsOwner";
+import { SupportPage } from "../pages/SupportPage";
+import { MySupportTicketPage } from "../pages/MySupport";
 
 export const AppIndex = () => {
   return (
@@ -55,6 +57,8 @@ export const AppIndex = () => {
           <Route path="/quadras-proximas" element={<NearbyQuadrasPage />} />
           <Route path="/reservar/:soccerId" element={<ReservationPage />} />
           <Route path="/minhas-reservas" element={<MyReservationsPage />} />
+          <Route path="/central-ajuda" element={<SupportPage />} />
+          <Route path="/chamados" element={<MySupportTicketPage />} />
           <Route
             path="/minha-quadra/reservas"
             element={<SoccerOwnerReservationsPage />}

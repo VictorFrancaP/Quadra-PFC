@@ -14,6 +14,7 @@ import {
   FaBookOpen,
   FaChartLine,
   FaRocketchat,
+  FaHeadset,
 } from "react-icons/fa";
 import Logo from "../../public/logo-header.png";
 import { useAuth } from "../context/AuthContext";
@@ -120,6 +121,13 @@ export const Header = () => {
           ) : (
             <div className={styles.profileContainer}>
               <Link
+                to="/chamados"
+                className={styles.navIcon}
+                title="Meus Chamados"
+              >
+                <FaHeadset style={{fontSize: "20px"}} />
+              </Link>
+              <Link style={{padding: "5px"}}
                 to="/profile"
                 className={styles.profileLink}
                 title="Ver Perfil"
@@ -134,6 +142,7 @@ export const Header = () => {
                   <FaUser className={styles.profileIcon} />
                 )}
               </Link>
+
               <span className={styles.userName} style={{ marginRight: "0" }}>
                 Olá, {user?.name.split(" ")[0]}
               </span>
@@ -148,7 +157,8 @@ export const Header = () => {
                 </Link>
               )}
               {isCommonUser && (
-                <Link style={{ padding: "4px"}}
+                <Link
+                  style={{ padding: "4px" }}
                   to="/minha-solicitacao"
                   className={styles.headerActionLink}
                   title="Minha Solicitação"

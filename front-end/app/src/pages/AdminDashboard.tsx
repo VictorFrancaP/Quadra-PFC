@@ -13,6 +13,8 @@ import {
   FaUserCog,
   FaTrash,
   FaExclamationCircle,
+  FaHourglassHalf,
+  FaEye,
 } from "react-icons/fa";
 
 interface DisplayUser {
@@ -56,7 +58,17 @@ interface SoccerData {
   observations?: string;
 }
 
-type ActiveTab = "users" | "orders" | "soccers";
+interface SupportTicket {
+  id: string;
+  subject: string;
+  message: string;
+  status: "OPEN" | "CLOSED" | "IN_PROGRESS";
+  userId: string;
+  userEmail: string;
+  created_at: string;
+}
+
+type ActiveTab = "users" | "orders" | "soccers" | "support";
 
 const maskEmail = (email: string | undefined): string => {
   if (!email) return "N/A";
@@ -84,6 +96,21 @@ const formatRole = (role: string | undefined): string => {
   return "Usuário";
 };
 
+const formatSupportStatus = (status: string | undefined): string => {
+  if (!status) return "N/A";
+  if (status === "OPEN") return "Aberto";
+  if (status === "CLOSED") return "Fechado";
+  if (status === "IN_PROGRESS") return "Em Progresso";
+  return status;
+};
+
+const getSupportStatusClass = (status: string): string => {
+  if (status === "OPEN") return styles.statusOPEN;
+  if (status === "CLOSED") return styles.statusAPPROVED;
+  if (status === "IN_PROGRESS") return styles.statusPENDING;
+  return "";
+};
+
 export const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState<ActiveTab>("users");
   const [allUsers, setAllUsers] = useState<DisplayUser[]>([]);
@@ -100,12 +127,6 @@ export const AdminDashboard = () => {
   const [ordersError, setOrdersError] = useState<string | null>(null);
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
-  const [popupInfo, setPopupInfo] = useState<{
-    isOpen: boolean;
-    title: string;
-    message: string;
-    isError: boolean;
-  }>({ isOpen: false, title: "", message: "", isError: false });
   const [soccers, setSoccers] = useState<SoccerData[]>([]);
   const [isLoadingSoccers, setIsLoadingSoccers] = useState(false);
   const [soccersError, setSoccersError] = useState<string | null>(null);
@@ -113,6 +134,18 @@ export const AdminDashboard = () => {
   const [isConfirmDeleteSoccerOpen, setIsConfirmDeleteSoccerOpen] =
     useState(false);
   const [soccerToDelete, setSoccerToDelete] = useState<SoccerData | null>(null);
+  const [supportTickets, setSupportTickets] = useState<SupportTicket[]>([]);
+  const [isLoadingSupport, setIsLoadingSupport] = useState(false);
+  const [supportError, setSupportError] = useState<string | null>(null);
+  const [updatingSupportId, setUpdatingSupportId] = useState<string | null>(
+    null
+  );
+  const [popupInfo, setPopupInfo] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    isError: boolean;
+  }>({ isOpen: false, title: "", message: "", isError: false });
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -187,6 +220,33 @@ export const AdminDashboard = () => {
       fetchSoccers();
     }
   }, [activeTab, soccers.length, soccersError, isLoadingSoccers]);
+  useEffect(() => {
+    const fetchSupportTickets = async () => {
+      setIsLoadingSupport(true);
+      setSupportError(null);
+      try {
+        const response = await api.get("/auth/support/findAll");
+        setSupportTickets(response.data || []);
+      } catch (err: any) {
+        const errorMessage =
+          err.response?.data?.message ||
+          err.response?.data ||
+          "Erro ao buscar chamados.";
+        setSupportError(errorMessage);
+      } finally {
+        setIsLoadingSupport(false);
+      }
+    };
+
+    if (
+      activeTab === "support" &&
+      supportTickets.length === 0 &&
+      !supportError &&
+      !isLoadingSupport
+    ) {
+      fetchSupportTickets();
+    }
+  }, [activeTab, supportTickets.length, supportError, isLoadingSupport]);
 
   const handleSearch = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -285,6 +345,33 @@ export const AdminDashboard = () => {
       setUsersError(errorMessage);
     } finally {
       setUpdatingUserId(null);
+    }
+  };
+
+  const handleUpdateSupportStatus = async (
+    ticketId: string,
+    newStatus: "CLOSED" | "IN_PROGRESS"
+  ) => {
+    setUpdatingSupportId(ticketId);
+    setSupportError(null);
+    closePopup();
+    try {
+      await api.put(`/auth/support/update/${ticketId}`, { newStatus });
+
+      setSupportTickets((prev) =>
+        prev.map((t) => (t.id === ticketId ? { ...t, status: newStatus } : t))
+      );
+      showPopup("Sucesso", "Status do chamado atualizado com sucesso.");
+    } catch (err: any) {
+      console.error("Erro ao atualizar status do chamado:", err.response);
+      const errorMessage =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Erro ao atualizar status do chamado.";
+      showPopup("Erro", errorMessage, true);
+      setSupportError(errorMessage);
+    } finally {
+      setUpdatingSupportId(null);
     }
   };
 
@@ -641,7 +728,142 @@ export const AdminDashboard = () => {
           )}
         </>
       );
+    } else if (activeTab === "support") {
+      return (
+        <>
+          {isLoadingSupport && <p>Carregando chamados...</p>}
+          {supportError && (
+            <p className={styles.error}>
+              <FaExclamationCircle /> {supportError}
+            </p>
+          )}
+          {!isLoadingSupport && !supportError && (
+            <section className={styles.supportListSection}>
+              <h2>Gerenciar Chamados de Suporte</h2>
+              {supportTickets.length === 0 ? (
+                <p>Nenhum chamado de suporte encontrado.</p>
+              ) : (
+                <div className={styles.tableWrapper}>
+                  <table className={styles.supportTable}>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Usuário (Email)</th>
+                        <th>Assunto</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {supportTickets.map((ticket) => (
+                        <tr key={ticket.id}>
+                          <td title={ticket.id}>
+                            {ticket.id.substring(0, 8)}...
+                          </td>
+                          <td title={ticket.userEmail}>
+                            {maskEmail(ticket.userEmail)}
+                          </td>
+                          <td title={ticket.subject}>
+                            {ticket.subject.length > 30
+                              ? ticket.subject.substring(0, 30) + "..."
+                              : ticket.subject}
+                          </td>
+                          <td>
+                            <span
+                              className={`${
+                                styles.status
+                              } ${getSupportStatusClass(ticket.status)}`}
+                            >
+                              {formatSupportStatus(ticket.status)}
+                            </span>
+                          </td>
+                          <td>
+                            {new Date(ticket.created_at).toLocaleDateString(
+                              "pt-BR"
+                            )}
+                          </td>
+                          <td className={styles.supportActions}>
+                            <button
+                              className={styles.viewButton}
+                              onClick={() =>
+                                showPopup(
+                                  `Chamado: ${ticket.subject}`,
+                                  ticket.message ||
+                                    "Este chamado não tem mensagem."
+                                )
+                              }
+                              title="Ver mensagem completa"
+                            >
+                              <FaEye />
+                            </button>
+                            {ticket.status === "OPEN" && (
+                              <>
+                                <button
+                                  className={styles.approveButton}
+                                  onClick={() =>
+                                    handleUpdateSupportStatus(
+                                      ticket.id,
+                                      "CLOSED"
+                                    )
+                                  }
+                                  disabled={updatingSupportId === ticket.id}
+                                  title="Marcar como Fechado"
+                                >
+                                  {updatingSupportId === ticket.id ? (
+                                    <FaSpinner className={styles.spinner} />
+                                  ) : (
+                                    <FaCheck />
+                                  )}
+                                </button>
+                                <button
+                                  className={styles.inProgressButton}
+                                  onClick={() =>
+                                    handleUpdateSupportStatus(
+                                      ticket.id,
+                                      "IN_PROGRESS"
+                                    )
+                                  }
+                                  disabled={updatingSupportId === ticket.id}
+                                  title="Marcar como Em Progresso"
+                                >
+                                  {updatingSupportId === ticket.id ? (
+                                    <FaSpinner className={styles.spinner} />
+                                  ) : (
+                                    <FaHourglassHalf />
+                                  )}
+                                </button>
+                              </>
+                            )}
+                            {ticket.status === "IN_PROGRESS" && (
+                              <button
+                                className={styles.approveButton}
+                                onClick={() =>
+                                  handleUpdateSupportStatus(ticket.id, "CLOSED")
+                                }
+                                disabled={updatingSupportId === ticket.id}
+                                title="Marcar como Fechado"
+                              >
+                                {updatingSupportId === ticket.id ? (
+                                  <FaSpinner className={styles.spinner} />
+                                ) : (
+                                  <FaCheck />
+                                )}
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </section>
+          )}
+        </>
+      );
     }
+
     return null;
   };
 
@@ -668,6 +890,12 @@ export const AdminDashboard = () => {
             className={activeTab === "soccers" ? styles.activeTab : ""}
           >
             Gerenciar Quadras
+          </button>
+          <button
+            onClick={() => setActiveTab("support")}
+            className={activeTab === "support" ? styles.activeTab : ""}
+          >
+            Gerenciar Chamados
           </button>
         </div>
         {renderActiveTabContent()}

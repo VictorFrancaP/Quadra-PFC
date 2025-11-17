@@ -4,7 +4,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Logo from '../../public/logo.png';
+import Logo from "../../public/logo.png";
 
 export const Footer = () => {
   const ano = new Date().getFullYear();
@@ -45,7 +45,7 @@ export const Footer = () => {
             <div>
               <h2>Suporte</h2>
             </div>
-            <Link to="/ajuda">Central de Ajuda</Link>
+            <Link to="/central-ajuda">Central de Ajuda</Link>
             <Link to="/termos">Termos de Uso</Link>
             <Link to="/politica">Politica de Privacidade</Link>
             <Link to="/contato">Contato</Link>
