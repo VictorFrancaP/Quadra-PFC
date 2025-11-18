@@ -89,6 +89,14 @@ export const SoccerOwnerReservationsPage = () => {
       };
     if (paymentStatus === "CONFIRMED")
       return { text: "PAGA E CONFIRMADA", className: styles.statusConfirmed };
+    if (
+      paymentStatus === "PAID" &&
+      (payoutStatus === "PAID" || payoutStatus === "COMPLETED")
+    )
+      return { text: "Concluída", className: styles.statusCompleted };
+    if (paymentStatus === "PAID")
+      return { text: "Confirmada", className: styles.statusConfirmed };
+
     return { text: "STATUS DESCONHECIDO", className: styles.statusOther };
   };
 
@@ -144,7 +152,7 @@ export const SoccerOwnerReservationsPage = () => {
               <div className={styles.reservationDetails}>
                 <p>
                   <FaUser /> Cliente:
-                  <strong>{res.userName || "Cliente Não Encontrado"}</strong>   
+                  <strong>{res.userName || "Cliente Não Encontrado"}</strong>
                 </p>
                 <p>
                   <FaCalendarAlt /> Data:
@@ -153,12 +161,14 @@ export const SoccerOwnerReservationsPage = () => {
                 <p>
                   <FaClock /> Horário:
                   <strong>
+                    {" "}
                     {formatTime(res.startTime)} ({res.duration}h)
                   </strong>
                 </p>
                 <p>
                   <FaMoneyBillWave /> Valor:
                   <strong>
+                    {" "}
                     {res.totalPrice.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -174,7 +184,7 @@ export const SoccerOwnerReservationsPage = () => {
                 <span
                   className={`${styles.statusBadge} ${statusInfo.className}`}
                 >
-                  {statusInfo.text}             
+                  {statusInfo.text}
                 </span>
                 {isPending && (
                   <button className={styles.confirmButton}>
@@ -194,7 +204,7 @@ export const SoccerOwnerReservationsPage = () => {
       <Header />
       <div className={styles.pageContainer}>
         <h1>
-          <FaClipboardList /> Reservas Recebidas      
+          <FaClipboardList /> Reservas Recebidas{" "}
         </h1>
         <div className={styles.filterContainer}>
           <button
@@ -230,9 +240,9 @@ export const SoccerOwnerReservationsPage = () => {
             Canceladas
           </button>
         </div>
-        {renderContent()}   
+        {renderContent()}
       </div>
-      <Footer /> 
+      <Footer />
     </>
   );
 };

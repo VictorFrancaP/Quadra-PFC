@@ -11,14 +11,11 @@ export function PaymentFailure() {
       <h1 className={styles.paymentTitle}>Falha no Pagamento</h1>
       <p className={styles.paymentMessage}>
         Houve um problema ao processar seu pagamento. Nenhum valor foi cobrado.
-        Por favor, verifique seus dados ou tente outro método de pagamento.
+        Recomendamos que você feche esta guia!
       </p>
       {reservationId && (
         <p className={styles.reservationId}>ID da Reserva: {reservationId}</p>
       )}
-      <Link to="/" className={styles.paymentCta}>
-        Voltar ao Início
-      </Link>
     </div>
   );
 }

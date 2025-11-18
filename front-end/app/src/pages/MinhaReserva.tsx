@@ -5,6 +5,7 @@ import { Footer } from "../components/Footer";
 import { Popup } from "../components/Popup";
 import { api, useAuth } from "../context/AuthContext";
 import styles from "../css/MinhaReserva.module.css";
+import { RatingModal } from "../components/RatingModal";
 import {
   FaSpinner,
   FaExclamationCircle,
@@ -198,7 +199,7 @@ export const MyReservationsPage = () => {
     setIsRatingModalOpen(true);
   };
 
-  const handleRatingSuccess = (ratingData: any) => {
+  const handleRatingSuccess = () => {
     setIsRatingModalOpen(false);
     setReservationToRate(null);
     showGeneralPopup("Avaliação Enviada", "Obrigado pelo seu feedback!");
@@ -291,13 +292,15 @@ export const MyReservationsPage = () => {
                 <p>
                   <FaClock /> Horário:
                   <strong>
+                    {" "}
                     {formatTime(res.startTime)} às {formatTime(res.endTime)}
-                  </strong>
+                  </strong>{" "}
                   ({res.duration}h)
                 </p>
                 <p>
                   <FaMoneyBillWave /> Valor:
                   <strong>
+                    {" "}
                     {res.totalPrice.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -312,7 +315,7 @@ export const MyReservationsPage = () => {
                     rel="noopener noreferrer"
                     className={styles.payLink}
                   >
-                    Pagar Agora <FaExternalLinkAlt /> (Expira às {""}
+                    Pagar Agora <FaExternalLinkAlt /> (Expira às{" "}
                     {formatTime(res.expiredIn)})
                   </a>
                 )}
@@ -404,6 +407,13 @@ export const MyReservationsPage = () => {
         }`}
         confirmText="Cancelar"
         cancelText="Não"
+      />
+
+      <RatingModal
+        isOpen={isRatingModalOpen}
+        onClose={() => setIsRatingModalOpen(false)}
+        soccerId={reservationToRate?.soccerId || ""}
+        onRated={handleRatingSuccess}
       />
     </>
   );

@@ -12,7 +12,8 @@ export function PaymentPending() {
       <p className={styles.paymentMessage}>
         Sua reserva foi registrada e está aguardando a confirmação do pagamento
         (como a compensação de um boleto ou Pix). Avisaremos assim que for
-        aprovado.
+        aprovado. Houve um problema ao processar seu pagamento. Nenhum valor foi
+        cobrado. Recomendamos que você feche esta guia!
       </p>
       {reservationId && (
         <p className={styles.reservationId}>ID da Reserva: {reservationId}</p>
