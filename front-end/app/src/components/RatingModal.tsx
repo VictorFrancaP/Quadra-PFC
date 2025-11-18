@@ -26,13 +26,10 @@ export const RatingModal: React.FC<RatingModalProps> = ({
     setIsSubmitting(true);
     setError(null);
     try {
-      const response = await api.post(
-        `/auth/rating/create/soccer/${soccerId}`,
-        {
-          rating,
-          comments,
-        }
-      );
+      await api.post(`/auth/rating/create/soccer/${soccerId}`, {
+        rating,
+        comments,
+      });
       onRated();
       onClose();
     } catch (err: any) {
