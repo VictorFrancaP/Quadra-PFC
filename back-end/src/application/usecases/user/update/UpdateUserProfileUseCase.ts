@@ -96,7 +96,7 @@ export class UpdateUserProfileUseCase {
     // definindo chave para o usuário no redis
     await this.redisProvider.dataSet({
       key: limitRequest,
-      expiration: 60,
+      expiration: 15,
       values: { value: "true" },
     });
 

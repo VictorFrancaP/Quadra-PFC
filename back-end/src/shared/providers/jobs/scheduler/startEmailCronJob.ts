@@ -7,7 +7,6 @@ import { FindSoccerOwnerRepository } from "../../../../infrastruture/repository/
 
 // Importando usecase do envio de e-mail
 import { SendDailyReminderUseCase } from "../../../../application/usecases/user/mail-job/SendDailyReminderUseCase";
-import { schedule } from "node-cron";
 
 // variavel para guardar tarefa
 let emailJobTask: any = null;
