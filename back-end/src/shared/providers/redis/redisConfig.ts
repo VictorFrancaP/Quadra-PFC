@@ -1,6 +1,5 @@
 // Importando client do redis
 import { createClient } from "redis";
-import { RedisClientOptions } from "redis";
 
 // Importando dotenv para a utilização de variaveis de ambiente
 import dotenv from "dotenv";
