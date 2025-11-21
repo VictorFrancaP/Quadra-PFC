@@ -10,7 +10,7 @@
     "worker:reservation:dev": "tsx src/shared/providers/jobs/workers/reservation-worker.ts",
     "worker:payout:dev": "tsx src/shared/providers/jobs/workers/payout-worker.ts",
     "dev:process": "tsx src/process.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/server.js",
     "build": "tsc",
     "worker:email:prod": "node dist/shared/providers/jobs/workers/email-worker.js",
     "worker:reservation:prod": "node dist/shared/providers/jobs/workers/reservation-worker.js",
