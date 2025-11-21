@@ -51,10 +51,17 @@ const app = express();
 // criando novo servidor em cima do app express
 const httpServer = http.createServer(app);
 
+// carregando variaveis de ambiente com as urls
+const FRONT_DEV = process.env.FRONT_HOST;
+const FRONT_PROD = process.env.FRONT_HOST_PROD;
+
+// configurando array com os endereços liberados para acesso do cors
+const allowedOrigins = [FRONT_DEV, FRONT_PROD].filter(Boolean) as string[];
+
 // instãnciando novo server do socket.io
 const io = new Server(httpServer, {
   cors: {
-    origin: `${process.env.FRONT_HOST}`,
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
