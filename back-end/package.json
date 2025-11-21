@@ -11,7 +11,11 @@
     "worker:payout:dev": "tsx src/shared/providers/jobs/workers/payout-worker.ts",
     "dev:process": "tsx src/process.ts",
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "worker:email:prod": "node dist/shared/providers/jobs/workers/email-worker.js",
+    "worker:reservation:prod": "node dist/shared/providers/jobs/workers/reservation-worker.js",
+    "worker:payout:prod": "node dist/shared/providers/jobs/workers/payout-worker.js",
+    "prod:process": "node dist/process.js"
   },
   "repository": {
     "type": "git",
