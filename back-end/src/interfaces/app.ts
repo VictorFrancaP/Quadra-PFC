@@ -86,7 +86,7 @@ passportConfig();
 
 // utilizando rotas
 app.use("/auth/user", userRoutes);
-app.use("/auth", refreshTokenRoutes);
+app.use("/auth/refresh", refreshTokenRoutes);
 app.use("/auth/order", orderRoutes);
 app.use("/auth/soccer", soccerRoutes);
 app.use("/auth/rating", ratingRoutes);
