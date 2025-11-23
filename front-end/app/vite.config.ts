@@ -8,4 +8,7 @@ export default defineConfig({
     host: true,
     allowedHosts: ["molybdic-overtimorously-amara.ngrok-free.dev"],
   },
+  build: {
+    chunkSizeWarningLimit: 1500,
+  },
 });
