@@ -6,7 +6,7 @@ import { IMaskInput } from "react-imask";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
-import Bola from '../assets/bola-de-futebol.jpg';
+import Bola from "../assets/bola-de-futebol.jpg";
 
 export const Order = () => {
   const [localName, setLocalName] = useState("");
@@ -100,7 +100,7 @@ export const Order = () => {
       setCnpj("");
       setFone("");
       setTimeout(() => {
-        navigate("/");
+        navigate("/minha-solicitacao");
       }, 3000);
     } catch (err: any) {
       console.error("Erro ao criar solicitação:", err.response);
@@ -117,7 +117,7 @@ export const Order = () => {
 
   return (
     <>
-    <Header/>
+      <Header />
       <section className={`${styles.section} ${styles.fadeIn}`}>
         <img src={Bola} alt="Imagem bola de futebol" />
         <div className={styles.containerForm}>
@@ -174,7 +174,7 @@ export const Order = () => {
           </form>
         </div>
       </section>
-      <Footer/>
+      <Footer />
       <Popup
         isOpen={popupInfo.isOpen}
         onClose={closePopup}

@@ -231,8 +231,6 @@ export const EditSoccerModal: React.FC<EditSoccerModalProps> = ({
       observations: formData.observations || undefined,
     };
 
-    console.log("Enviando para /auth/soccer/update:", updateData);
-
     try {
       await api.put("/auth/soccer/update", updateData);
       onUpdateSuccess(updateData as UpdateSuccessData);

@@ -171,7 +171,6 @@ export const MyQuadraPage = () => {
       setShowCreateButton(true);
       setError("Você ainda não cadastrou sua quadra.");
     } catch (err: any) {
-      console.error("Erro ao deletar quadra:", err.response);
       const errorMessage =
         err.response?.data?.message ||
         err.response?.data ||
