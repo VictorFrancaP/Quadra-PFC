@@ -12,6 +12,7 @@ import { Support } from "../../../../domain/entities/Support";
 // Importando error personalizado
 import { UserNotFoundError } from "../../../../shared/errors/user-error/UserNotFoundError";
 import { SupportFoundError } from "../../../../shared/errors/support-error/SupportFoundError";
+import { SupportNotFoundError } from "../../../../shared/errors/support-error/SupportNotFoundError";
 
 // exportando usecase
 export class CreateSupportUseCase {
@@ -31,12 +32,22 @@ export class CreateSupportUseCase {
     }
 
     // verificando o usuário ja fez um chamado de support
-    const support = await this.findUserSupportRepository.findUserSupport(
+    const supports = await this.findUserSupportRepository.findUserSupport(
       user.email
     );
 
-    // caso encontre e o status for fechado
-    if (support && support.status === "OPEN") {
+    // caso não encontre, retorna um erro
+    if (!supports?.length) {
+      throw new SupportNotFoundError();
+    }
+
+    // procurando suporte com o status open
+    const statusSupport = supports
+      .filter((support) => support.status === "OPEN")
+      .every(Boolean);
+
+    // caso encontre retorna um erro
+    if (statusSupport) {
       throw new SupportFoundError();
     }
 

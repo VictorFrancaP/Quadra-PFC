@@ -7,6 +7,7 @@ import { FindSoccerByIdRepository } from "../../../infrastruture/repository/socc
 import { FindSoccerRatingRepository } from "../../../infrastruture/repository/rating/FindSoccerRatingRepository";
 import { FindUserRatingRepository } from "../../../infrastruture/repository/rating/FindUserRatingRepository";
 import { FindReservationConfirmedRepository } from "../../../infrastruture/repository/reservation/FindReservationConfirmedRepository";
+import { DayJsProvider } from "../../../shared/providers/dayjs/DayJsProvider";
 import { CreateRatingRepository } from "../../../infrastruture/repository/rating/CreateRatingRepository";
 
 // Importando usecase
@@ -36,6 +37,7 @@ export class CreateRatingController {
     const findUserRatingRepository = new FindUserRatingRepository();
     const findReservationConfirmedRepository =
       new FindReservationConfirmedRepository();
+    const dayJsProvider = new DayJsProvider();
     const createRatingRepository = new CreateRatingRepository();
 
     // instância usecase
@@ -45,6 +47,7 @@ export class CreateRatingController {
       findSoccerRatingRepository,
       findUserRatingRepository,
       findReservationConfirmedRepository,
+      dayJsProvider,
       createRatingRepository
     );
 
