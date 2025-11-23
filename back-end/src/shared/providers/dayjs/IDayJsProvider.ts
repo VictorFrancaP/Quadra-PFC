@@ -14,5 +14,10 @@ export interface IDayJsProvider {
     date: string | Date | dayjs.Dayjs,
     startDate: dayjs.Dayjs,
     endDate: dayjs.Dayjs
-  ): boolean
+  ): boolean;
+  isAfter(
+    date1: dayjs.ConfigType,
+    date2: dayjs.ConfigType,
+    unit?: dayjs.OpUnitType
+  ): boolean;
 }

@@ -15,7 +15,8 @@
     "worker:email:prod": "node dist/shared/providers/jobs/workers/email-worker.js",
     "worker:reservation:prod": "node dist/shared/providers/jobs/workers/reservation-worker.js",
     "worker:payout:prod": "node dist/shared/providers/jobs/workers/payout-worker.js",
-    "prod:process": "node dist/process.js"
+    "prod:process": "node dist/process.js",
+    "start:free": "concurrently \"npm run start\" \"npm run worker:email:prod\" \"npm run worker:reservation:prod\" \"npm run worker:payout:prod\" \"npm run prod:process\""
   },
   "repository": {
     "type": "git",
@@ -57,7 +58,8 @@
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "bullmq": "^5.62.0",
-    "cloudinary": "^1.41.3",
+    "cloudinary": "^2.8.0",
+    "concurrently": "^9.2.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "cpf-cnpj-validator": "^1.0.3",

@@ -2,6 +2,7 @@
 import { IDayJsProvider } from "./IDayJsProvider";
 import dayjs from "dayjs";
 import isBetweenPlugin from "dayjs/plugin/isBetween";
+import { date } from "joi";
 
 // registra plugin
 dayjs.extend(isBetweenPlugin);
@@ -59,5 +60,10 @@ export class DayJsProvider implements IDayJsProvider {
 
     // retornando valor booleano
     return reservationDate.isBetween(startDate, endDate, null, "[]");
+  }
+
+  isAfter(date1: dayjs.ConfigType, date2: dayjs.ConfigType, unit?: dayjs.OpUnitType): boolean {
+    // retornando se já passou da data
+    return dayjs(date1).isAfter(date2, unit);
   }
 }

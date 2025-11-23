@@ -5,6 +5,7 @@ import { IFindSoccerRatingRepositories } from "../../../../domain/repositories/r
 import { IFindUserRatingRepositories } from "../../../../domain/repositories/rating/IFindUserRatingRepositories";
 import { IFindReservationConfirmedRepositories } from "../../../../domain/repositories/reservation/IFindReservationConfirmedRepositories";
 import { ICreateRatingRepositories } from "../../../../domain/repositories/rating/ICreateRatingRepositories";
+import { IDayJsProvider } from "../../../../shared/providers/dayjs/IDayJsProvider";
 
 // Importando entidade Rating para ser uma promise(promessa)
 import { Rating } from "../../../../domain/entities/Rating";
@@ -31,6 +32,7 @@ export class CreateRatingUseCase {
     private readonly findSoccerRatingRepository: IFindSoccerRatingRepositories,
     private readonly findUserRatingRepository: IFindUserRatingRepositories,
     private readonly findReservationConfirmedRepository: IFindReservationConfirmedRepositories,
+    private readonly dayJsProvider: IDayJsProvider,
     private readonly createRatingRepository: ICreateRatingRepositories
   ) {}
 
@@ -51,12 +53,12 @@ export class CreateRatingUseCase {
           throw new UserRatingError();
         }
 
-        // verificando se quadra existe
+        // procurando quadra na base de dados
         const soccer = await this.findSoccerByIdRepository.findSoccerById(
           data.soccerId!
         );
 
-        // caso não existe quadra, retorna um erro
+        // caso não exista, retorna um erro
         if (!soccer) {
           throw new SoccerNotFoundError();
         }
@@ -68,23 +70,43 @@ export class CreateRatingUseCase {
             soccer.id as string
           );
 
+        // caso não exista, retorna um erro
         if (!reservationUser) {
           throw new ReservationNotFoundError();
         }
 
-        // verifica se não é o proprietário que está efetuando a avaliação
+        // variavel com o horario de termino da reserva
+        const reservationEndTime = reservationUser.endTime;
+
+        // pegando hora/data atual
+        const now = await this.dayJsProvider.now();
+
+        // pegando data final de acordo com a reserva
+        const endTime = await this.dayJsProvider.parse(reservationEndTime!);
+
+        // verificando se a data passa do prazo
+        const hasPassed = this.dayJsProvider.isAfter(now, endTime);
+
+        // caso não passe, retorna um erro
+        if (!hasPassed) {
+          throw new Error(
+            "A avaliação só pode ser feita após o término da partida."
+          );
+        }
+
+        // verificando se não é proprio propritario avaliando
         if (soccer.userId === user.id) {
           throw new OwnerRatingError();
         }
 
-        // verificando se usuário já fez uma avaliação para a quadra
+        // procurando avaliação
         const existingRating =
           await this.findSoccerRatingRepository.findSoccerRating(
             user.id!,
             soccer.id!
           );
 
-        // caso exista, retorna um erro
+        // caso a avaliação já exista, retorna um erro
         if (existingRating) {
           throw new RatingFoundError();
         }

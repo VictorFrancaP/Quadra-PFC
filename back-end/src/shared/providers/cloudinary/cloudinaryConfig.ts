@@ -1,13 +1,19 @@
-// Importando cloudinary, multer e CloudinaryStorage para configuração do cloudinary
-import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+// Importando cloudinary e multer
+import cloudinaryModule from "cloudinary";
+import CloudinaryStorage from "multer-storage-cloudinary";
 import multer, { Multer } from "multer";
 
-// Importando dotenv para a utilização de variaveis de ambiente
+// Importando dotenv
 import dotenv from "dotenv";
 dotenv.config();
 
-// criando configuração do cloudinary
+// variavel cloudinary
+const cloudinary =
+  (cloudinaryModule as any).v2 ||
+  (cloudinaryModule as any).default ||
+  cloudinaryModule;
+
+// configuraçao do cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -16,7 +22,7 @@ cloudinary.config({
 
 // definindo pastas e tipos de formatos de imagens
 const storage = new CloudinaryStorage({
-  cloudinary,
+  cloudinary: cloudinary,
   params: {
     folder: "profile-users",
     formats: ["jpg", "jpeg", "png"],
@@ -28,8 +34,8 @@ export const updateImage = multer({ storage });
 
 // definindo pastas e tipos de formatos de imagens
 const soccerStorage = new CloudinaryStorage({
-  cloudinary,
-  params: async (request, response) => {
+  cloudinary: cloudinary,
+  params: async (request: any, response: any) => {
     const soccerId = request.params.id;
 
     return {
