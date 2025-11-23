@@ -112,7 +112,6 @@ export const SoccerDetailPage = () => {
         );
         setSoccer(response.data);
       } catch (err: any) {
-        console.error("Erro ao buscar detalhes:", err.response || err);
         const errorMessage =
           err.response?.status === 404
             ? "Quadra não encontrada."

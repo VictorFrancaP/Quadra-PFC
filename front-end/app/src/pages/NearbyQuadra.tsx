@@ -187,7 +187,6 @@ export const NearbyQuadrasPage = () => {
                 </p>
               </div>
             </Link>
-            {/* Ações (Botões "Detalhes" e "Reservar") */}
             <div className={styles.cardActions}>
               <Link
                 to={`/quadra/${quadra.id}`}
@@ -206,13 +205,11 @@ export const NearbyQuadrasPage = () => {
         ))}
       </div>
     );
-  }; // --- Fim renderContent ---
+  };
 
-  // --- Renderização Final da Página (Estrutura Corrigida) ---
   return (
     <>
       <Header />
-      {/* O pageContainer é renderizado SEMPRE, garantindo a altura mínima */}
       <div className={styles.pageContainer}>
         <h1>Quadras Próximas</h1>
 
@@ -229,14 +226,11 @@ export const NearbyQuadrasPage = () => {
             id="distanceSlider"
             min="1"
             max="50"
-            value={sliderValue} // <-- Controlado por 'sliderValue'
-            // Atualiza apenas o 'sliderValue' (que dispara o Efeito 2)
+            value={sliderValue}
             onChange={(e) => setSliderValue(Number(e.target.value))}
             className={styles.slider}
           />
         </div>
-
-        {/* Renderiza o conteúdo (Loading, Erro, ou Lista) */}
         {renderContent()}
       </div>
       <Footer />
