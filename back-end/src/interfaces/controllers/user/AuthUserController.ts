@@ -66,11 +66,14 @@ export class AuthUserController {
         // desestruturação dos dados
         const { token, refreshToken } = authResponse;
 
+        // criando variavel de ambiente para produção
+        const isProduction = process.env.NODE_ENV === "production";
+
         // armazenando refreshToken no httpOnly para maior segurança
         response.cookie("RefreshToken", refreshToken, {
           httpOnly: true,
-          secure: false,
-          sameSite: "lax",
+          secure: isProduction,
+          sameSite: isProduction ? "none" : "lax",
           maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 

@@ -73,9 +73,9 @@ rawRouter.use(express.raw({ type: "*/*" }), ensurePayment);
 rawRouter.use(webHookRoutes);
 
 // criando middlewares para utilização de dados do tipo json
+app.use(cookieParser());
 app.use(express.json());
 app.use(corsConfig);
-app.use(cookieParser());
 
 // utilizando rota de documentação da api
 app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
