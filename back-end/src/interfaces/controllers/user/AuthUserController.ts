@@ -11,6 +11,9 @@ import { DeleteManyRefreshTokenRepository } from "../../../infrastruture/reposit
 import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvider";
 import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
+// Importando variavel de ambiente
+import { isProduction } from "../../../shared/providers/production/configProduction";
+
 // Importando usecase
 import { AuthUserUseCase } from "../../../application/usecases/user/login/AuthUserUseCase";
 
@@ -65,9 +68,6 @@ export class AuthUserController {
       if (authResponse.step === "setup_2fa") {
         // desestruturação dos dados
         const { token, refreshToken } = authResponse;
-
-        // criando variavel de ambiente para produção
-        const isProduction = process.env.NODE_ENV === "production";
 
         // armazenando refreshToken no httpOnly para maior segurança
         response.cookie("RefreshToken", refreshToken, {
