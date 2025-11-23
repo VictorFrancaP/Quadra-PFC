@@ -19,7 +19,7 @@ export class FindSupportUserUseCase {
     private readonly findUserSupportRepository: IFindUserSupportRepositories
   ) {}
 
-  async execute(data: IFindSupportUserDTO): Promise<Support> {
+  async execute(data: IFindSupportUserDTO): Promise<Support[]> {
     // procurando usuário na base de dados
     const user = await this.findUserByIdRepository.findUserById(data.userId);
 

@@ -5,26 +5,29 @@ import { prismaClient } from "../../database/db";
 
 // exportando classe de implementação de interface
 export class FindUserSupportRepository implements IFindUserSupportRepositories {
-  async findUserSupport(userEmail: string): Promise<Support | null> {
+  async findUserSupport(userEmail: string): Promise<Support[] | null> {
     // procurando suporte do usuário
-    const support = await prismaClient.support.findFirst({
+    const supports = await prismaClient.support.findMany({
       where: { userEmail },
     });
 
     // caso não encontre, retorna nulo
-    if (!support) {
+    if (!supports.length) {
       return null;
     }
 
     // retornando dados encontrados
-    return new Support(
-      support.userId,
-      support.userEmail,
-      support.subject,
-      support.message,
-      support.status,
-      support.id,
-      support.created_at
+    return supports.map(
+      (support) =>
+        new Support(
+          support.userId,
+          support.userEmail,
+          support.subject,
+          support.message,
+          support.status,
+          support.id,
+          support.created_at
+        )
     );
   }
 }
