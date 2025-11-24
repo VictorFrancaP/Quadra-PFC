@@ -3,37 +3,29 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-// LOG DE DEBUG: Vamos ver se as credenciais estão carregando
-console.log("[MAIL CONFIG] Configurando transporte...");
-console.log(
-  "[MAIL CONFIG] User:",
-  process.env.MAIL_USER || process.env.MAIL_HOST
-);
-console.log(
-  "[MAIL CONFIG] Pass (tamanho):",
-  process.env.MAIL_PASS ? process.env.MAIL_PASS.length : 0
-);
+console.log("[MAIL CONFIG] Iniciando configuração...");
 
 export const mailConfig = nodemailer.createTransport({
-  // IMPORTANTE: Escreva o host explicitamente (sem process.env)
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // True para porta 465
+  port: 587, // <--- MUDANÇA AQUI: Porta padrão para TLS
+  secure: false, // <--- MUDANÇA AQUI: False para porta 587 (inicia inseguro e faz upgrade)
   auth: {
-    // Tenta as duas variações de nome para garantir
-    user: process.env.MAIL_USER || process.env.MAIL_HOST,
+    user: process.env.MAIL_HOST,
     pass: process.env.MAIL_PASS,
   },
   tls: {
-    rejectUnauthorized: false,
+    rejectUnauthorized: false, // Ajuda a evitar erros de certificado
   },
+  // Timeouts para evitar o carregamento infinito
+  connectionTimeout: 10000, // 10 segundos
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
-// Verifica a conexão IMEDIATAMENTE ao iniciar
 mailConfig.verify((error, success) => {
   if (error) {
-    console.error("❌ [MAIL ERROR] Falha na conexão com SMTP:", error);
+    console.error("❌ [MAIL ERROR] Falha na conexão com Gmail:", error);
   } else {
-    console.log("✅ [MAIL SUCCESS] Conectado ao Gmail com sucesso!");
+    console.log("✅ [MAIL SUCCESS] Conectado via Porta 587!");
   }
 });
