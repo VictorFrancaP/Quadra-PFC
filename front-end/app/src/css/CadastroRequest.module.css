@@ -93,6 +93,7 @@
   font-size: 0.95rem;
   outline: none;
   transition: 0.2s;
+  font-family: "Montserrat", sans-serif;
 }
 
 .groupForm input:focus {
