@@ -75,6 +75,7 @@ export class AuthUserController {
           secure: true,
           sameSite: "none",
           maxAge: 7 * 24 * 60 * 60 * 1000,
+          path: "/",
         };
 
         // armazenando refreshToken nos cookies
