@@ -12,7 +12,7 @@ import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvide
 import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
 // Importando variavel de ambiente
-import { isProduction } from "../../../shared/providers/production/configProduction";
+// import { isProduction } from "../../../shared/providers/production/configProduction";
 
 // Importando usecase
 import { AuthUserUseCase } from "../../../application/usecases/user/login/AuthUserUseCase";
@@ -69,13 +69,16 @@ export class AuthUserController {
         // desestruturação dos dados
         const { token, refreshToken } = authResponse;
 
-        // armazenando refreshToken no httpOnly para maior segurança
-        response.cookie("RefreshToken", refreshToken, {
+        // configurando cookies
+        const cookieOptions: any = {
           httpOnly: true,
-          secure: isProduction,
-          sameSite: isProduction ? "none" : "lax",
+          secure: true,
+          sameSite: "none",
           maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        };
+
+        // armazenando refreshToken nos cookies
+        response.cookie("RefreshToken", refreshToken, cookieOptions);
 
         // retornando dados
         return response.status(200).json({
