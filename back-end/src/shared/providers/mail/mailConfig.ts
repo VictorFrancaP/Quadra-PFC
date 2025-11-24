@@ -6,9 +6,13 @@ dotenv.config();
 
 // criando configuração do nodemailer para envio de e-mails
 export const mailConfig = nodemailer.createTransport({
-  service: process.env.MAIL_SERVICE,
+  service: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.MAIL_HOST,
     pass: process.env.MAIL_PASS,
   },
+  logger: true,
+  debug: true,
 });
