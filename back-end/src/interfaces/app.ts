@@ -65,7 +65,7 @@ const allowedOrigins = [FRONT_DEV, FRONT_PROD].filter(Boolean) as string[];
 // Isso evita o erro 404 em requisições OPTIONS (Preflight)
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: "https://quadra-pfc.vercel.app",
     credentials: true, // Permite cookies
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -87,7 +87,7 @@ app.get("/ping", (req, res) => {
 // instãnciando novo server do socket.io
 const io = new Server(httpServer, {
   cors: {
-    origin: allowedOrigins,
+    origin: "https://quadra-pfc.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   },

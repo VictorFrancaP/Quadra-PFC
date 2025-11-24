@@ -56,13 +56,18 @@ export class Verify2FAUserController {
       // desestruturando os dados de resposta
       const { accessToken, refreshToken } = verifyResponse;
 
-      // armazenando refreshToken no cookies
-      response.cookie("RefreshToken", refreshToken, {
+      // configurando cookies
+      const cookieOptions: any = {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
+        partitioned: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-      });
+        path: "/",
+      };
+
+      // armazenando refreshToken nos cookies
+      response.cookie("RefreshToken", refreshToken, cookieOptions);
 
       // retornando token
       return response.status(200).json({
