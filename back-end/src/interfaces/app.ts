@@ -15,7 +15,7 @@ import swaggerDocs from "../../swagger.json";
 
 // Importando rotas
 import { userRoutes } from "./routes/user-routes";
-import { refreshTokenRoutes } from "./routes/refresh-token.routes";
+import { refreshTokenRoutes } from "./routes/refresh.routes";
 import { orderRoutes } from "./routes/order.routes";
 import { soccerRoutes } from "./routes/soccer.routes";
 import { ratingRoutes } from "./routes/rating.routes";
