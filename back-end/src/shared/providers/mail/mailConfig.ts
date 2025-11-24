@@ -11,7 +11,7 @@ export const mailConfig = nodemailer.createTransport({
   port: 2525,
   secure: false,
   auth: {
-    user: process.env.MAIL_USER, // Seu email do Brevo
+    user: process.env.MAIL_HOST, // Seu email do Brevo
     pass: process.env.MAIL_PASS, // Sua chave SMTP
   },
   tls: {
