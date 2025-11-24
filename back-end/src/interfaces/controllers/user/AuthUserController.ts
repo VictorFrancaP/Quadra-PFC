@@ -11,9 +11,6 @@ import { DeleteManyRefreshTokenRepository } from "../../../infrastruture/reposit
 import { TokenProvider } from "../../../shared/providers/tokens/jwt/TokenProvider";
 import { CreateRefreshTokenRepository } from "../../../infrastruture/repository/refresh-token/CreateRefreshTokenRepository";
 
-// Importando variavel de ambiente
-// import { isProduction } from "../../../shared/providers/production/configProduction";
-
 // Importando usecase
 import { AuthUserUseCase } from "../../../application/usecases/user/login/AuthUserUseCase";
 

@@ -35,8 +35,8 @@ const client = new MercadoPagoConfig({ accessToken: accessToken });
 // ip do webhook host
 const WEBHOOK_HOST = process.env.WEBHOOK_HOST || "";
 
-// ip do front-host
-const FRONT_HOST_LOST = process.env.FRONT_HOST_LOST || "";
+// ip do front-end
+const FRONT_HOST_PROD = process.env.FRONT_HOST_PROD || "";
 
 // exportando classe de implementação de interface
 export class PaymentProvider implements IPaymentProvider {
@@ -73,9 +73,9 @@ export class PaymentProvider implements IPaymentProvider {
       external_reference: reservationId,
       notification_url: notificationUrl,
       back_urls: {
-        success: `${FRONT_HOST_LOST}/payment/success?reservationId=${reservationId}`,
-        failure: `${FRONT_HOST_LOST}/payment/failure?reservationId=${reservationId}`,
-        pending: `${FRONT_HOST_LOST}/payment/pending?reservationId=${reservationId}`,
+        success: `${FRONT_HOST_PROD}/payment/success?reservationId=${reservationId}`,
+        failure: `${FRONT_HOST_PROD}/payment/failure?reservationId=${reservationId}`,
+        pending: `${FRONT_HOST_PROD}/payment/pending?reservationId=${reservationId}`,
       },
       auto_return: "approved",
     };
