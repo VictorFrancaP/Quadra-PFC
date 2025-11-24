@@ -7,10 +7,11 @@ dotenv.config();
 
 // carregando variaveis de ambiente com as urls
 const FRONT_DEV = process.env.FRONT_HOST;
-const FRONT_PROD = process.env.FRONT_HOST_PROD;
 
 // configurando array com os endereços liberados para acesso do cors
-const allowedOrigins = [FRONT_DEV, FRONT_PROD].filter(Boolean);
+const allowedOrigins = [FRONT_DEV, "https://quadra-pfc.vercel.app"].filter(
+  Boolean
+);
 
 // exportando configuração do cors
 export const corsConfig = cors({
