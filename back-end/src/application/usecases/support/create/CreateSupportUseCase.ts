@@ -42,9 +42,7 @@ export class CreateSupportUseCase {
     }
 
     // procurando suporte com o status open
-    const statusSupport = supports
-      .filter((support) => support.status === "OPEN")
-      .every(Boolean);
+    const statusSupport = supports.some((support) => support.status === "OPEN");
 
     // caso encontre retorna um erro
     if (statusSupport) {
