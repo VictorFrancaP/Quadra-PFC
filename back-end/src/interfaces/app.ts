@@ -48,6 +48,8 @@ dotenv.config();
 // exportando e criando variavel para o express
 const app = express();
 
+app.set("trust proxy", 1);
+
 // criando novo servidor em cima do app express
 const httpServer = http.createServer(app);
 
