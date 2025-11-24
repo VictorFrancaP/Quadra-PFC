@@ -1,2 +1,2 @@
-// declarando importação do multer-storage-cloudinary
-declare module 'multer-storage-cloudinary';
+// declarando importação do cloudinary
+declare module "cloudinary";

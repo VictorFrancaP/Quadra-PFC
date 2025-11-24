@@ -1,20 +1,24 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-    // File Layout
     "rootDir": "./",
     "outDir": "./dist",
 
-    // Environment Settings
-    // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
-    "types": ["node"],
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    "types": [
+      "node",
+      "express",
+      "multer",
+      "jsonwebtoken",
+      "passport",
+      "passport-google-oauth20",
+      "nodemailer"
+    ],
+
+    // Mantemos isso para ele ler o arquivo custom.d.ts que criamos no Passo 1
     "typeRoots": ["./node_modules/@types", "./src/@types"],
-    // For nodejs:
-    // "lib": ["esnext"],
-    // "types": ["node"],
-    // and npm install -D @types/node
 
     // Other Outputs
     "sourceMap": true,
@@ -25,17 +29,9 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": false,
     "resolveJsonModule": true,
-
-    // Style Options
-    // "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
+    "esModuleInterop": true,
 
     // Recommended Options
-
     "strict": true,
     "verbatimModuleSyntax": false,
     "isolatedModules": true,
