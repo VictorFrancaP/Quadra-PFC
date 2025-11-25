@@ -20,7 +20,7 @@ export class MailProvider implements IMailProvider {
     // AQUI ESTÁ A CORREÇÃO FINAL:
     // O remetente NÃO pode ser a variável de ambiente (pois ela contém o ID de login)
     // TEM QUE SER O SEU E-MAIL CADASTRADO:
-    const senderEmail = process.env.MAIL_SEND;
+    const senderEmail = "alugueldequadrasquadramarcada@gmail.com";
 
     const mailOptions = {
       to: mailPayload.email,
