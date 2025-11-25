@@ -1,10 +1,17 @@
+// Importando interfaces a serem implementadas nesta classe
 import { IMailProvider, IMailRequest } from "./IMailProvider";
-import { mailConfig } from "../mailConfig";
-import dotenv from "dotenv";
-import { SendMailError } from "../../../errors/send-mail-error/SendMailError";
 
+// Importando configuração do nodemailer
+import { mailConfig } from "../mailConfig";
+
+// Importando dotenv para a utilização de variaveis de ambiente
+import dotenv from "dotenv";
 dotenv.config();
 
+// Importando error personalizado
+import { SendMailError } from "../../../errors/send-mail-error/SendMailError";
+
+// exportando classe de implementação de interface
 export class MailProvider implements IMailProvider {
   linkConfirm: string;
   linkResetPassword: string;
@@ -16,30 +23,24 @@ export class MailProvider implements IMailProvider {
     this.linkPlatform = `${process.env.FRONT_HOST}/minha-quadra/reservas`;
   }
 
+  // enviando o e-mail
   async send(mailPayload: IMailRequest): Promise<void> {
-    // AQUI ESTÁ A CORREÇÃO FINAL:
-    // O remetente NÃO pode ser a variável de ambiente (pois ela contém o ID de login)
-    // TEM QUE SER O SEU E-MAIL CADASTRADO:
+    // remetente
     const senderEmail = "alugueldequadrasquadramarcada@gmail.com";
 
+    // configurando opcões de e-mail
     const mailOptions = {
       to: mailPayload.email,
-      // Formato bonito: "Nome <email>"
       from: `Quadra Marcada <${senderEmail}>`,
       subject: mailPayload.subject,
       text: `Quadra Marcada Informa`,
       html: mailPayload.content,
     };
 
-    console.log(
-      `[MAIL PROVIDER] Enviando DE: ${senderEmail} PARA: ${mailPayload.email}`
-    );
-
+    
     try {
-      const info = await mailConfig.sendMail(mailOptions);
-      console.log(`[MAIL PROVIDER] Sucesso! ID: ${info.messageId}`);
+      await mailConfig.sendMail(mailOptions);
     } catch (err: any) {
-      console.error("[MAIL PROVIDER] Erro no envio:", err);
       throw new SendMailError();
     }
   }
