@@ -75,7 +75,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     };
 
     const handleJoinedChat = (data: { message: string }) => {
-      console.log(`[Socket] Confirmação de 'joinChat':`, data.message);
+      console.log(`Confirmação de 'joinChat':`, data.message);
     };
 
     socket.on("chatHistory", handleChatHistory);

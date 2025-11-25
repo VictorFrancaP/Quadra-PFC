@@ -96,7 +96,11 @@ export const Setup2FA = ({ user, tempToken }: Setup2FAProps) => {
   }
 
   if (!qrCodeUrl) {
-    return <p>Carregando configuração de segurança...</p>;
+    return (
+      <p style={{ marginTop: "60px", textAlign: "center" }}>
+        Carregando configuração de segurança...
+      </p>
+    );
   }
 
   return (
