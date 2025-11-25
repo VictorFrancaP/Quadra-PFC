@@ -12,12 +12,9 @@ const routes = Router();
 // criando instâncias das controllers
 const createRefreshTokenController = new CreateRefreshTokenController();
 
-console.log("[LOG SERVER] Rotas de Refresh Token Carregadas");
-
-// Rota POST na raiz do grupo (que já é /auth/refresh definido no server.ts)
+// post
 routes.post("/", (req, res, next) => {
-    console.log("[LOG SERVER] entrou na rota")
-    return createRefreshTokenController.handle(req, res);
+  return createRefreshTokenController.handle(req, res);
 });
 
 // exportando rotas

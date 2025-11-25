@@ -16,24 +16,9 @@ import { UserNotFoundError } from "../../../shared/errors/user-error/UserNotFoun
 // exportando controller
 export class CreateRefreshTokenController {
   async handle(request: Request, response: Response) {
-    console.log("---------------------------------------------------------");
-    console.log("[LOG CONTROLLER] Iniciando CreateRefreshTokenController");
-
-    // LOG 1: Ver todos os cookies que chegaram (Isso é crucial!)
-    console.log("[LOG CONTROLLER] Headers Cookies:", request.headers.cookie);
-    console.log(
-      "[LOG CONTROLLER] Request.cookies (Parser):",
-      JSON.stringify(request.cookies, null, 2)
-    );
-
-    // ATENÇÃO: Verifique se o nome aqui ("RefreshToken") bate com o log acima
-    // Às vezes o cookie vem como "refreshToken" (minúscula) e isso quebra tudo.
+    // pegando refresh_token do cookies
     const refresh_token = request.cookies["RefreshToken"];
 
-    console.log(
-      "[LOG CONTROLLER] Token extraído da chave 'RefreshToken':",
-      refresh_token ? "ENCONTRADO" : "UNDEFINED"
-    );
 
     // Instãncias das interfaces implementadas
     const findUserRefreshTokenRepository = new FindUserRefreshTokenRepository();
@@ -51,27 +36,16 @@ export class CreateRefreshTokenController {
     try {
       // verificando o se refreshToken existe no cookies do navegador
       if (!refresh_token) {
-        console.error("[LOG CONTROLLER] ERRO: refresh_token é nulo ou vazio!");
         throw new RefreshTokenNotFoundError();
       }
-
-      console.log("[LOG CONTROLLER] Token encontrado. Executando UseCase...");
 
       // usando desestruturação para pegar os dados de token e refreshToken
       const { token, user } = await useCase.execute({
         refreshToken: refresh_token,
       });
 
-      console.log(
-        "[LOG CONTROLLER] SUCESSO! Novo token gerado para usuário:",
-        user.id
-      );
-      console.log("---------------------------------------------------------");
-
       return response.status(200).json({ token, user });
     } catch (err: any) {
-      console.error("[LOG CONTROLLER] CAIU NO CATCH:", err);
-      console.log("---------------------------------------------------------");
 
       // tratando erros de forma separada
 

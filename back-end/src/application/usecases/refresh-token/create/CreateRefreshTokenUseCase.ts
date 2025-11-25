@@ -25,19 +25,23 @@ export class CreateRefreshTokenUseCase {
       await this.findUserRefreshTokenRepository.findUserRefreshToken(
         data.refreshToken
       );
-
+    
+      // caso não exista, retorna um erro
     if (!refreshTokenAlreadyExists) {
       throw new RefreshTokenNotFoundError();
     }
 
+    // procurando usuário
     const user = await this.findUserByIdRepository.findUserById(
       refreshTokenAlreadyExists.userId
     );
 
+    // caso o usuário não seja encontrado, retorna um erro
     if (!user) {
       throw new UserNotFoundError();
     } 
 
+    // retornando token de acesso
     const token = await this.tokenProvider.generateTokenUser({
       id: user.id as string,
       role: user.role,
