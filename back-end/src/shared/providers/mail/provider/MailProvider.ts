@@ -1,5 +1,5 @@
 import { IMailProvider, IMailRequest } from "./IMailProvider";
-import { mailConfig } from "../mailConfig"; // Importa o arquivo acima
+import { mailConfig } from "../mailConfig";
 import dotenv from "dotenv";
 import { SendMailError } from "../../../errors/send-mail-error/SendMailError";
 
@@ -17,23 +17,27 @@ export class MailProvider implements IMailProvider {
   }
 
   async send(mailPayload: IMailRequest): Promise<void> {
-    // ATENÇÃO: O 'from' TEM QUE SER o e-mail que você cadastrou no Brevo
-    const senderEmail = process.env.MAIL_HOST;
+    // AQUI ESTÁ A CORREÇÃO FINAL:
+    // O remetente NÃO pode ser a variável de ambiente (pois ela contém o ID de login)
+    // TEM QUE SER O SEU E-MAIL CADASTRADO:
+    const senderEmail = process.env.MAIL_SEND;
 
     const mailOptions = {
       to: mailPayload.email,
+      // Formato bonito: "Nome <email>"
       from: `Quadra Marcada <${senderEmail}>`,
       subject: mailPayload.subject,
+      text: `Quadra Marcada Informa`,
       html: mailPayload.content,
     };
 
     console.log(
-      `[MAIL PROVIDER] Enviando via Brevo para: ${mailPayload.email}`
+      `[MAIL PROVIDER] Enviando DE: ${senderEmail} PARA: ${mailPayload.email}`
     );
 
     try {
-      await mailConfig.sendMail(mailOptions);
-      console.log(`[MAIL PROVIDER] Sucesso!`);
+      const info = await mailConfig.sendMail(mailOptions);
+      console.log(`[MAIL PROVIDER] Sucesso! ID: ${info.messageId}`);
     } catch (err: any) {
       console.error("[MAIL PROVIDER] Erro no envio:", err);
       throw new SendMailError();
