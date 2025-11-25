@@ -19,7 +19,7 @@ export const startEmailCronJob = () => {
     console.log("Parando e-mail worker...");
   }
   emailJobTask = cron.schedule(
-    "57 0 * * *",
+    "35 8 * * *",
     async () => {
       // console para o desenvolvimento
       console.log("Iniciando tarefa de enfileiramento de e-mails diários.");
