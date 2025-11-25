@@ -36,13 +36,10 @@ export class CreateSupportUseCase {
       user.email
     );
 
-    // caso não encontre, retorna um erro
-    if (!supports?.length) {
-      throw new SupportNotFoundError();
-    }
-
     // procurando suporte com o status open
-    const statusSupport = supports.some((support) => support.status === "OPEN");
+    const statusSupport = supports?.some(
+      (support) => support.status === "OPEN"
+    );
 
     // caso encontre retorna um erro
     if (statusSupport) {
