@@ -104,31 +104,27 @@ export class CreateReservationUseCase {
       throw new ReservationDayUnavailableError();
     }
 
-    // --- LOGICA CORRIGIDA (MINUTOS) ---
-
-    // 1. Força o ajuste para horário Brasil (-3h) apenas para validar a hora visual
-    // Isso garante que se o servidor for UTC, trazemos para a hora local da quadra
+    // isso garante que se o servidor for UTC, trazemos para a hora local da quadra - Brasil 
     const brazilTimeStart = requestedStartTime.subtract(3, "hour");
 
-    // 2. Converte a hora de início para MINUTOS TOTAIS do dia (0h = 0, 10h = 600, etc)
+    // converte a hora de início para minutos totais do dia
     const startMinutes =
       brazilTimeStart.hour() * 60 + brazilTimeStart.minute();
 
-    // 3. Calcula os minutos de duração e o minuto final
+    // calcula os minutos de duração e o minuto final
     const durationMinutes = data.duration * 60;
     const endMinutes = startMinutes + durationMinutes;
 
-    // 4. Converte o horário de fechamento do banco ("21:00") para minutos totais
+    // converte o horário de fechamento do banco para minutos totais
     const [closingH, closingM] = soccer.closingHour.split(":").map(Number);
     const closingMinutes = closingH! * 60 + closingM!;
 
-    // 5. Comparação matemática simples e infalível
-    // Se o minuto final for maior que o minuto de fechamento, erro.
+    // se o minuto final escolhido for maior que o minuto de fechamento, retorna um erro
     if (endMinutes > closingMinutes) {
       throw new ReservationLimitExceededError();
     }
 
-    // Calcula o horário de término padrão para salvar no banco (lógica original)
+    // calcula o horário de término padrão para salvar no banco
     const requestedEndTime = requestedStartTime.add(data.duration, "hour");
 
     // verificando se não é o proprio proprietario, que está reservando horario
