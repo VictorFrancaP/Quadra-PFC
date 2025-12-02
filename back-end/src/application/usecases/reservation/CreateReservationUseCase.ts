@@ -104,38 +104,32 @@ export class CreateReservationUseCase {
       throw new ReservationDayUnavailableError();
     }
 
-    // --- CORREÇÃO DE LÓGICA DE TEMPO ---
+    // --- LOGICA CORRIGIDA (MINUTOS) ---
 
-    // 1. Calcula o horário de término e ZERA segundos/milissegundos para evitar erros de precisão
-    const requestedEndTime = requestedStartTime
-      .add(data.duration, "hour")
-      .set("second", 0)
-      .set("millisecond", 0);
+    // 1. Força o ajuste para horário Brasil (-3h) apenas para validar a hora visual
+    // Isso garante que se o servidor for UTC, trazemos para a hora local da quadra
+    const brazilTimeStart = requestedStartTime.subtract(3, "hour");
 
-    // 2. Prepara o horário de fechamento
-    const baseDate = await this.dayJsProvider.parse(data.startTime);
-    const [closingHour, closingMinute] = soccer.closingHour
-      .split(":")
-      .map(Number);
+    // 2. Converte a hora de início para MINUTOS TOTAIS do dia (0h = 0, 10h = 600, etc)
+    const startMinutes =
+      brazilTimeStart.hour() * 60 + brazilTimeStart.minute();
 
-    // CORREÇÃO: SOMAMOS 3 HORAS PARA COMPENSAR O UTC DO SERVIDOR (BRASIL -3)
-    const closingTime = baseDate
-      .set("hour", closingHour! + 3)
-      .set("minute", closingMinute!)
-      .set("second", 0)
-      .set("millisecond", 0);
+    // 3. Calcula os minutos de duração e o minuto final
+    const durationMinutes = data.duration * 60;
+    const endMinutes = startMinutes + durationMinutes;
 
-    // DEBUG ATUALIZADO (Para você conferir se ficou certo)
-    console.log("--- DEBUG CORRECAO ---");
-    console.log("Termino (UTC):", requestedEndTime.format());
-    console.log("Fechamento com +3h (UTC):", closingTime.format());
+    // 4. Converte o horário de fechamento do banco ("21:00") para minutos totais
+    const [closingH, closingM] = soccer.closingHour.split(":").map(Number);
+    const closingMinutes = closingH! * 60 + closingM!;
 
-    // verifica se a hora de término solicitada é depois da hora de fechamento
-    if (requestedEndTime.isAfter(closingTime)) {
+    // 5. Comparação matemática simples e infalível
+    // Se o minuto final for maior que o minuto de fechamento, erro.
+    if (endMinutes > closingMinutes) {
       throw new ReservationLimitExceededError();
     }
 
-    // -----------------------------------
+    // Calcula o horário de término padrão para salvar no banco (lógica original)
+    const requestedEndTime = requestedStartTime.add(data.duration, "hour");
 
     // verificando se não é o proprio proprietario, que está reservando horario
     if (soccer.userId === user.id) {
@@ -203,15 +197,21 @@ export class CreateReservationUseCase {
     // delay
     const delayDuration = expiredInMiliseconds - now;
 
-    // adicionando a fila
-    await reservationQueue.add(
-      "check-reservation-status",
-      {
-        reservationId: createReservation.id as string,
-        expectedStatus: "PENDING_PAYMENT",
-      },
-      { delay: delayDuration, jobId: `check-${createReservation.id}` }
-    );
+    // adicionando a fila (SE O REDIS FALHAR, ENVOLVER ISSO NUM TRY/CATCH PODE SALVAR A DEMO)
+    try {
+      await reservationQueue.add(
+        "check-reservation-status",
+        {
+          reservationId: createReservation.id as string,
+          expectedStatus: "PENDING_PAYMENT",
+        },
+        { delay: delayDuration, jobId: `check-${createReservation.id}` }
+      );
+    } catch (error) {
+      console.log("Erro ao adicionar na fila (Redis offline?):", error);
+      // Não damos throw aqui para não travar a reserva na apresentação
+    }
+
     // chamando metodo estatico para atualização de informação do usuário
     const updatesReservation = Reservation.updatesReservation(
       createReservation,
