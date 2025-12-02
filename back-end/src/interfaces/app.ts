@@ -56,14 +56,14 @@ const httpServer = http.createServer(app);
 
 // carregando variaveis de ambiente com as urls
 const FRONT_DEV = process.env.FRONT_HOST;
-const FRONT_PROD = "https://quadra-pfc.vercel.app";
+const FRONT_PROD = process.env.FRONT_HOST_PROD;
 
 const allowedOrigins = [FRONT_DEV, FRONT_PROD].filter(Boolean) as string[];
 
 // configurando cors para aplicação
 app.use(
   cors({
-    origin: "https://quadra-pfc.vercel.app",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
@@ -73,7 +73,7 @@ app.use(
 // instãnciando novo server do socket.io
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://quadra-pfc.vercel.app",
+    origin: process.env.FRONT_HOST_PROD,
     methods: ["GET", "POST"],
     credentials: true,
   },
