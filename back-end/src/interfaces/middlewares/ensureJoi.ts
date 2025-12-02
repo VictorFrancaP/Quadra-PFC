@@ -15,8 +15,15 @@ export const ensureJoi = (
 
     // verificando se houve algum erro, se tiver lista todos com (abortEarly: false)
     if (result.error) {
+      // pegando mensagem de error
+      const firstErrorMessage = result.error.details[0]?.message.replace(
+        /\"/g,
+        ""
+      );
+
+      // retornando resposta
       return response.status(400).json({
-        message: "Validation error",
+        message: firstErrorMessage || "Erro de validação",
         errors: result.error.details.map((err) => err.message),
       });
     }

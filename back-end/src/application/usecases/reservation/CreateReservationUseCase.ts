@@ -28,16 +28,17 @@ import { ReservationDurationError } from "../../../shared/errors/reservation-err
 import { ReservationAlreadyExists } from "../../../shared/errors/reservation-error/ReservationAlreadyExistsError";
 import { ReservationTimePassedError } from "../../../shared/errors/reservation-error/ReservationTimePassedError";
 import { ReservationDayUnavailableError } from "../../../shared/errors/reservation-error/ReservationDayUnavailableError";
+import { ReservationLimitExceededError } from "../../../shared/errors/reservation-error/ReservationLimitExceededError";
 
-// Dias cadastrados para a quadra (Índice numérico DayJS: 0 = Domingo, 6 = Sábado)
+// dias cadastrados para a quadra
 const DAY_MAP_PT_BR = [
-  "Domingo",       // 0
-  "Segunda-feira", // 1
-  "Terça-feira",   // 2
-  "Quarta-feira",  // 3
-  "Quinta-feira",  // 4
-  "Sexta-feira",   // 5
-  "Sabado",        // 6 (Ortografia mantida conforme seu Joi)
+  "Domingo",       
+  "Segunda-feira",
+  "Terça-feira",   
+  "Quarta-feira",  
+  "Quinta-feira",  
+  "Sexta-feira",   
+  "Sabado",        
 ];
 
 // exportando usecase
@@ -85,8 +86,6 @@ export class CreateReservationUseCase {
 
     // pegando data inicio escolhida pelo usuário
     const requestedStartTime = await this.dayJsProvider.parse(data.startTime);
-
-    // pegando data atual
     const nowHour = await this.dayJsProvider.now();
 
     // verifica se a hora de início solicitada é anterior à hora atual
@@ -94,7 +93,7 @@ export class CreateReservationUseCase {
       throw new ReservationTimePassedError();
     }
 
-    // pegando indice dos dias da semana (assume que .day() é síncrono)
+    // pegando indice dos dias da semana
     const requestedDayIndex = requestedStartTime.day(); 
 
     // pegando nomes pelo indice
@@ -104,6 +103,19 @@ export class CreateReservationUseCase {
     if (!soccer.operationDays.includes(requestedDayName!)) {
       throw new ReservationDayUnavailableError();
     }
+    
+    // calcula o horário de término
+    const requestedEndTime = requestedStartTime.add(data.duration, 'hour');
+
+    // cria um objeto Dayjs com o horário de fechamento no dia da reserva
+    const closingTime = await this.dayJsProvider.parse(data.startTime);
+    const [closingHour, closingMinute] = soccer.closingHour.split(':').map(Number);
+    closingTime.set('hour', closingHour!).set('minute', closingMinute!).set('second', 0);
+    
+    // verifica se a hora de término solicitada é DEPOIS ou IGUAL à hora de fechamento
+    if (requestedEndTime.isAfter(closingTime) || requestedEndTime.isSame(closingTime)) {
+        throw new ReservationLimitExceededError();
+    }
 
     // verificando se não é o proprio proprietario, que está reservando horario
     if (soccer.userId === user.id) {
@@ -116,15 +128,14 @@ export class CreateReservationUseCase {
     }
 
     // calculando horario de termino e preço total
-    const endTime = new Date(data.startTime);
-    endTime.setHours(endTime.getHours() + data.duration);
+    const endTime = requestedEndTime.toDate();
     const totalPrice = soccer.priceHour * data.duration;
 
-    // procurando reserva existente
+    // Se a reserva existir (o repositório faz a verificação de sobreposição), retorna erro.
     const reservation = await this.findReservationRepository.findReservation(
       data.soccerId,
       data.startTime,
-      endTime
+      endTime 
     );
 
     // caso exista, retorna um erro
