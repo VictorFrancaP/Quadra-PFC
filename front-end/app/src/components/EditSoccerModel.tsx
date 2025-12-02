@@ -398,9 +398,7 @@ export const EditSoccerModal: React.FC<EditSoccerModalProps> = ({
                   />
                 </div>
                 <div className={styles.formGroup}>
-                  <label htmlFor="editMaxDuration">
-                    Duração Máx. (minutos)
-                  </label>
+                  <label htmlFor="editMaxDuration">Duração Máx. (horas)</label>
                   <IMaskInput
                     mask={Number}
                     className={styles.input}
