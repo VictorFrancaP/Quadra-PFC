@@ -230,13 +230,16 @@ export const ProfilePage = () => {
             {isForgotPasswordLoading ? "Enviando..." : "Alterar Senha"}
           </button>
 
-          <button
-            className={`${styles.actionButton} ${styles.deleteButton}`}
-            onClick={handleDeleteClick}
-            disabled={isDeleting}
-          >
-            {isDeleting ? "Deletando..." : "Deletar Conta"}
-          </button>
+          {profile.role.toUpperCase() !== "ADMIN" && (
+            <button
+              className={`${styles.actionButton} ${styles.deleteButton}`}
+              onClick={handleDeleteClick}
+              disabled={isDeleting}
+            >
+                          {isDeleting ? "Deletando..." : "Deletar Conta"}       
+               {" "}
+            </button>
+          )}
         </div>
       </div>
     );
