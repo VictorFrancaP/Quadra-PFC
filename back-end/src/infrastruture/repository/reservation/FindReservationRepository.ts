@@ -1,4 +1,4 @@
-// Importando interface a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
+// Importando interfaces a ser implementada nesta classe e prismaClient para a manipulação do banco de dados
 import { IFindReservationRepositories } from "../../../domain/repositories/reservation/IFindReservationRepositories";
 import { Reservation } from "../../../domain/entities/Reservation";
 import { prismaClient } from "../../database/db";
@@ -28,13 +28,13 @@ export class FindReservationRepository implements IFindReservationRepositories {
           in: ["PENDING_PAYMENT", "CONFIRMED"],
         },
       },
-    });
-
-    // caso não exista, retorna um erro
+    }); 
+    
+    // caso não exista, retorna nulo.
     if (!reservation) {
       return null;
-    }
-
+    } 
+      
     // retornando dados encontrados em uma nova entidade
     return new Reservation(
       reservation.startTime,
