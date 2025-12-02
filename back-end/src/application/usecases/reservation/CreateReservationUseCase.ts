@@ -26,6 +26,19 @@ import {
 } from "../../../shared/errors/reservation-error/OwnerReservationError";
 import { ReservationDurationError } from "../../../shared/errors/reservation-error/ReservationDurationError";
 import { ReservationAlreadyExists } from "../../../shared/errors/reservation-error/ReservationAlreadyExistsError";
+import { ReservationTimePassedError } from "../../../shared/errors/reservation-error/ReservationTimePassedError";
+import { ReservationDayUnavailableError } from "../../../shared/errors/reservation-error/ReservationDayUnavailableError";
+
+// Dias cadastrados para a quadra
+const DAY_MAP_PT_BR = [
+  "Domingo",
+  "Segunda-feira",
+  "Terça-feira",
+  "Quarta-feira",
+  "Quinta-feira",
+  "Sexta-feira",
+  "Sabado",
+];
 
 // exportando usecase
 export class CreateReservationUseCase {
@@ -68,6 +81,28 @@ export class CreateReservationUseCase {
     // caso a quadra não esteja ativa, retorna um erro
     if (!soccer.isActive) {
       throw new SoccerNotActiveError();
+    }
+
+    // pegando data de inicio escolhida pelo usuário
+    const requestedStartTime = await this.dayJsProvider.parse(data.startTime);
+
+    // pegando hora atual
+    const nowHour = await this.dayJsProvider.now();
+
+    // verificando se a hora de início solicitada é anterior à hora atual
+    if (requestedStartTime.isBefore(nowHour)) {
+      throw new ReservationTimePassedError();
+    }
+
+    // pegando indice dos dias da semana
+    const requestedDayIndex = requestedStartTime.day();
+
+    // pegando nomes pelo indice
+    const requestedDayName = DAY_MAP_PT_BR[requestedDayIndex];
+
+    // verificando se o nome do dia extraído está na lista de operationDays da quadra
+    if (!soccer.operationDays.includes(requestedDayName!)) {
+      throw new ReservationDayUnavailableError();
     }
 
     // verificando se não é o proprio proprietario, que está reservando horario

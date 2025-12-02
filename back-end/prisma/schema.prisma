@@ -221,8 +221,8 @@ model chat {
   participantIds String[] @db.ObjectId
 
   // relacionamentos
-  userOne  user      @relation("UserOneChats", fields: [userOneId], references: [id])
-  userTwo  user      @relation("UserTwoChats", fields: [userTwoId], references: [id])
+  userOne  user      @relation("UserOneChats", fields: [userOneId], references: [id], onDelete: Cascade)
+  userTwo  user      @relation("UserTwoChats", fields: [userTwoId], references: [id], onDelete: Cascade)
   messages message[]
 
   // criação e update
@@ -245,7 +245,7 @@ model message {
 
   // relacionamento com usuário
   senderId String @db.ObjectId
-  sender   user   @relation(fields: [senderId], references: [id])
+  sender   user   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 
   // relacionamento com o chat
   chatId String @db.ObjectId
@@ -304,9 +304,9 @@ model support {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   //atributos
-  subject String
-  message String
-  status  supportStatus @default(OPEN)
+  subject   String
+  message   String
+  status    supportStatus @default(OPEN)
   userEmail String
 
   // relacionamento
