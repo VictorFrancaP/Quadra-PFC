@@ -236,8 +236,7 @@ export const ProfilePage = () => {
               onClick={handleDeleteClick}
               disabled={isDeleting}
             >
-                          {isDeleting ? "Deletando..." : "Deletar Conta"}       
-               {" "}
+              {isDeleting ? "Deletando..." : "Deletar Conta"}       
             </button>
           )}
         </div>
