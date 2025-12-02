@@ -118,25 +118,20 @@ export class CreateReservationUseCase {
       .split(":")
       .map(Number);
 
-    // Atribuímos o resultado dos .set() à variável closingTime
-    // IMPORTANTE: Também zeramos segundos e milissegundos
+    // CORREÇÃO: SOMAMOS 3 HORAS PARA COMPENSAR O UTC DO SERVIDOR (BRASIL -3)
     const closingTime = baseDate
-      .set("hour", closingHour!)
+      .set("hour", closingHour! + 3)
       .set("minute", closingMinute!)
       .set("second", 0)
       .set("millisecond", 0);
 
-    // DEBUG: Veja isso no seu terminal para entender o erro
-    console.log("--- DEBUG RESERVA ---");
-    console.log("Horário Fechamento DB:", soccer.closingHour);
-    console.log("Termino Calculado (ISO):", requestedEndTime.format());
-    console.log("Fechamento Formatado (ISO):", closingTime.format());
+    // DEBUG ATUALIZADO (Para você conferir se ficou certo)
+    console.log("--- DEBUG CORRECAO ---");
+    console.log("Termino (UTC):", requestedEndTime.format());
+    console.log("Fechamento com +3h (UTC):", closingTime.format());
 
-    // 3. Verificação: Se terminar DEPOIS do fechamento, erro.
-    // DICA PARA APRESENTAÇÃO: Se isso continuar dando erro por causa de fuso horário,
-    // comente esse IF abaixo temporariamente.
+    // verifica se a hora de término solicitada é depois da hora de fechamento
     if (requestedEndTime.isAfter(closingTime)) {
-      // throw new ReservationLimitExceededError(); // <-- Se der ruim na hora, comente essa linha
       throw new ReservationLimitExceededError();
     }
 
