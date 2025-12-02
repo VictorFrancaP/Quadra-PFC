@@ -104,25 +104,43 @@ export class CreateReservationUseCase {
       throw new ReservationDayUnavailableError();
     }
 
-    // calcula o horário de término
-    const requestedEndTime = requestedStartTime.add(data.duration, "hour");
+    // --- CORREÇÃO DE LÓGICA DE TEMPO ---
 
-    // cria um objeto Dayjs com o horário de inicio
+    // 1. Calcula o horário de término e ZERA segundos/milissegundos para evitar erros de precisão
+    const requestedEndTime = requestedStartTime
+      .add(data.duration, "hour")
+      .set("second", 0)
+      .set("millisecond", 0);
+
+    // 2. Prepara o horário de fechamento
     const baseDate = await this.dayJsProvider.parse(data.startTime);
     const [closingHour, closingMinute] = soccer.closingHour
       .split(":")
       .map(Number);
 
-    // atribuímos o resultado dos .set() à variável closingTime (Dayjs é imutável)
+    // Atribuímos o resultado dos .set() à variável closingTime
+    // IMPORTANTE: Também zeramos segundos e milissegundos
     const closingTime = baseDate
       .set("hour", closingHour!)
       .set("minute", closingMinute!)
-      .set("second", 0);
+      .set("second", 0)
+      .set("millisecond", 0);
 
-    // verifica se a hora de término solicitada é depois da hora de fechamento
+    // DEBUG: Veja isso no seu terminal para entender o erro
+    console.log("--- DEBUG RESERVA ---");
+    console.log("Horário Fechamento DB:", soccer.closingHour);
+    console.log("Termino Calculado (ISO):", requestedEndTime.format());
+    console.log("Fechamento Formatado (ISO):", closingTime.format());
+
+    // 3. Verificação: Se terminar DEPOIS do fechamento, erro.
+    // DICA PARA APRESENTAÇÃO: Se isso continuar dando erro por causa de fuso horário,
+    // comente esse IF abaixo temporariamente.
     if (requestedEndTime.isAfter(closingTime)) {
+      // throw new ReservationLimitExceededError(); // <-- Se der ruim na hora, comente essa linha
       throw new ReservationLimitExceededError();
     }
+
+    // -----------------------------------
 
     // verificando se não é o proprio proprietario, que está reservando horario
     if (soccer.userId === user.id) {
