@@ -271,20 +271,13 @@ disponibilidade, qualidade ou cumprimento do serviço prestado.
 6.2. A Plataforma atua unicamente como intermediadora tecnológica entre
 Usuário e Locador.
 7. Dados Pessoais e Privacidade
-7.1. O uso da Plataforma exige o fornecimento de dados pessoais como nome,
-CPF, telefone, e-mail, endereço e informações de pagamento.
-7.2. Os dados serão tratados em conformidade com a LGPD, garantindo
-confidencialidade, segurança e o direito do titular de acessá-los, corrigi-los ou
-solicitar sua exclusão.
-7.3. Em caso de exclusão da conta, os dados pessoais serão excluídos em nossa
-base, de forma a impossibilitar a identificação do titular. Mantendo apenas
-informações como datas de transações e idade para fins profissionais.
+O uso da plataforma requer o fornecimento de dados pessoais, como nome, telefone, e-mail, CPF, endereço e informações de pagamento. Todos os dados serão tratados conforme as diretrizes da LGPD, garantindo segurança, privacidade e controle pelo titular.
 8. Cancelamento e Encerramento de Conta
-A Quadra Marcada poderá suspender ou encerrar o acesso do Usuário em casos
-de:
-• Uso indevido da Plataforma;
-• Descumprimento destes Termos;
-• Atividades fraudulentas ou ilícitas.
+O Quadra Marcada poderá suspender ou encerrar o acesso do usuário em casos de:
+- Uso indevido da plataforma;
+- Descumprimento dos termos;
+- Atividades fraudulentas ou que infrinjam leis.
+Em caso de exclusão da conta, haverá uma retenção mínima dos dados do usuário por um período de 7 dias, para casos de depredação dos locais alugados, após esse período os dados serão anonimizados dentro do nosso banco de dados, impossibilitando da visualização dessas informações.
 9. Limitação de Responsabilidade
 9.1. A Quadra Marcada não garante a disponibilidade ininterrupta da Plataforma,
 estando sujeita a falhas técnicas ou de terceiros.
@@ -373,10 +366,7 @@ localizados fora do Brasil, garantimos que ela ocorrerá apenas para países que
 ofereçam grau de proteção adequado ou mediante observância dos requisitos
 legais previstos na LGPD.
 8) ARMAZENAMENTO E PRAZO DE RETENÇÃO
-Os dados pessoais serão armazenados apenas pelo período necessário para
-cumprir as finalidades descritas nesta Política, ou enquanto houver base legal
-para tanto. Após esse período, os dados serão eliminados, salvo em casos de
-obrigação legal ou regulatória que justifique sua retenção.
+Os dados pessoais serão armazenados apenas pelo período de 7/10/15/30 dias, para fornecer os dados e suporte necessário aos locadores em caso de possíveis depredações do local alugado, necessário para cumprir as finalidades descritas nesta Política. Após esse período, os dados serão eliminados, salvo em casos de obrigação legal ou regulatória que justifique sua retenção.
 9) ALTERAÇÕES NESTA POLÍTICA
 Esta Política de Privacidade poderá ser alterada a qualquer momento para refletir
 melhorias no serviço ou ajustes necessários ao cumprimento da legislação. Em
