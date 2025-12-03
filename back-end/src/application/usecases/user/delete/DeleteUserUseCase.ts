@@ -59,12 +59,12 @@ export class DeleteUserUseCase {
       ).add(5, "day");
 
       // verifica se a hora atual é anterior aos 5 dias apos a ultima reserva
-      const isDeletionIsPossible = (await this.dayJsProvider.now()).isBefore(
+      const isDeletionNotPossible = (await this.dayJsProvider.now()).isBefore(
         fiveDaysAfterLastReservation
       );
 
       // caso a hora atual é anterior aos dias, entra no if
-      if (isDeletionIsPossible) {
+      if (isDeletionNotPossible) {
         // calculando dias faltantes para liberar usuário para deletar a conta
         const daysRemaining = fiveDaysAfterLastReservation.diff(
           await this.dayJsProvider.now(),
