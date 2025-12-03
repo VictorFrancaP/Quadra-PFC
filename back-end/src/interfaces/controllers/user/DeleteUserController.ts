@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 
 // Importando interfaces implementadas a serem instânciadas nesta classe
 import { FindUserByIdRepository } from "../../../infrastruture/repository/user/FindUserByIdRepository";
+import { FindReservationUserActiveRepository } from "../../../infrastruture/repository/reservation/FindReservationUserActiveRepository";
 import { DeleteUserRepository } from "../../../infrastruture/repository/user/DeleteUserRepository";
 
 // Importando usecase
@@ -19,11 +20,14 @@ export class DeleteUserController {
 
     // instânciando interfaces implementadas
     const findUserByIdRepository = new FindUserByIdRepository();
+    const findReservationUserActiveRepository =
+      new FindReservationUserActiveRepository();
     const deleteUserRepository = new DeleteUserRepository();
 
     // instância da usecase
     const useCase = new DeleteUserUseCase(
       findUserByIdRepository,
+      findReservationUserActiveRepository,
       deleteUserRepository
     );
 
